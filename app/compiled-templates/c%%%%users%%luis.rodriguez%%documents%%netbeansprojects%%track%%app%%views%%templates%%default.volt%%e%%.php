@@ -1,4 +1,4 @@
-<!DOCTYPE html>
+a:5:{i:0;s:1075:"<!DOCTYPE html>
 <html>
     <head>
         <meta charset="utf-8">
@@ -6,19 +6,19 @@
         <link href='http://fonts.googleapis.com/css?family=Handlee' rel='stylesheet' type='text/css'>
         <!-- Always force latest IE rendering engine or request Chrome Frame -->
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
-        {{ get_title() }}
-        {# Jquery#}
-        {{ javascript_include('library/jquery/jquery-1.11.3.min.js') }}
-        {{ stylesheet_link('css/styles.css') }}
-        {# base de bootstrap#}
-        {{ stylesheet_link('library/bootstrap-3.3.4/css/bootstrap.css') }}
-        {{ javascript_include('library/bootstrap-3.3.4/js/bootstrap.min.js') }}
+        <?php echo $this->tag->getTitle(); ?>
+        
+        <?php echo $this->tag->javascriptInclude('library/jquery/jquery-1.11.3.min.js'); ?>
+        <?php echo $this->tag->stylesheetLink('css/styles.css'); ?>
+        
+        <?php echo $this->tag->stylesheetLink('library/bootstrap-3.3.4/css/bootstrap.css'); ?>
+        <?php echo $this->tag->javascriptInclude('library/bootstrap-3.3.4/js/bootstrap.min.js'); ?>
 
-        {{ stylesheet_link('css/adjustments.css') }}
+        <?php echo $this->tag->stylesheetLink('css/adjustments.css'); ?>
         <script type="text/javascript">
-            var myBaseURL = '{{url('')}}';
+            var myBaseURL = '<?php echo $this->url->get(''); ?>';
         </script>
-        {% block header %}<!-- custom header code -->{% endblock %}
+        ";s:6:"header";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:27:"<!-- custom header code -->";s:4:"file";s:35:"../app/views/templates/default.volt";s:4:"line";i:21;}}i:1;s:2240:"
     </head>
     <body>
         <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -58,7 +58,8 @@
         </nav>
 
         <div class="container theme-showcase" role="main">
-            {% block content %}<!-- custom content body code -->{% endblock %}
+            ";s:7:"content";a:1:{i:0;a:4:{s:4:"type";i:357;s:5:"value";s:33:"<!-- custom content body code -->";s:4:"file";s:35:"../app/views/templates/default.volt";s:4:"line";i:61;}}i:2;s:40:"
         </div>
     </body>
 </html>
+";}
