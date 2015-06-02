@@ -11,6 +11,12 @@
     <br />
     <br />
     <h1><span class="glyphicon glyphicon-list"></span> Lista de cuentas</h1>
+    <hr />
+    <div class="text-right">
+        <a href="{{url('account/add')}}" class="btn btn-success">
+            Crear nueva cuenta
+        </a>
+    </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
             {{ partial('partials/pagination_static_partial', ['pagination_url': 'account/index']) }}
@@ -42,9 +48,8 @@
                         <td>{{item.city}}</td>
                         <td>{{item.phone}}</td>
                         <td style="width: 12%;">
-                            <a href="#" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
-                            <a href="#" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
-                            <a href="#" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Eliminar"><span class="glyphicon glyphicon-remove"></span></a>
+                            <a href="{{url('user/index')}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
+                            <a href="{{url('account/edit')}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                     </tr>
                     {% endfor %}

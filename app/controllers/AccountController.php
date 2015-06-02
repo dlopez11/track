@@ -2,7 +2,7 @@
 
 class AccountController extends ControllerBase
 {
-    public function IndexAction()
+    public function indexAction()
     {
         $currentPage = $this->request->getQuery('page', null, 1);
         $builder = $this->modelsManager->createBuilder()
@@ -18,5 +18,19 @@ class AccountController extends ControllerBase
         $page = $paginator->getPaginate();
   
         $this->view->setVar("page", $page);
+    }
+    
+    public function addAction()
+    {
+//        $account = new Account();
+        $accountForm = new AccountForm();
+        $userForm = new UserForm();
+        $this->view->setVar('accountForm', $accountForm);
+        $this->view->setVar('userForm', $userForm);
+    }
+    
+    public function editAction()
+    {
+        
     }
 }
