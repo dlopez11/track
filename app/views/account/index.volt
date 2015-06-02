@@ -18,7 +18,7 @@
     </div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
-            <table class="table table-bordered table-striped table-hover">                
+            <table class="table table-responsive table-bordered">                
                 <thead class="th">
                     <tr>
                         <th>Nombre</th>

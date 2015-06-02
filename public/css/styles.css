@@ -21,3 +21,8 @@ and open the template in the editor.
     background-color: #666666;
     color: #ffffff;
 }
+
+.account-disabled {
+    background-color: #F23900;
+    color: #ffffff;
+}
