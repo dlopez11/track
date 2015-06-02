@@ -2,7 +2,6 @@
 
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
-use Phalcon\Forms\Element\Numeric;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Check;
 
@@ -35,7 +34,7 @@ class AccountForm extends Form
             'Monteria' => 'Monteria',
         )));
         
-        $this->add(new Numeric("phone", array(                        
+        $this->add(new Text("phone", array(                        
             'placeholder' => '*Teléfono',
             'required' => 'required',
             'style' => 'width:100%;',
