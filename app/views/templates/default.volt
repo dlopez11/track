@@ -22,26 +22,45 @@
     </head>
     <body>
         <div class="container">
+            <div class="header clearfix">
+                <nav>
+                    {{ partial("partials/menu_partial") }}
+                </nav>
+                <h3 class="text-muted">Sigma Móvil Track</h3>
+            </div>
+
             <div class="row">
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="header clearfix">
-                        <nav>
-                            {{ partial("partials/menu_partial") }}
-                        </nav>
-                        <h3 class="text-muted">Sigma Móvil Track</h3>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            {% block content %}<!-- custom content body code -->{% endblock %}
-                        </div>    
-                    </div>    
-
-                    <footer class="footer">
-                        <p>&copy; Sigma Engine 2015, Todos los derechos reservados</p>
-                    </footer>    
+                    {% block content %}<!-- custom content body code -->{% endblock %}
                 </div>    
-            </div>
+            </div>    
+
+            <footer class="footer">
+                <p style="float: left;">&copy; Sigma Engine 2015, Todos los derechos reservados</p>
+                <div style="float: right;">
+                    <a href="https://es-es.facebook.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en facebook">
+                        <img src="{{url('')}}/images/social/facebook.png" />
+                    </a>
+                    <a href="https://twitter.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en twitter">
+                        <img src="{{url('')}}/images/social/twitter.png" />
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCC_-Dd4-718gwoCPux8AtwQ" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en youtube">
+                        <img src="{{url('')}}/images/social/youtube.png" />
+                    </a>
+                    <a href="https://plus.google.com/+Sigmamovil/posts" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en google plus">
+                        <img src="{{url('')}}/images/social/google+.png" />
+                    </a>
+                    <a href="https://www.linkedin.com/company/sigma-m-vil-s.a." target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en linkedin">
+                        <img src="{{url('')}}/images/social/linkedin.png" />
+                    </a>    
+                </div>    
+            </footer>   
         </div>
+                
+        <script type="text/javascript">
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>     
     </body>
 </html>
