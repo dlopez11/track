@@ -3,7 +3,7 @@
     <head>
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=1">
-        <link href='http://fonts.googleapis.com/css?family=Handlee' rel='stylesheet' type='text/css'>
+        <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
         <!-- Always force latest IE rendering engine or request Chrome Frame -->
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         {{ get_title() }}
@@ -21,44 +21,46 @@
         {% block header %}<!-- custom header code -->{% endblock %}
     </head>
     <body>
-        <nav class="navbar navbar-inverse navbar-fixed-top">
-            <div class="container-fluid">
-                <div class="container">
-                    <div class="navbar-header">
-                        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-                            <span class="sr-only">Toggle navigation</span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                            <span class="icon-bar"></span>
-                        </button>
-                        <a class="navbar-brand" href="#">Bootstrap theme</a>
-                    </div>
-
-                    <div id="navbar" class="navbar-collapse collapse">
-                        <ul class="nav navbar-nav">
-                            <li class="active"><a href="#">Home</a></li>
-                            <li><a href="#about">About</a></li>
-                            <li><a href="#contact">Contact</a></li>
-                            <li class="dropdown">
-                                <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">Dropdown <span class="caret"></span></a>
-                                <ul class="dropdown-menu" role="menu">
-                                    <li><a href="#">Action</a></li>
-                                    <li><a href="#">Another action</a></li>
-                                    <li><a href="#">Something else here</a></li>
-                                    <li class="divider"></li>
-                                    <li class="dropdown-header">Nav header</li>
-                                    <li><a href="#">Separated link</a></li>
-                                    <li><a href="#">One more separated link</a></li>
-                                </ul>
-                            </li>
-                        </ul>
-                    </div><!--/.nav-collapse -->
-                </div>
+        <div class="container">
+            <div class="header clearfix">
+                <nav>
+                    {{ partial("partials/menu_partial") }}
+                </nav>
+                <h3 class="text-muted">Sigma Móvil Track</h3>
             </div>
-        </nav>
 
-        <div class="container theme-showcase" role="main">
-            {% block content %}<!-- custom content body code -->{% endblock %}
+            <div class="row">
+                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+                    {% block content %}<!-- custom content body code -->{% endblock %}
+                </div>    
+            </div>    
+
+            <footer class="footer">
+                <p style="float: left;">&copy; Sigma Engine 2015, Todos los derechos reservados</p>
+                <div style="float: right;">
+                    <a href="https://es-es.facebook.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en facebook">
+                        <img src="{{url('')}}/images/social/facebook.png" />
+                    </a>
+                    <a href="https://twitter.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en twitter">
+                        <img src="{{url('')}}/images/social/twitter.png" />
+                    </a>
+                    <a href="https://www.youtube.com/channel/UCC_-Dd4-718gwoCPux8AtwQ" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en youtube">
+                        <img src="{{url('')}}/images/social/youtube.png" />
+                    </a>
+                    <a href="https://plus.google.com/+Sigmamovil/posts" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en google plus">
+                        <img src="{{url('')}}/images/social/google+.png" />
+                    </a>
+                    <a href="https://www.linkedin.com/company/sigma-m-vil-s.a." target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en linkedin">
+                        <img src="{{url('')}}/images/social/linkedin.png" />
+                    </a>    
+                </div>    
+            </footer>   
         </div>
+                
+        <script type="text/javascript">
+            $(function () {
+                $('[data-toggle="tooltip"]').tooltip();
+            });
+        </script>     
     </body>
 </html>
