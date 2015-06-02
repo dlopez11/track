@@ -33,7 +33,7 @@ class UserForm extends Form
             'style' => 'width:100%;',
         )));
         
-        $this->add(new Text("name", array(                        
+        $this->add(new Text("name-user", array(                        
             'placeholder' => '*Nombre',
             'required' => 'required',
             'style' => 'width:100%;',
