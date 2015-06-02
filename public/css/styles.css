@@ -73,3 +73,12 @@ body {
     background-color: #F23900;
     color: #ffffff;
 }
+
+.space {
+    margin: 10px;
+}
+
+.xs-text {
+    font-size: 0.8em;
+    color: #333333;
+}
