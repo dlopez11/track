@@ -10,6 +10,7 @@ try {
         '../app/forms/',
         '../app/views/',
         '../app/plugins/',
+        '../app/validators/',
         '../app/wrappers/',
     ));
     
