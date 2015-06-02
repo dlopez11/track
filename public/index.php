@@ -175,8 +175,27 @@ try {
         $hash->setWorkFactor(12);
         return $hash;
     }, true);
-                
+         
     
+    $di->set('cache', function () use ($config){
+        $frontCache = new \Phalcon\Cache\Frontend\Data(array(
+            "lifetime" => 172800
+        ));
+
+        if (class_exists('Memcache')) {
+            $cache = new \Phalcon\Cache\Backend\Memcache($frontCache, array(
+                "host" => "localhost",
+                "port" => "11211"
+            ));
+        }
+        else {
+            $cache = new \Phalcon\Cache\Backend\File($frontCache, array(
+                "cacheDir" => $config->cache->acldir
+            ));
+        }
+        return $cache;
+    });
+
     //Handle the request
     $application = new \Phalcon\Mvc\Application($di);
 
