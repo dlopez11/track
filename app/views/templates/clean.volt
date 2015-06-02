@@ -14,7 +14,6 @@
         {{ stylesheet_link('library/bootstrap-3.3.4/css/bootstrap.css') }}
         {{ javascript_include('library/bootstrap-3.3.4/js/bootstrap.min.js') }}
 
-        {{ stylesheet_link('css/adjustments.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
         </script>
@@ -22,26 +21,7 @@
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="header clearfix">
-                        <nav>
-                            {{ partial("partials/menu_partial") }}
-                        </nav>
-                        <h3 class="text-muted">Sigma Móvil Track</h3>
-                    </div>
-
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            {% block content %}<!-- custom content body code -->{% endblock %}
-                        </div>    
-                    </div>    
-
-                    <footer class="footer">
-                        <p>&copy; Sigma Engine 2015, Todos los derechos reservados</p>
-                    </footer>    
-                </div>    
-            </div>
+            {% block content %}<!-- custom content body code -->{% endblock %}
         </div>
     </body>
 </html>

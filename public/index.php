@@ -124,9 +124,9 @@ try {
     /*
     * Este objeto se encarga de crear el menú principal sidebar de la izquierda
     */
-//    $di->set('menu', function(){
-//        return new \Silar\Misc\SmartMenuSidebar();
-//    });
+    $di->set('smartMenu', function(){
+        return new \Sigmamovil\Misc\SmartMenu();
+    });
 	
 	/*
     * Información del sistema

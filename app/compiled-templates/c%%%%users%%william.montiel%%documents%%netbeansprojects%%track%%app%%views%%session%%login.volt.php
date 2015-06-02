@@ -14,37 +14,26 @@
         <?php echo $this->tag->stylesheetLink('library/bootstrap-3.3.4/css/bootstrap.css'); ?>
         <?php echo $this->tag->javascriptInclude('library/bootstrap-3.3.4/js/bootstrap.min.js'); ?>
 
-        <?php echo $this->tag->stylesheetLink('css/adjustments.css'); ?>
         <script type="text/javascript">
             var myBaseURL = '<?php echo $this->url->get(''); ?>';
         </script>
         
+    <?php echo $this->tag->stylesheetLink('css/session-styles.css'); ?>
 
     </head>
     <body>
         <div class="container">
-            <div class="row">
-                <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                    <div class="header clearfix">
-                        <nav>
-                            <?php echo $this->partial('partials/menu_partial'); ?>
-                        </nav>
-                        <h3 class="text-muted">Sigma Móvil Track</h3>
-                    </div>
+            
+    <?php echo $this->flashSession->output(); ?>
+    <form action="<?php echo $this->url->get('session/login'); ?>" method="POST" class="form-signin">
+        <h2 class="form-signin-heading">Iniciar sesión</h2>
+        <label for="username" class="sr-only">Nombre de usuario</label>
+        <input type="text" id="username" class="form-control" placeholder="Nombre de usuario" required autofocus>
+        <label for="password" class="sr-only">Contraseña</label>
+        <input type="password" id="password" class="form-control" placeholder="Contraseña" required>
+        <button class="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
+    </form>
 
-                    <div class="row">
-                        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-                            
-    
-
-                        </div>    
-                    </div>    
-
-                    <footer class="footer">
-                        <p>&copy; Sigma Engine 2015, Todos los derechos reservados</p>
-                    </footer>    
-                </div>    
-            </div>
         </div>
     </body>
 </html>
