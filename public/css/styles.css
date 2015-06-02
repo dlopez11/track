@@ -63,3 +63,13 @@ body {
 .marketing p + h4 {
   margin-top: 28px;
 }
+
+.th{
+    background-color: #666666;
+    color: #ffffff;
+}
+
+.account-disabled {
+    background-color: #F23900;
+    color: #ffffff;
+}
