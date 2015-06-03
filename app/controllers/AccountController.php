@@ -115,6 +115,10 @@ class AccountController extends ControllerBase
             
             try {
                 $editAccount->updated = time();
+                
+                if(!$this->request->getPost('status')){
+                    $editAccount->status = 0;
+                }
 
                 if (!$editAccount->save()) {
                     foreach ($editAccount->getMessages() as $msg) {
@@ -128,5 +132,7 @@ class AccountController extends ControllerBase
             
             return $this->response->redirect('account/index');
         }
+        
+        $this->view->accountForm = $accountForm;
     }
 }
