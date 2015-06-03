@@ -14,10 +14,17 @@
         {# base de bootstrap#}
         {{ stylesheet_link('library/bootstrap-3.3.4/css/bootstrap.css') }}
         {{ javascript_include('library/bootstrap-3.3.4/js/bootstrap.min.js') }}
+        {# Select 2 #}
+        {{ javascript_include('library/select2/js/select2.min.js') }}
+        {{ stylesheet_link('library/select2/css/select2.min.css') }}
 
         {{ stylesheet_link('css/adjustments.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
+            $(function () {
+                $(".select2").select2();
+                $('[data-toggle="tooltip"]').tooltip();
+          });
         </script>
         {% block header %}<!-- custom header code -->{% endblock %}
     </head>
@@ -25,7 +32,20 @@
         <div class="container">
             <div class="header clearfix">
                 <nav>
-                    {{ partial("partials/menu_partial") }}
+                    <ul class="nav nav-pills pull-right">
+                        {{ partial("partials/menu_partial") }}
+                        <li role="presentation" class="dropdown">
+                            <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                {{userData.name}} {{userData.lastName}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{{url('session/logout')}}">Cerrar sesión</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </nav>
                 <img src="{{url('')}}images/logo.png" height="70" />
             </div>

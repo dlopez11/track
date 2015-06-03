@@ -17,7 +17,7 @@ class ControllerBase extends \Phalcon\Mvc\Controller
     public function initialize()
     {
 //    	if (isset($this->userData)) {
-//            $this->user = $this->userData;
+            $this->user = $this->userData;
 //    	}
     }
     /**

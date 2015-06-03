@@ -53,15 +53,51 @@ class UserForm extends Form
         )));
         
         $this->add(new Select('state-user', array(
-            'Valle del Cauca' => 'Valle del Cauca',
-            'Cundinamarca' => 'Cundinamarca',
-            'Córdoba' => 'Córdoba',
+            'AMAZONAS' => 'AMAZONAS',
+            'ANTIOQUIA' => 'ANTIOQUIA',
+            'ARAUCA' => 'ARAUCA',
+            'ATLANTICO' => 'ATLANTICO',
+            'BOLIVAR' => 'BOLIVAR',
+            'BOYACA' => 'BOYACA',
+            'BOYACA' => 'BOYACA',
+            'CALDAS' => 'CALDAS',
+            'CAQUETA' => 'CAQUETA',
+            'CASANARE' => 'CASANARE',
+            'CAUCA' => 'CAUCA',
+            'CESAR' => 'CESAR',
+            'CHOCO' => 'CHOCO',
+            'CORDOBA' => 'CORDOBA',
+            'CUNDINAMARCA' => 'CUNDINAMARCA',
+            'GUAINIA' => 'GUAINIA',
+            'GUAVIARE' => 'GUAVIARE',
+            'HUILA' => 'HUILA',
+            'LA GUAJIRA' => 'LA GUAJIRA',
+            'MAGDALENA' => 'MAGDALENA',
+            'META' => 'META',
+            'NARIÑO' => 'NARIÑO',
+            'NORTE DE SANTANDER' => 'NORTE DE SANTANDER',
+            'PUTUMAYO' => 'PUTUMAYO',
+            'QUINDIO' => 'QUINDIO',
+            'RISARALDA' => 'RISARALDA',
+            'SAN ANDRES Y PROVIDENCIA' => 'SAN ANDRES Y PROVIDENCIA',
+            'SANTANDER' => 'SANTANDER',
+            'SUCRE' => 'SUCRE',
+            'TOLIMA' => 'TOLIMA',
+            'VALLE DEL CAUCA' => 'VALLE DEL CAUCA',
+            'VAUPES' => 'VAUPES',
+            'VICHADA' => 'VICHADA',
         )));
         
         $this->add(new Select('city-user', array(
-            'Cali' => 'Cali',
-            'Bogota' => 'Bogota',
-            'Monteria' => 'Monteria',
+            'APARTADO' => 'APARTADO',
+            'ARAUCA' => 'ARAUCA',
+            'BARRANQUILLA' => 'BARRANQUILLA',
+            'BELLO' => 'BELLO',
+            'CAUCASIA' => 'CAUCASIA',
+            'LETICIA' => 'LETICIA',
+            'MEDELLIN' => 'MEDELLIN',
+            'MONTERIA' => 'MONTERIA',
+            'YARUMAL' => 'YARUMAL',
         )));
         
         $this->add(new Text("phone-user", array(                        
@@ -80,7 +116,7 @@ class UserForm extends Form
         }
         else{
             foreach ($roles as $rol){
-                if($rol->name != 'sudo' && $rol->name != 'admin' && $rol->name != 'user'){
+                if($rol->name != 'sudo'){
                     $r[$rol->idRole] = $rol->name;
                 }
             }
@@ -91,7 +127,7 @@ class UserForm extends Form
             array(
                 'placeholder' => '*Funciones',
                 'required' => 'required',                
-                'style' => 'width:100%;',
+                'class' => 'form-control select2',                
             )
         ));
     }

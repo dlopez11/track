@@ -65,9 +65,15 @@ class AccountForm extends Form
         )));
         
         $this->add(new Select('city', array(
-            'Cali' => 'Cali',
-            'Bogota' => 'Bogota',
-            'Monteria' => 'Monteria',
+            'APARTADO' => 'APARTADO',
+            'ARAUCA' => 'ARAUCA',
+            'BARRANQUILLA' => 'BARRANQUILLA',
+            'BELLO' => 'BELLO',
+            'CAUCASIA' => 'CAUCASIA',
+            'LETICIA' => 'LETICIA',
+            'MEDELLIN' => 'MEDELLIN',
+            'MONTERIA' => 'MONTERIA',
+            'YARUMAL' => 'YARUMAL',
         )));
         
         $this->add(new Text("phone", array(                        

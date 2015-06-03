@@ -24,7 +24,7 @@ class UserController extends ControllerBase
     
     public function addAction($idAccount)
     {
-        $user = new User();                
+        $user = new User();
         
         $form = new UserForm($user, $this->user->role);
         
@@ -59,6 +59,11 @@ class UserController extends ControllerBase
                 
                 $email = strtolower($form->getValue('email'));
                 
+                $user->name = $this->request->getPost('name-user');
+                $user->address = $this->request->getPost('address-user');
+                $user->state = $this->request->getPost('state-user');
+                $user->city = $this->request->getPost('city-user');
+                $user->phone = $this->request->getPost('phone-user');
                 $user->idAccount = $account->idAccount;
                 $user->email = $email;
                 $user->password =  $this->security->hash($pass);
@@ -72,7 +77,7 @@ class UserController extends ControllerBase
                 }
                 else{
                     foreach($user->getMessages() as $message){
-                        $this->notification->error($message);
+                        $this->flashSession->error($message);
                     }
 //                    $this->trace("fail","No se creo el usuario a la cuenta {$account->idAccount}");
                 }

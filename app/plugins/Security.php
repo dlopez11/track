@@ -131,6 +131,16 @@ class Security extends Plugin
                 'user::edit' => array('user' => array('update','read')),
                 'user::delete' => array('user' => array('delete','read')),
                 'user::passedit' => array('user' => array('update','read')),
+                /* Client */
+                'client::index' => array('client' => array('read')),
+                'client::add' => array('client' => array('create','read')),
+                'client::edit' => array('client' => array('update','read')),
+                'client::remove' => array('client' => array('delete')),
+                /* Visittype */
+                'visittype::index' => array('visittype' => array('read')),
+                'visittype::add' => array('visittype' => array('create','read')),
+                'visittype::edit' => array('visittype' => array('update','read')),
+                'visittype::remove' => array('visittype' => array('delete')),
             );
             
             $this->cache->save('controllermap-cache', $map);
