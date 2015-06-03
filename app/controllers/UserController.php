@@ -34,7 +34,7 @@ class UserController extends ControllerBase
         ));
         
          if (!$account){
-            $msg = "<div class='alert alert-warning'><span class='glyphicon glyphicon-remove'></span> La cuenta enviada no existe, por favor verifique la información.</div>";
+            $this->flashSession->error("La cuenta enviada no existe, por favor verifique la información.");
             return $this->response->redirect("user/index");
         }
         
@@ -47,13 +47,13 @@ class UserController extends ControllerBase
             $pass2 = $form->getValue('pass2');
             
             if($pass !== $pass2){
-                $msg = "<div class='alert alert-warning'><span class='glyphicon glyphicon-remove'></span> Las contraseñas ingresas no coinciden, por favor intenrelo nuevamente.</div>";
+                $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intenrelo nuevamente.");
             }
             else if(strlen($pass) < 8) {
-                $msg = "<div class='alert alert-warning'><span class='glyphicon glyphicon-remove'></span> La contraseña es muy corta, debe tener minimo 8 caracteres.</div>";
+                $this->flashSession->error("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
             }
-            else if(strlen($username) < 6){
-                $msg = "<div class='alert alert-warning'><span class='glyphicon glyphicon-remove'></span> El nombre de usuario es muy corto, debe tener minimo 6 caracteres.</div>";
+            else if(strlen($username) < 4){
+                $this->flashSession->error("El nombre de usuario es muy corto, debe tener minimo 4 caracteres.");
             }
             else{
                 
@@ -71,7 +71,7 @@ class UserController extends ControllerBase
                 $user->updated = time();                
                 
                 if($user->save()){
-                    $msg = "<div class='alert alert-success'><span class='glyphicon glyphicon-remove'></span> Se ha creado el usuario exitosamente.</div>";
+                    $this->flashSession->success("Se ha creado el usuario exitosamente.");
 //                    $this->trace("success","Se creo un usuario con ID: {$user->idUser}");
                     return $this->response->redirect("user/index/{$account->idAccount}");
                 }
@@ -87,9 +87,46 @@ class UserController extends ControllerBase
         $this->view->setVar('account', $account);
     }
     
-    public function editAction()
+    public function editAction($id)
     {
+        $editUser = User::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
         
+        if(!$editUser){
+            $this->flashSession->error("El usuario que intenta editar no existe, por favor verifique la información");
+            return $this->response->redirect("user/index");
+        }
+        
+        $account = $editUser->account;
+        
+        $obj = new stdClass();
+        $obj->name = 'sudo';
+        
+        $this->view->setVar("user", $editUser);
+        $form = new UserForm($editUser, $obj);                
+        
+        if($this->request->isPost()){
+            $form->bind($this->request->getPost(), $editUser);
+            
+            $editUser->updated = time();
+            $email = strtolower($form->getValue('email'));
+            $editUser->email = $email;             
+            
+            if($editUser->save()){
+                $this->flashSession->error('Se ha editado exitosamente el usuario <strong>' .$editUser->username. '</strong>');
+                //$this->trace("success","Se edito un usuario con ID: {$editUser->idUser}");
+                return $this->response->redirect("user/index/{$account->idAccount}");
+            }
+            else{
+                foreach ($editUser->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                //$this->trace("fail","No se edito el usuario con ID: {$editUser->idUser}");
+            }
+        }
+        $this->view->UserForm = $form;
     }
     
     public function deletAction()

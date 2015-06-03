@@ -17,10 +17,7 @@
 
             <form action="{{url('user/add')}}/{{(account.idAccount)}}" method="post">
                 <div class="row">            
-                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap form-horizontal">                
-                        <h3>Datos del Usuario</h3>
-                        <hr />
-
+                    <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap form-horizontal">                       
                         <div class="form-group">
                             {{UserForm.render('userName')}}
                         </div>
