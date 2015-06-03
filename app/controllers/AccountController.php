@@ -37,7 +37,6 @@ class AccountController extends ControllerBase
                 $accountForm->bind($this->request->getPost(), $account);
                 $account->created = time();
                 $account->updated = time();
-                $account->status = $this->request->getPost('status');
 
                 $this->db->begin();
 
@@ -106,10 +105,9 @@ class AccountController extends ControllerBase
         }
         
         if($this->request->isPost()){
+            $account->bind($this->request->getPost(), $account);
             try {
-                $account->created = time();
                 $account->updated = time();
-                $account->status = $this->request->getPost('status');
 
                 if (!$account->save()) {
                     foreach ($account->getMessages() as $msg) {
