@@ -32,7 +32,20 @@
         <div class="container">
             <div class="header clearfix">
                 <nav>
-                    {{ partial("partials/menu_partial") }}
+                    <ul class="nav nav-pills pull-right">
+                        {{ partial("partials/menu_partial") }}
+                        <li role="presentation" class="dropdown">
+                            <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
+                                {{userData.name}} {{userData.lastName}}
+                                <span class="caret"></span>
+                            </a>
+                            <ul id="menu1" class="dropdown-menu" role="menu" aria-labelledby="drop4">
+                                <li role="presentation">
+                                    <a role="menuitem" tabindex="-1" href="{{url('session/logout')}}">Cerrar sesión</a>
+                                </li>
+                            </ul>
+                        </li>
+                    </ul>
                 </nav>
                 <img src="{{url('')}}images/logo.png" height="70" />
             </div>
