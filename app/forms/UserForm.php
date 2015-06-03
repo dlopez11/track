@@ -10,7 +10,7 @@ class UserForm extends Form
 {
     public function initialize($user, $role)
     {
-        $this->add(new Text("username", array(                        
+        $this->add(new Text("userName", array(                        
             'placeholder' => '*Nombre de usuario',
             'required' => 'required',
             'style' => 'width:100%;',
@@ -40,7 +40,7 @@ class UserForm extends Form
             'style' => 'width:100%;',
         )));
         
-        $this->add(new Text("lastname", array(                        
+        $this->add(new Text("lastName", array(                        
             'placeholder' => '*Apellido',
             'required' => 'required',
             'style' => 'width:100%;',

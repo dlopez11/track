@@ -34,7 +34,7 @@ class SmartMenu extends \Phalcon\Mvc\User\Component implements \Iterator
         "Clientes" => array(
             "controller" => array("client"),
             "class" => "",
-            "url" => "",
+            "url" => "client",
             "title" => "Clientes",
             "icon" => "",
             "target" => ""
