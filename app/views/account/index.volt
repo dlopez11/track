@@ -45,8 +45,8 @@
                     <tr {% if item.status == 0 %} class="account-disabled" {% endif %}>
                         <td>
                             <strong>{{item.name}}</strong><br />
-                            <span class="xs-text">Creado el {{date('d/M/Y', item.created)}}</span> <br />
-                            <span class="xs-text">Actualizado el {{date('d/M/Y', item.updated)}}</span>
+                            <span class="xs-text">Creada el {{date('d/M/Y', item.created)}}</span> <br />
+                            <span class="xs-text">Actualizada el {{date('d/M/Y', item.updated)}}</span>
                         </td>
                         <td>{{item.nit}}</td>
                         <td>{{item.address}}</td>
