@@ -4,13 +4,13 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Password;
 use Phalcon\Forms\Element\Email;
-//use Phalcon\Forms\Element\Select;
+use Phalcon\Forms\Element\Select;
 
 class UserForm extends Form
 {
     public function initialize($user, $role)
     {
-        $this->add(new Text("userName", array(                        
+        $this->add(new Text("userName", array(
             'placeholder' => '*Nombre de usuario',
             'required' => 'required',
             'style' => 'width:100%;',

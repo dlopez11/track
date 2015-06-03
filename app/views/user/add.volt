@@ -16,7 +16,7 @@
         <div class="row">            
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">                
                 <hr />
-                {{UserForm.render('username')}}
+                {{UserForm.render('userName')}}
                 <br /><br />
                 {{UserForm.render('pass')}}
                 <br /><br />
@@ -26,7 +26,7 @@
                 <br /><br />
                 {{UserForm.render('name-user')}}
                 <br /><br />
-                {{UserForm.render('lastname')}}
+                {{UserForm.render('lastName')}}
                 <br /><br />
                 {{UserForm.render('address-user')}}
                 <br /><br />
