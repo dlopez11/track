@@ -77,6 +77,8 @@ class AccountController extends ControllerBase
         $user->updated = time();
         $user->name = $this->request->getPost('name-user');
         $user->address = $this->request->getPost('address-user');
+        $user->state = $this->request->getPost('state-user');
+        $user->city = $this->request->getPost('city-user');
         $user->phone = $this->request->getPost('phone-user');
         $user->password = $this->security->hash($this->request->getPost('pass'));
 
@@ -89,8 +91,18 @@ class AccountController extends ControllerBase
         }
     }
 
-    public function editAction()
+    public function editAction($idAccount)
     {
+        $account = Account::findFirst(array(
+            "conditions" => "idAccount = ?1",
+            "bind" => array(1 => $idAccount)
+        ));
         
+        $this->view->setVar('account_value', $account);
+        
+        if($idAccount != $account->idAccount){
+            $this->logger->log('La cuenta a la que intenta acceder no existe');
+            return $this->response->redirect('account/index');
+        }
     }
 }

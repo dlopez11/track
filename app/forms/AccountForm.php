@@ -28,6 +28,12 @@ class AccountForm extends Form
             'class' => 'form-control'
         )));
         
+        $this->add(new Select('state', array(
+            'Valle del Cauca' => 'Valle del Cauca',
+            'Cundinamarca' => 'Cundinamarca',
+            'Córdoba' => 'Córdoba',
+        )));
+        
         $this->add(new Select('city', array(
             'Cali' => 'Cali',
             'Bogota' => 'Bogota',

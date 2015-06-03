@@ -32,7 +32,7 @@ class ClientController extends ControllerBase
                 $client->created = time();
                 $client->updated = time();
     //            $client->idAccount = $this->user->idAccount;
-                $client->idAccount = 1;
+                $client->idAccount = 22;
                 
                 if (!$client->save()) {
                     foreach ($client->getMessages() as $msg) {
