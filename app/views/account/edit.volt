@@ -61,7 +61,7 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input type="checkbox" id="toggle-one" name="status" value="{{account_value.status}}" checked>
+                    <input type="checkbox" id="toggle-one" name="status" value="{{account_value.status}}"  {% if account_value.status == 1 %} checked {% endif %} />
                 </div>
                 <div class="form-group">
                     <input class="form-control" type="text" id="phone" name="phone" value ="{{account_value.phone}}" placeholder="*Teléfono" required="required" style="width:100%;">
