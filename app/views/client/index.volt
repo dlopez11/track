@@ -42,9 +42,7 @@
                         <tr>
                             <th>Nombre</th>
                             <th>NIT</th>
-                            <th>Dirección</th>
-                            <th>Departamento</th>
-                            <th>Ciudad</th>
+                            <th>Ubicación</th>
                             <th>Teléfono</th>
                             <th></th>
                         </tr>
@@ -57,10 +55,15 @@
                                     <span class="xs-text">Creado el {{date('d/M/Y', item.created)}}</span> <br />
                                     <span class="xs-text">Actualizado el {{date('d/M/Y', item.updated)}}</span>
                                 </td>
-                                <td>{{item.nit}}</td>
-                                <td>{{item.address}}</td>
-                                <td>{{item.state}}</td>
-                                <td>{{item.city}}</td>
+                                <td>
+                                    {{item.nit}} <br />
+                                    <span class="xs-text">{{item.description}}</span>
+                                </td>
+                                <td>
+                                    {{item.address}} <br />
+                                    <span class="xs-text">{{item.state}}</span> <br />
+                                    <span class="xs-text">{{item.city}}</span>
+                                </td>
                                 <td>{{item.phone}}</td>
                                 <td class="text-right">
                                     <a href="{{url('client/edit')}}/{{item.idClient}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar este cliente">

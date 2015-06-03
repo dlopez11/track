@@ -7,7 +7,7 @@ class ClientController extends ControllerBase
         $currentPage = $this->request->getQuery('page', null, 1);
         $builder = $this->modelsManager->createBuilder()
             ->from('Client')
-//            ->where("idAccount = {$this->user->idAccount}")
+            ->where("idAccount = {$this->user->idAccount}")
             ->orderBy('Client.created');
 
         $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(

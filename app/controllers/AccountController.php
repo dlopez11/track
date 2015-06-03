@@ -37,7 +37,7 @@ class AccountController extends ControllerBase
                 $accountForm->bind($this->request->getPost(), $account);
                 $account->created = time();
                 $account->updated = time();
-                $account->status = 1;
+                $account->status = $this->request->getPost('status');
 
                 $this->db->begin();
 
@@ -100,9 +100,26 @@ class AccountController extends ControllerBase
         
         $this->view->setVar('account_value', $account);
         
-        if($account->idAccount != $this->user->idAccount){
+        if(!$account){
             $this->logger->log('La cuenta a la que intenta acceder no existe');
             return $this->response->redirect('account/index');
+        }
+        
+        if($this->request->isPost()){
+            try {
+                $account->created = time();
+                $account->updated = time();
+                $account->status = $this->request->getPost('status');
+
+                if (!$account->save()) {
+                    foreach ($account->getMessages() as $msg) {
+                        throw new Exception($msg);
+                    }
+                }
+            } 
+            catch (Exception $ex) {
+                $this->flashSession->error($ex->getMessage());
+            }
         }
     }
 }
