@@ -12,10 +12,6 @@ use Phalcon\Events\Event,
  */
 class Security extends Plugin
 {
-    protected $serverStatus;
-    protected $allowed_ips;
-    protected $ip;
-
     public function __construct($dependencyInjector)
     {
         $this->_dependencyInjector = $dependencyInjector;
@@ -40,6 +36,7 @@ class Security extends Plugin
 
             //Registrando recursos
             $resources = array(
+                'dashboard' => array('read'),
                 'account' => array('create', 'read', 'update', 'change-status'),
                 'user' => array('create', 'read', 'update', 'delete', 'sudo'),
                 'visittype' => array('create', 'read', 'update', 'delete'),
@@ -52,6 +49,7 @@ class Security extends Plugin
             }
 
             // Sudo
+            $acl->allow("sudo", "dashboard", "read");
             $acl->allow("sudo", "account", "create");
             $acl->allow("sudo", "account", "read");
             $acl->allow("sudo", "account", "update");
@@ -72,6 +70,7 @@ class Security extends Plugin
             $acl->allow("sudo", "visit", "read");
             
             // admin
+            $acl->allow("admin", "dashboard", "read");
             $acl->allow("admin", "user", "create");
             $acl->allow("admin", "user", "read");
             $acl->allow("admin", "user", "update");
@@ -124,7 +123,7 @@ class Security extends Plugin
                 'index::index' => array('dashboard' => array('read')),
                 /* Account */
                 'account::index' => array('account' => array('read')),
-                'account::create' => array('account' => array('create','read')),
+                'account::add' => array('account' => array('create','read')),
                 'account::edit' => array('account' => array('update','read')),
                 /* User */
                 'user::index' => array('user' => array('read')),
