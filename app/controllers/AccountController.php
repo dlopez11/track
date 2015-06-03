@@ -33,11 +33,21 @@ class AccountController extends ControllerBase
         
         //Guardar nueva cuenta y usuario administrador
         if($this->request->isPost()){
+            
             try {
+                
+                $findAccount = Account::findByName($this->request->getPost('name'));
+            
+                if(count($findAccount) > 0){
+                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
+                }
+                
                 $accountForm->bind($this->request->getPost(), $account);
                 $account->created = time();
                 $account->updated = time();
-                $account->status = 1;
+                if(!$this->request->getPost('status')){
+                    $account->status = 0;
+                }
 
                 $this->db->begin();
 
@@ -51,10 +61,12 @@ class AccountController extends ControllerBase
                 $this->saveUser($account, $user, $userForm);            
            
                 $this->db->commit();
+                $this->flashSession->success('La cuenta se creo exitosamente.');
                 return $this->response->redirect('account/index');
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
+                return $this->response->redirect('account/add');
             }
         }
     }
@@ -75,11 +87,11 @@ class AccountController extends ControllerBase
         $user->idRole = 2;
         $user->created = time();
         $user->updated = time();
-        $user->name = $this->request->getPost('name-user');
-        $user->address = $this->request->getPost('address-user');
-        $user->state = $this->request->getPost('state-user');
-        $user->city = $this->request->getPost('city-user');
-        $user->phone = $this->request->getPost('phone-user');
+        $user->name = $this->request->getPost('name_user');
+        $user->address = $this->request->getPost('address_user');
+        $user->state = $this->request->getPost('state_user');
+        $user->city = $this->request->getPost('city_user');
+        $user->phone = $this->request->getPost('phone_user');
         $user->password = $this->security->hash($this->request->getPost('pass'));
 
         // Guardar usuario
@@ -93,16 +105,56 @@ class AccountController extends ControllerBase
 
     public function editAction($idAccount)
     {
-        $account = Account::findFirst(array(
+        $editAccount = Account::findFirst(array(
             "conditions" => "idAccount = ?1",
             "bind" => array(1 => $idAccount)
         ));
         
-        $this->view->setVar('account_value', $account);
         
-        if($account->idAccount != $this->user->idAccount){
-            $this->logger->log('La cuenta a la que intenta acceder no existe');
+        
+        if(!$editAccount){
+            $this->flashSession->error('La cuenta a la que intenta acceder no existe, por favor valide la información.');
             return $this->response->redirect('account/index');
         }
+        
+        $this->view->setVar('account_value', $editAccount);
+        
+        $editAccount->city = $editAccount->city;
+        $editAccount->state = $editAccount->state;
+        
+        $accountForm = new AccountForm($editAccount);
+        
+        if($this->request->isPost()){
+            
+            $accountForm->bind($this->request->getPost(), $editAccount);
+            
+            try {
+                $findAccount = Account::findByName($this->request->getPost('name'));
+            
+                if(count($findAccount) > 0){
+                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
+                    return $this->response->redirect('account/edit/'.$idAccount);
+                }
+
+                $editAccount->updated = time();
+                
+                if(!$this->request->getPost('status')){
+                    $editAccount->status = 0;
+                }
+
+                if (!$editAccount->save()) {
+                    foreach ($editAccount->getMessages() as $msg) {
+                        throw new Exception($msg);
+                    }
+                }
+            } 
+            catch (Exception $ex) {
+                $this->flashSession->error($ex->getMessage());
+            }
+            
+            return $this->response->redirect('account/index');
+        }
+        
+        $this->view->accountForm = $accountForm;
     }
 }

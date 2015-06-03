@@ -38,6 +38,10 @@
                         <div class="form-group">
                             {{accountForm.render('phone')}}
                         </div>
+                        <div class="form-group ">
+                            Estado:<br />
+                            {{accountForm.render('status', {'id': 'toggle-one', 'checked':'checked'})}}
+                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
                         <h3>Usuario administrador</h3>
@@ -55,32 +59,32 @@
                             {{userForm.render('email')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('name-user')}}
+                            {{userForm.render('name_user')}}
                         </div>
                         <div class="form-group">
                             {{userForm.render('lastName')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('address-user')}}
+                            {{userForm.render('address_user')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('state-user', {'class': 'form-control select2'})}}
+                            {{userForm.render('state_user', {'class': 'form-control select2'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('city-user', {'class': 'form-control select2'})}}
+                            {{userForm.render('city_user', {'class': 'form-control select2'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('phone-user')}}
+                            {{userForm.render('phone_user')}}
                         </div>
                     </div>
                 </div>
                 <hr />
-                <div class="text-right wrap">
+                <div style="margin-bottom: 17px;" class="text-right wrap">
                     <small style="margin-right: 20px;">*<em>Todos los campos son necesarios.</em></small>
-                    <a href="{{url('account/index')}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                    <a href="{{url('account/index')}}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Cancelar">
                         <span class="glyphicon glyphicon-remove"></span>
                     </a>
-                    <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Guardar">
+                    <button type="submit" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Guardar">
                         <span class="glyphicon glyphicon-ok"></span>
                     </button>
                 </div>

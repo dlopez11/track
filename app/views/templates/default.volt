@@ -17,9 +17,19 @@
         {# Select 2 #}
         {{ javascript_include('library/select2/js/select2.min.js') }}
         {{ stylesheet_link('library/select2/css/select2.min.css') }}
+        {# Switch #}
+        {{ javascript_include('library/bootstrap-switch/js/bootstrap-toggle.min.js') }}
+        {{ stylesheet_link('library/bootstrap-switch/css/bootstrap-toggle.min.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
             $(function () {
+                 $('#toggle-one').bootstrapToggle({
+                    on: 'On',
+                    off: 'Off',
+                    onstyle: 'success',
+                    offstyle: 'danger',
+                    size: 'small'
+                });
                 $(".select2").select2();
                 $('[data-toggle="tooltip"]').tooltip();
           });
@@ -74,12 +84,6 @@
                     </a>    
                 </div>    
             </footer>   
-        </div>
-                
-        <script type="text/javascript">
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>     
+        </div>  
     </body>
 </html>
