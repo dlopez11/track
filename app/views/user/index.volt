@@ -7,12 +7,16 @@
     </script>
 {% endblock %}
 {% block content %}
-    <br />
-    <br />
-    <br />
-    <h1>Lista de Usuarios</h1>
-    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Lista de Usuarios</h2>
+            <hr />
+        </div>
+    </div>
     
+    <div class="space"></div>
+    
+    {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('user/add')}}" class="btn btn-success">
             Crear nuevo Usuario
