@@ -40,8 +40,8 @@
                     <tr {% if item.status == 0 %} class="account-disabled" {% endif %}>
                         <td>
                             <strong>{{item.name}}</strong><br />
-                            <span class="xs-text">Creada el {{date('d/M/Y', item.created)}}</span> <br />
-                            <span class="xs-text">Actualizada el {{date('d/M/Y', item.updated)}}</span>
+                            <span {% if item.status == 0 %} style="color:#ffffff;" {% endif %} class="xs-text">Creada el {{date('d/M/Y', item.created)}}</span> <br />
+                            <span {% if item.status == 0 %} style="color:#ffffff;" {% endif %} class="xs-text">Actualizada el {{date('d/M/Y', item.updated)}}</span>
                         </td>
                         <td>{{item.nit}}</td>
                         <td>{{item.address}}</td>
@@ -51,9 +51,9 @@
                             {{item.state}}
                         </td>
                         <td>{{item.phone}}</td>
-                        <td style="width: 12%;">
-                            <a href="{{url('user')}}/{{item.idAccount}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
-                            <a href="{{url('account/edit')}}/{{item.idAccount}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
+                        <td class="text-right">
+                            <a href="{{url('user')}}/{{item.idAccount}}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
+                            <a href="{{url('account/edit')}}/{{item.idAccount}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                     </tr>
                     {% endfor %}

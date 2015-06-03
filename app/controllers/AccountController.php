@@ -33,7 +33,15 @@ class AccountController extends ControllerBase
         
         //Guardar nueva cuenta y usuario administrador
         if($this->request->isPost()){
+            
             try {
+                
+                $findAccount = Account::findByName($this->request->getPost('name'));
+            
+                if(count($findAccount) > 0){
+                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
+                }
+                
                 $accountForm->bind($this->request->getPost(), $account);
                 $account->created = time();
                 $account->updated = time();
@@ -53,10 +61,12 @@ class AccountController extends ControllerBase
                 $this->saveUser($account, $user, $userForm);            
            
                 $this->db->commit();
+                $this->flashSession->success('La cuenta se creo exitosamente.');
                 return $this->response->redirect('account/index');
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
+                return $this->response->redirect('account/add');
             }
         }
     }
@@ -100,8 +110,10 @@ class AccountController extends ControllerBase
             "bind" => array(1 => $idAccount)
         ));
         
+        
+        
         if(!$editAccount){
-            $this->logger->log('La cuenta a la que intenta acceder no existe');
+            $this->flashSession->error('La cuenta a la que intenta acceder no existe, por favor valide la información.');
             return $this->response->redirect('account/index');
         }
         
@@ -117,6 +129,13 @@ class AccountController extends ControllerBase
             $accountForm->bind($this->request->getPost(), $editAccount);
             
             try {
+                $findAccount = Account::findByName($this->request->getPost('name'));
+            
+                if(count($findAccount) > 0){
+                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
+                    return $this->response->redirect('account/edit/'.$idAccount);
+                }
+
                 $editAccount->updated = time();
                 
                 if(!$this->request->getPost('status')){

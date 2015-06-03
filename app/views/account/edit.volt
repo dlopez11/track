@@ -35,10 +35,10 @@
         <hr />
         <div class="text-right wrap">
             <small style="margin-right: 20px;">*<em>Todos los campos son necesarios.</em></small>
-            <a href="{{url('account/index')}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
+            <a href="{{url('account/index')}}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Cancelar">
                 <span class="glyphicon glyphicon-remove"></span>
             </a>
-            <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Guardar">
+            <button type="submit" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Guardar">
                 <span class="glyphicon glyphicon-ok"></span>
             </button>
         </div>
