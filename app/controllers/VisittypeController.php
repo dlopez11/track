@@ -1,14 +1,14 @@
 <?php
 
-class ClientController extends ControllerBase
+class VisittypeController extends ControllerBase
 { 
     public function indexAction()
     {
         $currentPage = $this->request->getQuery('page', null, 1);
         $builder = $this->modelsManager->createBuilder()
-            ->from('Client')
+            ->from('Visittype')
 //            ->where("idAccount = {$this->user->idAccount}")
-            ->orderBy('Client.created');
+            ->orderBy('Visittype.created');
 
         $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
             "builder" => $builder,
@@ -22,26 +22,26 @@ class ClientController extends ControllerBase
     
     public function addAction()
     {
-        $client = new Client();
-        $form = new ClientForm($client);
+        $vtype = new Visittype();
+        $form = new VisittypeForm($vtype);
         $this->view->setVar('form', $form);
         
         if ($this->request->isPost()) {
             try {
-                $form->bind($this->request->getPost(), $client);
-                $client->created = time();
-                $client->updated = time();
+                $form->bind($this->request->getPost(), $vtype);
+                $vtype->created = time();
+                $vtype->updated = time();
     //            $client->idAccount = $this->user->idAccount;
-                $client->idAccount = 1;
+                $vtype->idAccount = 1;
                 
-                if (!$client->save()) {
-                    foreach ($client->getMessages() as $msg) {
+                if (!$vtype->save()) {
+                    foreach ($vtype->getMessages() as $msg) {
                         throw new Exception($msg);
                     }
                 }
                 
-                $this->flashSession->success('Se ha creado el cliente exitosmante');
-                return $this->response->redirect('client');
+                $this->flashSession->success('Se ha creado el tipo de visita exitosmante');
+                return $this->response->redirect('visittype');
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
@@ -49,35 +49,35 @@ class ClientController extends ControllerBase
         }
     }
     
-    public function editAction($idClient)
+    public function editAction($idVisittype)
     {
-        $client = Client::findFirst(array(
-            'conditions' => 'idClient = ?1',
-            'bind' => array(1 => $idClient),
+        $vtype = Visittype::findFirst(array(
+            'conditions' => 'idVisittype = ?1',
+            'bind' => array(1 => $idVisittype),
         ));
         
-        if (!$client) {
-            $this->flashSession->error("No se encontró el cliente, por favor valide la información");
-            return $this->response->redirect('client');
+        if (!$vtype) {
+            $this->flashSession->error("No se encontró el tipo de visita, por favor valide la información");
+            return $this->response->redirect('visittype');
         }
         
-        $form = new ClientForm($client);
+        $form = new VisittypeForm($vtype);
         $this->view->setVar('form', $form);
-        $this->view->setVar('client', $client);
+        $this->view->setVar('vtype', $vtype);
         
         if ($this->request->isPost()) {
             try {
-                $form->bind($this->request->getPost(), $client);
+                $form->bind($this->request->getPost(), $vtype);
                 $client->updated = time();
                 
-                if (!$client->save()) {
-                    foreach ($client->getMessages() as $msg) {
+                if (!$vtype->save()) {
+                    foreach ($vtype->getMessages() as $msg) {
                         throw new Exception($msg);
                     }
                 }
                 
-                $this->flashSession->notice("Se ha editado el cliente: <strong>{$client->name}</strong>,  exitosmante");
-                return $this->response->redirect('client');
+                $this->flashSession->notice("Se ha editado el tipo de visita: <strong>{$vtype->name}</strong>,  exitosmante");
+                return $this->response->redirect('visittype');
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
@@ -85,20 +85,20 @@ class ClientController extends ControllerBase
         }
     }
     
-    public function removeAction($idClient)
+    public function removeAction($idVisittype)
     {
-        $client = Client::findFirst(array(
-            'conditions' => 'idClient = ?1',
-            'bind' => array(1 => $idClient),
+        $vtype = Visittype::findFirst(array(
+            'conditions' => 'idVisittype = ?1',
+            'bind' => array(1 => $idVisittype),
         ));
         
-        if (!$client) {
-            $this->flashSession->error("No se encontró el cliente, por favor valide la información");
-            return $this->response->redirect('client');
+        if (!$vtype) {
+            $this->flashSession->error("No se encontró el tipo de visita, por favor valide la información");
+            return $this->response->redirect('visittype');
         }
         
         try {
-            $client->delete();
+            $vtype->delete();
             $this->flashSession->warning("Se ha eliminado el cliente exitosamente");
 //            return $this->response->redirect('client');
         } 
@@ -108,7 +108,7 @@ class ClientController extends ControllerBase
 //            return $this->response->redirect('client');
         }
         
-        return $this->response->redirect('client');
+        return $this->response->redirect('visittype');
     }
 }
 
