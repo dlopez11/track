@@ -19,7 +19,7 @@
                     <input class="form-control" type="text" name="address" value ="{{account_value.address}}" placeholder="*Dirección" required="required" style="width:100%;">
                 </div>
                 <div class="form-group">
-                    <select name="state" class="select2 form-control">
+                    <select id="state" name="state" class="select2 form-control">
                         <option value="AMAZONAS">AMAZONAS</option>
                         <option value="ANTIOQUIA">ANTIOQUIA</option>
                         <option value="ARAUCA">ARAUCA</option>
@@ -55,10 +55,16 @@
                     </select>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" name="city" value ="{{account_value.city}}" placeholder="*Ciudad" required="required" style="width:100%;">
+                    <select id="city" name="city" class="select2 form-control">
+                        <option value="CALI">CALI</option>
+                        <option value="MONTERIA">MONTERIA</option>
+                    </select>
                 </div>
                 <div class="form-group">
-                    <input class="form-control" type="text" id="address" name="address" value ="{{account_value.phone}}" placeholder="*Teléfono" required="required" style="width:100%;">
+                    <input type="checkbox" id="toggle-one" name="status" value="{{account_value.status}}" checked>
+                </div>
+                <div class="form-group">
+                    <input class="form-control" type="text" id="phone" name="phone" value ="{{account_value.phone}}" placeholder="*Teléfono" required="required" style="width:100%;">
                 </div>
             </div>
         </div>
