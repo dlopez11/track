@@ -140,6 +140,8 @@ class Security extends Plugin
                 'visittype::add' => array('visittype' => array('create','read')),
                 'visittype::edit' => array('visittype' => array('update','read')),
                 'visittype::remove' => array('visittype' => array('delete')),
+                /* Visit */
+                'visit::getrows' => array('visit' => array('read')),
             );
             
             $this->cache->save('controllermap-cache', $map);

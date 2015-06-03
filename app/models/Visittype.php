@@ -6,10 +6,12 @@ use Phalcon\Mvc\Model\Validator\PresenceOf;
 class Visittype extends \Phalcon\Mvc\Model
 {
     public $idAccount; 
+    public $idVisittype; 
 
     public function initialize()
     {
         $this->belongsTo("idAccount", "Account", "idAccount");
+        $this->hasMany("idVisittype", "Visit", "idVisittype");
     }
     
     public function validation()

@@ -10,6 +10,7 @@ class User extends Phalcon\Mvc\Model
 {
     public $idAccount;
     public $idRole;
+    public $idUser;
     
     public function initialize()
     {
@@ -19,6 +20,8 @@ class User extends Phalcon\Mvc\Model
         $this->belongsTo("idRole", "Role", "idRole", array(
             "foreignKey" => true,
         ));
+        
+        $this->hasMany("idUser", "Visit", "idUser");
     }
     
     public function validation()

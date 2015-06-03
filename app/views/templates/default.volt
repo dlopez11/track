@@ -17,8 +17,6 @@
         {# Select 2 #}
         {{ javascript_include('library/select2/js/select2.min.js') }}
         {{ stylesheet_link('library/select2/css/select2.min.css') }}
-
-        {{ stylesheet_link('css/adjustments.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
             $(function () {

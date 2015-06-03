@@ -9,7 +9,7 @@ class VisittypeForm extends Form
     public function initialize()
     {
         $this->add(new Text("name", array(                        
-            'placeholder' => '*Nombre del cliente',
+            'placeholder' => '*Nombre del tipo de visita',
             'autofocus' => 'autofocus',
             'class' => 'form-control',
             'required' => 'required',
