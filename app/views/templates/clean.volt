@@ -4,6 +4,7 @@
         <meta charset="utf-8">
         <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=1">
         <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
+        <link rel="shortcut icon" type="image/x-icon" href="{{url('')}}images/favicons/favicon48x48.ico">
         <!-- Always force latest IE rendering engine or request Chrome Frame -->
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         {{ get_title() }}

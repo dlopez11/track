@@ -141,10 +141,9 @@ try {
      * Se encarga de monitorear los accesos a los controladores y acciones, y asi mismo pasarle los parametros
      * de seguridad a security 
      */
-//     $ip = $_SERVER['SERVER_ADDR'];
-//     $di->set('dispatcher', function() use ($di, $system, $ip) {
+//     $di->set('dispatcher', function() use ($di) {
 //     	$eventsManager = $di->getShared('eventsManager');
-//     	$security = new \Security($di, $system, $ip);
+//     	$security = new \Security($di);
 //        /**
 //         * We listen for events in the dispatcher using the Security plugin
 //         */
