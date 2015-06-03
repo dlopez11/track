@@ -126,6 +126,26 @@ class User extends Phalcon\Mvc\Model
             'message' => 'El campo telefono esta vacío, por favor valide la información'
         )));
         
+        $this->validate(new PresenceOf(array(
+            'field' => 'city',
+            'message' => 'La ciudad es obligatoria, por favor valide la información'
+        )));
+        
+        $this->validate(new SpaceValidator(array(
+            'field' => 'city',
+            'message' => 'El campo ciudad esta vacío, por favor valide la información'
+        )));
+        
+        $this->validate(new PresenceOf(array(
+            'field' => 'state',
+            'message' => 'El departamento es obligatorio, por favor valide la información'
+        )));
+        
+        $this->validate(new SpaceValidator(array(
+            'field' => 'state',
+            'message' => 'El campo departamento esta vacío, por favor valide la información'
+        )));
+        
         if ($this->validationHasFailed() == true) {
             return false;
         }

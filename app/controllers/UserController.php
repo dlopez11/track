@@ -85,4 +85,22 @@ class UserController extends ControllerBase
         $this->view->UserForm = $form;
         $this->view->setVar('account', $account);
     }
+    
+    public function editAction()
+    {
+        
+    }
+    
+    public function deletAction()
+    {
+        
+    }
+    
+    public function passeditAction($id)
+    {
+        $edituser = User::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
+    }
 }
