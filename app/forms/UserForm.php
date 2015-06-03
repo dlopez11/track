@@ -34,7 +34,7 @@ class UserForm extends Form
             'class' => 'form-control',
         )));
         
-        $this->add(new Text("name-user", array(                        
+        $this->add(new Text("name_user", array(                        
             'placeholder' => '*Nombre',
             'required' => 'required',
             'class' => 'form-control',
@@ -46,13 +46,13 @@ class UserForm extends Form
             'class' => 'form-control',
         )));
         
-        $this->add(new Text("address-user", array(                        
+        $this->add(new Text("address_user", array(                        
             'placeholder' => '*Dirección',
             'required' => 'required',
             'class' => 'form-control',
         )));
         
-        $this->add(new Select('state-user', array(
+        $this->add(new Select('state_user', array(
             'AMAZONAS' => 'AMAZONAS',
             'ANTIOQUIA' => 'ANTIOQUIA',
             'ARAUCA' => 'ARAUCA',
@@ -88,7 +88,7 @@ class UserForm extends Form
             'VICHADA' => 'VICHADA',
         )));
         
-        $this->add(new Select('city-user', array(
+        $this->add(new Select('city_user', array(
             'APARTADO' => 'APARTADO',
             'ARAUCA' => 'ARAUCA',
             'BARRANQUILLA' => 'BARRANQUILLA',
@@ -100,7 +100,7 @@ class UserForm extends Form
             'YARUMAL' => 'YARUMAL',
         )));
         
-        $this->add(new Text("phone-user", array(                        
+        $this->add(new Text("phone_user", array(                        
             'placeholder' => '*Teléfono',
             'required' => 'required',
             'class' => 'form-control',

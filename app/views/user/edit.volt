@@ -25,7 +25,7 @@
                             {{UserForm.render('idRole', {'class': 'form-control select2'})}}
                         </div>                                                
                         <div class="form-group">
-                            {{UserForm.render('name-user')}}
+                            {{UserForm.render('name_user')}}
                         </div> 
                         <div class="form-group">
                             {{UserForm.render('lastName')}}
@@ -34,16 +34,16 @@
                             {{UserForm.render('email')}}
                         </div>
                         <div class="form-group">
-                            {{UserForm.render('address-user')}}
+                            {{UserForm.render('address_user')}}
                         </div>
                         <div class="form-group">
-                            {{UserForm.render('city-user', {'class': 'form-control select2'})}}
+                            {{UserForm.render('city_user', {'class': 'form-control select2'})}}
                         </div>
                         <div class="form-group">
-                            {{UserForm.render('state-user', {'class': 'form-control select2'})}}
+                            {{UserForm.render('state_user', {'class': 'form-control select2'})}}
                         </div>                        
                         <div class="form-group">
-                            {{UserForm.render('phone-user')}}
+                            {{UserForm.render('phone_user')}}
                         </div>
                     </div>
                 </div>

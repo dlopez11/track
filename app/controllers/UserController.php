@@ -59,11 +59,11 @@ class UserController extends ControllerBase
                 
                 $email = strtolower($form->getValue('email'));
                 
-                $user->name = $this->request->getPost('name-user');
-                $user->address = $this->request->getPost('address-user');
-                $user->state = $this->request->getPost('state-user');
-                $user->city = $this->request->getPost('city-user');
-                $user->phone = $this->request->getPost('phone-user');
+                $user->name = $this->request->getPost('name_user');
+                $user->address = $this->request->getPost('address_user');
+                $user->state = $this->request->getPost('state_user');
+                $user->city = $this->request->getPost('city_user');
+                $user->phone = $this->request->getPost('phone_user');
                 $user->idAccount = $account->idAccount;
                 $user->email = $email;
                 $user->password =  $this->security->hash($pass);
@@ -100,12 +100,15 @@ class UserController extends ControllerBase
         }
         
         $account = $editUser->account;
-        
-        $obj = new stdClass();
-        $obj->name = 'sudo';
-        
         $this->view->setVar("user", $editUser);
-        $form = new UserForm($editUser, $obj);                
+        
+        $editUser->address_user = $editUser->address;
+        $editUser->name_user = $editUser->name;
+        $editUser->city_user = $editUser->city;
+        $editUser->state_user = $editUser->state;
+        $editUser->phone_user = $editUser->phone;
+        
+        $form = new UserForm($editUser, $this->user->role);
         
         if($this->request->isPost()){
             $form->bind($this->request->getPost(), $editUser);
