@@ -23,75 +23,73 @@ class AccountController extends ControllerBase
     {        
         //Cuenta
         $account = new Account();
-        $accountForm = new AccountForm();
+        $accountForm = new AccountForm($account);
         $this->view->setVar('accountForm', $accountForm);
         
-        //Usuario
-        $userForm = new UserForm();
+        //Usuario}
+        $user = new User();
+        $userForm = new UserForm($user);
         $this->view->setVar('userForm', $userForm);
         
         //Guardar nueva cuenta y usuario administrador
         if($this->request->isPost()){
-            
-            //Buscamos si existe una cuenta con el mismo nombre
-//            $objects = array();
-//            $accounts = Action::findByIdAccount($this->user->idAccount);
-//            foreach($accounts as $account){
-//                $objects[] = $account->name;
-//            }
-//            if(in_array($acName, $objects)){
-//               $this->logger->log('Ya existe una cuenta con este nombre');
-//            }
-            
-            //Datos cuenta
-            $accountForm->bind($this->request->getPost(), $account);
-            $account->created = time();
-            $account->updated = time();
-            $account->status = 1;
-            
-            $this->db->begin();
+            try {
+                $accountForm->bind($this->request->getPost(), $account);
+                $account->created = time();
+                $account->updated = time();
+                $account->status = 1;
 
-            if (!$account->save()) {
-                $this->db->rollback();
-            }
+                $this->db->begin();
+
+                if (!$account->save()) {
+                    foreach ($account->getMessages() as $msg) {
+                        throw new Exception($msg);
+                    }
+                    $this->db->rollback();
+                }
             
-            $this->saveUser($account, $userForm);            
+                $this->saveUser($account, $user, $userForm);            
            
-            $this->db->commit();
-            return $this->response->redirect('account/index');
+                $this->db->commit();
+                return $this->response->redirect('account/index');
+            } 
+            catch (Exception $ex) {
+                $this->flashSession->error($ex->getMessage());
+            }
         }
     }
     
-    protected function saveUser(Account $account, $userForm)
+    protected function saveUser(Account $account, User $user, $userForm)
     {
         //Verificamos que las contraseñas coincidan
         if($this->request->getPost('pass') != $this->request->getPost('pass2')){
-            $this->logger->log('Las contraseñas no coinciden');
+            throw new Exception('Las contraseñas no coinciden, por favor valide la información');
         }
         if(strlen($this->request->getPost('pass') < 8)){
-            $this->logger->log('La contraseña es demasiado corta');
+            throw new Exception('La contraseña es demasiado corta, recuerde que debe tener mínimo 8 caracteres, por favor valide la información');
         }
         
         //Datos usuario
-        $user = new User();
         $userForm->bind($this->request->getPost(), $user);
+        $user->account = $account;
         $user->idRole = 2;
         $user->created = time();
         $user->updated = time();
         $user->name = $this->request->getPost('name-user');
         $user->address = $this->request->getPost('address-user');
         $user->phone = $this->request->getPost('phone-user');
-        $user->idAccount = $account->idAccount;
         $user->password = $this->security->hash($this->request->getPost('pass'));
 
         // Guardar usuario
         if(!$user->save()){
-            $this->logger->log('Ha ocurrido un error al guardar el usuario');
+            foreach ($user->getMessages() as $msg) {
+                throw new Exception($msg);
+            }
             $this->db->rollback();
         }
     }
 
-        public function editAction()
+    public function editAction()
     {
         
     }

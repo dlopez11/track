@@ -16,7 +16,9 @@ class User extends Phalcon\Mvc\Model
         $this->belongsTo("idAccount", "Account", "idAccount", array(
             "foreignKey" => true,
         ));
-        $this->belongsTo("idRole", "Role", "idRole");
+        $this->belongsTo("idRole", "Role", "idRole", array(
+            "foreignKey" => true,
+        ));
     }
     
     public function validation()
