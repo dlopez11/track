@@ -7,11 +7,16 @@
     </script>
 {% endblock %}
 {% block content %}
-    <br />
-    <br />
-    <br />
-    <h1><span class="glyphicon glyphicon-list"></span> Lista de cuentas</h1>
-    <hr />
+    <div class="row">
+        <div class="col-md-12">
+            <h2>Lista de Cuentas</h2>
+            <hr />
+        </div>
+    </div>    
+    
+    <div class="space"></div>
+    
+    {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('account/add')}}" class="btn btn-success">
             Crear nueva cuenta
@@ -30,7 +35,7 @@
                         <th>Nombre</th>
                         <th>NIT</th>
                         <th>Dirección</th>
-                        <th>Ciudad</th>
+                        <th>Ubicación</th>
                         <th>Teléfono</th>
                         <th></th>
                     </tr>
@@ -39,17 +44,21 @@
                     {% for item in page.items %}
                     <tr {% if item.status == 0 %} class="account-disabled" {% endif %}>
                         <td>
-                            <strong>
-                                {{(item.idAccount)}} - {{item.name}}
-                            </strong>
+                            <strong>{{item.name}}</strong><br />
+                            <span class="xs-text">Creada el {{date('d/M/Y', item.created)}}</span> <br />
+                            <span class="xs-text">Actualizada el {{date('d/M/Y', item.updated)}}</span>
                         </td>
                         <td>{{item.nit}}</td>
                         <td>{{item.address}}</td>
-                        <td>{{item.city}}</td>
+                        <td>
+                            {{item.city}}
+                            <br />
+                            {{item.state}}
+                        </td>
                         <td>{{item.phone}}</td>
                         <td style="width: 12%;">
                             <a href="{{url('user/index')}}" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
-                            <a href="{{url('account/edit')}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
+                            <a href="{{url('account/edit')}}/{{item.idAccount}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                     </tr>
                     {% endfor %}

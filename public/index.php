@@ -141,20 +141,19 @@ try {
      * Se encarga de monitorear los accesos a los controladores y acciones, y asi mismo pasarle los parametros
      * de seguridad a security 
      */
-//     $ip = $_SERVER['SERVER_ADDR'];
-//     $di->set('dispatcher', function() use ($di, $system, $ip) {
-//     	$eventsManager = $di->getShared('eventsManager');
-//     	$security = new \Security($di, $system, $ip);
-//        /**
-//         * We listen for events in the dispatcher using the Security plugin
-//         */
-//        $eventsManager->attach('dispatch', $security);
-//
-//        $dispatcher = new \Phalcon\Mvc\Dispatcher();
-//        $dispatcher->setEventsManager($eventsManager);
-//
-//        return $dispatcher;
-//    });
+     $di->set('dispatcher', function() use ($di) {
+     	$eventsManager = $di->getShared('eventsManager');
+     	$security = new \Security($di);
+        /**
+         * We listen for events in the dispatcher using the Security plugin
+         */
+        $eventsManager->attach('dispatch', $security);
+
+        $dispatcher = new \Phalcon\Mvc\Dispatcher();
+        $dispatcher->setEventsManager($eventsManager);
+
+        return $dispatcher;
+    });
     
     // Ruta de APP
     $apppath = realpath('../');
@@ -195,6 +194,14 @@ try {
             ));
         }
         return $cache;
+    });
+    
+    
+    $di->set('acl', function(){
+        $acl = new \Phalcon\Acl\Adapter\Memory();
+        $acl->setDefaultAction(\Phalcon\Acl::DENY);
+
+        return $acl;
     });
 
     //Handle the request

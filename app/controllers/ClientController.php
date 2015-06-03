@@ -31,8 +31,7 @@ class ClientController extends ControllerBase
                 $form->bind($this->request->getPost(), $client);
                 $client->created = time();
                 $client->updated = time();
-    //            $client->idAccount = $this->user->idAccount;
-                $client->idAccount = 1;
+                $client->idAccount = $this->user->idAccount;
                 
                 if (!$client->save()) {
                     foreach ($client->getMessages() as $msg) {

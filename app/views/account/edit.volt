@@ -7,13 +7,10 @@
     </script>
 {% endblock %}
 {% block content %}
-    <br />
-    <br />
-    <br />
-    <h1><span class="glyphicon glyphicon-plus-sign"></span> Editar Cuenta: <em><strong>{{account_value.name}}</strong></em></h1>
-    <hr />
+    <h2>Editar Cuenta: <em><strong>{{account_value.name}}</strong></em></h2>
+    {{flashSession.output()}}
     <form action="{{url('account/edit')}}/{{account_value.idAccount}}" method="post">
-        <div class="row">
+        <div class="row form-horizontal">
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
                 <h3><span class="glyphicon glyphicon-list"></span> Datos de la cuenta</h3>
                 <hr />
