@@ -38,6 +38,12 @@
                         <div class="form-group">
                             {{accountForm.render('phone')}}
                         </div>
+                        <div class="form-group ">
+                            Estado:<br />
+                            <div id="animated-switch" class="make-switch" data-on="success" data-off="warning" data-animated="true">
+                                {{accountForm.render('status', {'id': 'toggle-one'})}}
+                            </div>
+                        </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
                         <h3>Usuario administrador</h3>
