@@ -69,6 +69,7 @@ class AccountForm extends Form
             'ARAUCA' => 'ARAUCA',
             'BARRANQUILLA' => 'BARRANQUILLA',
             'BELLO' => 'BELLO',
+            'CALI' => 'CALI',
             'CAUCASIA' => 'CAUCASIA',
             'LETICIA' => 'LETICIA',
             'MEDELLIN' => 'MEDELLIN',

@@ -97,6 +97,9 @@ class AccountController extends ControllerBase
             "bind" => array(1 => $idAccount)
         ));
         
+        $account->state = $account->state;
+        $account->city = $account->city;
+        
         $this->view->setVar('account_value', $account);
         
         if(!$account){
