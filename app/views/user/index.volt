@@ -41,6 +41,7 @@
                     <tr>
                         <th>Nombre</th>
                         <th>Nombre de Usuario</th>
+                        <th>Tipo de Usuario</th>
                         <th>Email</th>
                         <th>Dirección</th>
                         <th>Teléfono</th>
@@ -60,6 +61,7 @@
                             <span class="xs-text">Actualizado el {{date('d/M/Y', item.updated)}}</span>                                                     
                         </td>
                         <td>{{item.userName}}</td>
+                        <td>{{item.role.name}}</td>
                         <td>{{item.email}}</td>
                         <td>{{item.address}}</td>
                         <td>{{item.phone}}</td>
@@ -70,7 +72,7 @@
                         <td style="width: 12%;">
                             <a href="{{url('user/passedit')}}/{{item.idUser}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>
                             <a href="{{url('user/edit')}}/{{item.idUser}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar usuario"><span class="glyphicon glyphicon-pencil"></span></a>                            
-                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+                            <button id="delete" data-id="{{url('user/delete')}}/{{item.idUser}}" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </td>
@@ -99,12 +101,17 @@
               <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" >
                   Cancelar
               </button>
-              <button type="button" class="btn btn-success btn-sm">
-                  Confirmar
-              </button>
+              <a href="#" id="btn-ok" class="btn btn-success btn-sm">Confirmar</a>
             </div>
           </div>
         </div>
     </div>
+    
+    <script>
+        $(document).on("click", "#delete", function () {
+            var myURL = $(this).data('id');
+            $("#btn-ok").attr('href', myURL );
+        });       
+    </script>
     
 {% endblock %}
