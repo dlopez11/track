@@ -116,7 +116,7 @@ class UserForm extends Form
         }
         else{
             foreach ($roles as $rol){
-                if($rol->name != 'sudo' && $rol->name != 'admin' && $rol->name != 'user'){
+                if($rol->name != 'sudo'){
                     $r[$rol->idRole] = $rol->name;
                 }
             }
@@ -127,7 +127,7 @@ class UserForm extends Form
             array(
                 'placeholder' => '*Funciones',
                 'required' => 'required',                
-                'style' => 'width:100%;',
+                'class' => 'form-control select2',                
             )
         ));
     }

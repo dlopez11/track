@@ -26,10 +26,7 @@ class UserController extends ControllerBase
     {
         $user = new User();
         
-        $obj = new stdClass();
-        $obj->name = 'sudo';
-        
-        $form = new UserForm($user, $obj);
+        $form = new UserForm($user, $this->user->role);
         
         $account = Account::findFirst(array(
             'conditions' => 'idAccount = ?1',
@@ -62,12 +59,16 @@ class UserController extends ControllerBase
                 
                 $email = strtolower($form->getValue('email'));
                 
+                $user->name = $this->request->getPost('name-user');
+                $user->address = $this->request->getPost('address-user');
+                $user->state = $this->request->getPost('state-user');
+                $user->city = $this->request->getPost('city-user');
+                $user->phone = $this->request->getPost('phone-user');
                 $user->idAccount = $account->idAccount;
                 $user->email = $email;
                 $user->password =  $this->security->hash($pass);
                 $user->created = time();
-                $user->updated = time();
-                $user->idRole = 2;
+                $user->updated = time();                
                 
                 if($user->save()){
                     $msg = "<div class='alert alert-success'><span class='glyphicon glyphicon-remove'></span> Se ha creado el usuario exitosamente.</div>";
@@ -76,7 +77,7 @@ class UserController extends ControllerBase
                 }
                 else{
                     foreach($user->getMessages() as $message){
-                        $this->notification->error($message);
+                        $this->flashSession->error($message);
                     }
 //                    $this->trace("fail","No se creo el usuario a la cuenta {$account->idAccount}");
                 }
@@ -84,5 +85,63 @@ class UserController extends ControllerBase
         }
         $this->view->UserForm = $form;
         $this->view->setVar('account', $account);
+    }
+    
+    public function editAction()
+    {
+        
+    }
+    
+    public function deletAction()
+    {
+        
+    }
+    
+    public function passeditAction($id)
+    {
+        $editUser = User::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
+        
+        if(!$editUser){
+            $this->flashSession->error("El usuario que intenta editar no existe, por favor verifique la información");
+            return $this->response->redirect("account/index");
+        }
+        
+        $account = $editUser->Account;
+        $this->view->setVar("user", $editUser);
+        
+        if($this->request->isPost()){
+            
+            $pass = $this->request->getPost('pass1');
+            $pass2 = $this->request->getPost('pass2');
+            
+            if((empty($pass)||empty($pass2))){
+                $this->flashSession->error('El campo Contraseña esta vacío, por favor valide la información');
+            }
+            else if(($pass != $pass2)){
+                $this->flashSession->error('Las contraseñas no coinciden');
+            }
+            else if(strlen($pass) < 8){
+                $this->flashSession->error('La contraseña es muy corta, debe tener como minimo 8 caracteres');
+            }
+            else{
+                $editUser->password = $this->security->hash($pass);
+                $editUser->updated = time();
+                
+                if(!$editUser->save()){
+                    foreach ($editUser->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+//                    $this->trace("fail","No se edito la contraseña del usuario con ID: {$editUser->idUser}");
+                }
+                else{
+                    $this->flashSession->success('Se ha editado la contraseña exitosamente del usuario <strong>' .$editUser->userName. '</strong>');
+                    //$this->trace("sucess","Se edito la contraseña del usuario con ID: {$editUser->idUser}");
+                    return $this->response->redirect("user/index/{$account->idAccount}");
+                }
+            }
+        }
     }
 }
