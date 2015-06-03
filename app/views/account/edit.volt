@@ -1,10 +1,5 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-          });
-    </script>
 {% endblock %}
 {% block content %}
     <h2>Editar Cuenta: <em><strong>{{account_value.name}}</strong></em></h2>
@@ -19,7 +14,41 @@
                 <input type="text" name="nit" value ="{{account_value.nit}}" placeholder="*NIT" required="required" style="width:100%;">
                 <br /><br />
                 <input type="text" name="address" value ="{{account_value.address}}" placeholder="*Dirección" required="required" style="width:100%;">
-                <br /><br />
+                <select name="state" class="form-group select2">
+                    <option value="">Seleccione</option>
+                    <option value="AMAZONAS">AMAZONAS</option>
+                    <option value="ANTIOQUIA">ANTIOQUIA</option>
+                    <option value="ARAUCA">ARAUCA</option>
+                    <option value="ATLANTICO">ATLANTICO</option>
+                    <option value="BOLIVAR">BOLIVAR</option>
+                    <option value="BOYACA">BOYACA</option>
+                    <option value="CALDAS">CALDAS</option>
+                    <option value="CAQUETA">CAQUETA</option>
+                    <option value="CASANARE">CASANARE</option>
+                    <option value="CAUCA">CAUCA</option>
+                    <option value="CESAR">CESAR</option>
+                    <option value="CHOCO">CHOCO</option>
+                    <option value="CORDOBA">CORDOBA</option>
+                    <option value="CUNDINAMARCA">CUNDINAMARCA</option>
+                    <option value="GUAINIA">GUAINIA</option>
+                    <option value="GUAVIARE">GUAVIARE</option>
+                    <option value="HUILA">HUILA</option>
+                    <option value="LA GUAJIRA">LA GUAJIRA</option>
+                    <option value="MAGDALENA">MAGDALENA</option>
+                    <option value="META">META</option>
+                    <option value="NARIÑO">NARIÑO</option>
+                    <option value="NORTE DE SANTANDER">NORTE DE SANTANDER</option>
+                    <option value="PUTUMAYO">PUTUMAYO</option>
+                    <option value="QUINDIO">QUINDIO</option>
+                    <option value="RISARALDA">RISARALDA</option>
+                    <option value="SAN ANDRES Y PROVIDENCIA">SAN ANDRES Y PROVIDENCIA</option>
+                    <option value="SANTANDER">SANTANDER</option>
+                    <option value="SUCRE">SUCRE</option>
+                    <option value="TOLIMA">TOLIMA</option>
+                    <option value="VALLE DEL CAUCA">VALLE DEL CAUCA</option>
+                    <option value="VAUPES">VAUPES</option>
+                    <option value="VICHADA">VICHADA</option>
+                </select>
                 <input type="text" name="city" value ="{{account_value.city}}" placeholder="*Ciudad" required="required" style="width:100%;">
                 <br /><br />
                 <input type="text" id="address" name="address" value ="{{account_value.phone}}" placeholder="*Teléfono" required="required" style="width:100%;">

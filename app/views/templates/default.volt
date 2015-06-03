@@ -14,10 +14,17 @@
         {# base de bootstrap#}
         {{ stylesheet_link('library/bootstrap-3.3.4/css/bootstrap.css') }}
         {{ javascript_include('library/bootstrap-3.3.4/js/bootstrap.min.js') }}
+        {# Select 2 #}
+        {{ javascript_include('library/select2/js/select2.min.js') }}
+        {{ stylesheet_link('library/select2/css/select2.min.css') }}
 
         {{ stylesheet_link('css/adjustments.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
+            $(function () {
+                $(".select2").select2();
+                $('[data-toggle="tooltip"]').tooltip();
+          });
         </script>
         {% block header %}<!-- custom header code -->{% endblock %}
     </head>

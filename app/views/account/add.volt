@@ -1,10 +1,5 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-          });
-    </script>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -35,10 +30,10 @@
                             {{accountForm.render('address')}}
                         </div>
                         <div class="form-group">
-                            {{accountForm.render('state', {'class': 'form-control'})}}
+                            {{accountForm.render('state', {'class': 'form-control select2'})}}
                         </div>
                         <div class="form-group">
-                            {{accountForm.render('city', {'class': 'form-control'})}}
+                            {{accountForm.render('city', {'class': 'form-control select2'})}}
                         </div>    
                         <div class="form-group">
                             {{accountForm.render('phone')}}
@@ -69,10 +64,10 @@
                             {{userForm.render('address-user')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('state-user', {'class': 'form-control'})}}
+                            {{userForm.render('state-user', {'class': 'form-control select2'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('city-user', {'class': 'form-control'})}}
+                            {{userForm.render('city-user', {'class': 'form-control select2'})}}
                         </div>   
                         <div class="form-group">
                             {{userForm.render('phone-user')}}
