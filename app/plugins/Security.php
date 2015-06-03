@@ -126,6 +126,11 @@ class Security extends Plugin
                 'account::index' => array('account' => array('read')),
                 'account::create' => array('account' => array('create','read')),
                 'account::edit' => array('account' => array('update','read')),
+                /* User */
+                'user::index' => array('user' => array('read')),
+                'user::create' => array('user' => array('create','read')),
+                'user::edit' => array('user' => array('updated','read')),
+                'user::delete' => array('user' => array('delete','read')),
             );
             
             $this->cache->save('controllermap-cache', $map);
