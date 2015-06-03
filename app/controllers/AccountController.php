@@ -104,8 +104,10 @@ class AccountController extends ControllerBase
             return $this->response->redirect('account/index');
         }
         
+        $accountForm = new AccountForm($account);
+        
         if($this->request->isPost()){
-            $account->bind($this->request->getPost(), $account);
+            $accountForm->bind($this->request->getPost(), $account);
             try {
                 $account->updated = time();
 
@@ -118,6 +120,8 @@ class AccountController extends ControllerBase
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
             }
+            
+            return $this->response->redirect('account/index');
         }
     }
 }
