@@ -56,8 +56,16 @@
                 </div>
                 <div class="form-group">
                     <select id="city" name="city" class="select2 form-control">
+                        <option value="APARTADO">APARTADO</option>
+                        <option value="ARAUCA">ARAUCA</option>
+                        <option value="BARRANQUILLA">BARRANQUILLA</option>
+                        <option value="BELLO">BELLO</option>
                         <option value="CALI">CALI</option>
+                        <option value="CAUCASIA">CAUCASIA</option>
+                        <option value="LETICIA">LETICIA</option>
+                        <option value="MEDELLIN">MEDELLIN</option>
                         <option value="MONTERIA">MONTERIA</option>
+                        <option value="YARUMAL">YARUMAL</option>
                     </select>
                 </div>
                 <div class="form-group">

@@ -59,22 +59,22 @@
                             {{userForm.render('email')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('name-user')}}
+                            {{userForm.render('name_user')}}
                         </div>
                         <div class="form-group">
                             {{userForm.render('lastName')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('address-user')}}
+                            {{userForm.render('address_user')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('state-user', {'class': 'form-control select2'})}}
+                            {{userForm.render('state_user', {'class': 'form-control select2'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('city-user', {'class': 'form-control select2'})}}
+                            {{userForm.render('city_user', {'class': 'form-control select2'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('phone-user')}}
+                            {{userForm.render('phone_user')}}
                         </div>
                     </div>
                 </div>
