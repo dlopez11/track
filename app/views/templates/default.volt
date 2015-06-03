@@ -20,8 +20,6 @@
         {# Switch #}
         {{ javascript_include('library/bootstrap-switch/js/bootstrap-toggle.min.js') }}
         {{ stylesheet_link('library/bootstrap-switch/css/bootstrap-toggle.min.css') }}
-
-        {{ stylesheet_link('css/adjustments.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
             $(function () {

@@ -6,10 +6,14 @@ use Phalcon\Mvc\Model\Validator\PresenceOf;
 class Client extends \Phalcon\Mvc\Model
 {
     public $idAccount; 
+    public $idClient; 
 
     public function initialize()
     {
-        $this->belongsTo("idAccount", "Account", "idAccount");
+        $this->belongsTo("idAccount", "Account", "idAccount", array(
+            "foreignKey" => true,
+        ));
+        $this->hasMany("idClient", "Visit", "idClient");
     }
     
     public function validation()

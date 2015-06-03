@@ -31,7 +31,7 @@ class VisittypeController extends ControllerBase
                 $form->bind($this->request->getPost(), $vtype);
                 $vtype->created = time();
                 $vtype->updated = time();
-                $client->idAccount = $this->user->idAccount;
+                $vtype->idAccount = $this->user->idAccount;
                 
                 if (!$vtype->save()) {
                     foreach ($vtype->getMessages() as $msg) {
