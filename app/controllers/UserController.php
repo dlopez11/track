@@ -118,7 +118,7 @@ class UserController extends ControllerBase
             $editUser->email = $email;             
             
             if($editUser->save()){
-                $this->flashSession->error('Se ha editado exitosamente el usuario <strong>' .$editUser->username. '</strong>');
+                $this->flashSession->error('Se ha editado exitosamente el usuario <strong>' .$editUser->userName. '</strong>');
                 //$this->trace("success","Se edito un usuario con ID: {$editUser->idUser}");
                 return $this->response->redirect("user/index/{$account->idAccount}");
             }
@@ -132,9 +132,39 @@ class UserController extends ControllerBase
         $this->view->UserForm = $form;
     }
     
-    public function deletAction()
+    public function deleteAction($id)
     {
+        $idUser = $this->session->get('idUser');
         
+        if($id == $idUser){
+            $this->flashSession->error("No se puede eliminar el usuario que esta actualmente en sesión, por favor verifique la información");
+            //$this->trace('fail', "Se intento borrar un usuario en sesión: {$idUser}");
+            return $this->response->redirect("user/index/{$this->user->account->idAccount}");
+        }
+        
+        $user = User::findFirst(array(
+           "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
+        
+        if(!$user){
+            $this->flashSession->error("El usuario que ha intentado eliminar no existe, por favor verifique la información");
+            //$this->trace('fail', "El usuario no existe: {$idUser}");
+            return $this->response->redirect("user/index");
+        }
+        
+        if(!$user->delete()){
+            foreach ($user->getMessages() as $msg){
+                $this->flashSession->error($msg);
+                $this->logger->log("Error while deleting user {$msg}, user: {$user->idUser}/{$user->userName}");                
+            }
+            return $this->response->redirect("user/index/{$user->idAccount}");
+        }
+        else{
+            $this->flashSession->warning("Se ha eliminado el usuario <strong>{$user->userName}</strong> exitosamente");
+            //$this->trace('success', "Se elimino el usuario: {$id}");            
+            return $this->response->redirect("user/index/{$user->idAccount}");
+        }
     }
     
     public function passeditAction($id)
