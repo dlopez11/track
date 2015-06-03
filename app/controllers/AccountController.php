@@ -33,16 +33,6 @@ class AccountController extends ControllerBase
         //Guardar nueva cuenta y usuario administrador
         if($this->request->isPost()){
             
-            //Convertimos a mayusculas y quitamos los espacios al nombre de la cuenta
-            $accountName = trim($this->request->getPost('name'));
-            $acName = strtolower($accountName);
-            
-            //Verificamos que el campo nombre no este vacio
-            if (empty($acName)) {
-                $this->logger->log('El campo nombre esta vacio');
-//                return $this->response->redirect('account/add');
-            }
-            
             //Buscamos si existe una cuenta con el mismo nombre
 //            $objects = array();
 //            $accounts = Action::findByIdAccount($this->user->idAccount);
@@ -61,16 +51,13 @@ class AccountController extends ControllerBase
             
             $this->db->begin();
 
-            if ($accountForm->isValid() && $account->save()) {
-                $this->saveUser($account, $userForm);
-                $this->db->commit();
-                $this->logger->log('La cuenta fue creada exitasamente');
-            }
-            
             if (!$account->save()) {
-                
+                $this->db->rollback();
             }
             
+            $this->saveUser($account, $userForm);            
+           
+            $this->db->commit();
             return $this->response->redirect('account/index');
         }
     }
@@ -81,10 +68,10 @@ class AccountController extends ControllerBase
         if($this->request->getPost('pass') != $this->request->getPost('pass2')){
             $this->logger->log('Las contraseñas no coinciden');
         }
-        if(count($this->request->getPost('pass') < 8)){
+        if(strlen($this->request->getPost('pass') < 8)){
             $this->logger->log('La contraseña es demasiado corta');
         }
-            
+        
         //Datos usuario
         $user = new User();
         $userForm->bind($this->request->getPost(), $user);
@@ -94,12 +81,13 @@ class AccountController extends ControllerBase
         $user->name = $this->request->getPost('name-user');
         $user->address = $this->request->getPost('address-user');
         $user->phone = $this->request->getPost('phone-user');
-        $user->idAccount = $account;
+        $user->idAccount = $account->idAccount;
         $user->password = $this->security->hash($this->request->getPost('pass'));
 
         // Guardar usuario
         if(!$user->save()){
             $this->logger->log('Ha ocurrido un error al guardar el usuario');
+            $this->db->rollback();
         }
     }
 
