@@ -14,7 +14,8 @@ class Account extends \Phalcon\Mvc\Model
      public function validation()
     {
       $this->validate(new Uniqueness(array(
-          "field" => 'name'
+          "field" => 'name',
+          'message' => 'Ya existe una cuenta con este nombre en la base de datos'
       )));
     }
 }
