@@ -110,8 +110,6 @@ class AccountController extends ControllerBase
             "bind" => array(1 => $idAccount)
         ));
         
-        
-        
         if(!$editAccount){
             $this->flashSession->error('La cuenta a la que intenta acceder no existe, por favor valide la información.');
             return $this->response->redirect('account/index');
@@ -127,15 +125,23 @@ class AccountController extends ControllerBase
         if($this->request->isPost()){
             
             $accountForm->bind($this->request->getPost(), $editAccount);
+            $findAccounts = Account::findFirst($this->request->getPost('name'));
+            if($this->request->getPost('name') != $findAccounts->name){
+                
+            }
+            else{
+                $objects = array();
+                foreach($findAccounts as $findAccount){
+                    $objects[] = $findAccount->name;
+                }
+                if(in_array($this->request->getPost('name'), $objects)){
+                    $this->flashSession->error('Ya existe una cuenta con este nombre, por favor valide la informacion'.$findAccounts->name);
+                    return $this->response->redirect('account/edit/'.$editAccount->idAccount);
+                }
+            }
             
             try {
-                $findAccount = Account::findByName($this->request->getPost('name'));
-            
-                if(count($findAccount) > 0){
-                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
-                    return $this->response->redirect('account/edit/'.$idAccount);
-                }
-
+                
                 $editAccount->updated = time();
                 
                 if(!$this->request->getPost('status')){
@@ -150,6 +156,7 @@ class AccountController extends ControllerBase
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
+                return $this->response->redirect('account/edit/'.$editAccount->idAccount);
             }
             
             return $this->response->redirect('account/index');
