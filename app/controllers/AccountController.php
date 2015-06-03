@@ -36,15 +36,11 @@ class AccountController extends ControllerBase
             
             try {
                 
-                $findAccount = Account::findByName($this->request->getPost('name'));
-            
-                if(count($findAccount) > 0){
-                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
-                }
-                
                 $accountForm->bind($this->request->getPost(), $account);
+                
                 $account->created = time();
                 $account->updated = time();
+                
                 if(!$this->request->getPost('status')){
                     $account->status = 0;
                 }
@@ -125,11 +121,12 @@ class AccountController extends ControllerBase
         if($this->request->isPost()){
             
             $accountForm->bind($this->request->getPost(), $editAccount);
-            $findAccounts = Account::findFirst($this->request->getPost('name'));
-            if($this->request->getPost('name') != $findAccounts->name){
-                
+            
+            if($this->request->getPost('name') == $editAccount->name){
+                    
             }
-            else{
+            elseif($this->request->getPost('name') != $editAccount->name){
+                $findAccounts = Account::findByIdAccount($editAccount->idAccount);
                 $objects = array();
                 foreach($findAccounts as $findAccount){
                     $objects[] = $findAccount->name;
@@ -141,7 +138,6 @@ class AccountController extends ControllerBase
             }
             
             try {
-                
                 $editAccount->updated = time();
                 
                 if(!$this->request->getPost('status')){
