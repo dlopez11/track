@@ -107,7 +107,9 @@ class AccountController extends ControllerBase
         $accountForm = new AccountForm($account);
         
         if($this->request->isPost()){
+            
             $accountForm->bind($this->request->getPost(), $account);
+            
             try {
                 $account->updated = time();
 
