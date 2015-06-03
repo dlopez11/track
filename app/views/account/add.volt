@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group ">
                             Estado:<br />
-                            {{accountForm.render('status', {'id': 'toggle-one'})}}
+                            {{accountForm.render('status', {'id': 'toggle-one', 'checked':'checked'})}}
                         </div>
                     </div>
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">

@@ -37,6 +37,9 @@ class AccountController extends ControllerBase
                 $accountForm->bind($this->request->getPost(), $account);
                 $account->created = time();
                 $account->updated = time();
+                if(!$this->request->getPost('status')){
+                    $account->status = 0;
+                }
 
                 $this->db->begin();
 
