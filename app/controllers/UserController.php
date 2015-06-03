@@ -45,7 +45,7 @@ class UserController extends ControllerBase
             
             $form->bind($this->request->getPost(), $user);
             
-            $username = $form->getValue('username');
+            $username = $form->getValue('userName');
             $pass = $form->getValue('pass');
             $pass2 = $form->getValue('pass2');
             

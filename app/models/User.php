@@ -42,28 +42,28 @@ class User extends Phalcon\Mvc\Model
         )));
         
         $this->validate(new PresenceOf(array(
-            'field' => 'username',
+            'field' => 'userName',
             'message' => 'El nombre de usuario es obligatorio, por favor valide la información'
         )));
         
         $this->validate(new Uniqueness(array(
-            'field' => 'username',
+            'field' => 'userName',
             'message' => 'El nombre de usuario ya existe, por favor valide la información'
         )));
         
         $this->validate(new SpaceValidator(array(
-            'field' => 'username',
+            'field' => 'userName',
             'message' => 'El nombre de usuario esta vacío, por favor valide la información'
         )));
         
         $this->validate(new StringLength(array(
-            "field" => "username",
+            "field" => "userName",
             "min" => 4,
             "message" => "El nombre de usuario es muy corto, debe tener al menos 4 caracteres"			
         )));
         
         $this->validate(new Regex(array(
-            'field' => 'username',
+            'field' => 'userName',
             'pattern' => '/^[a-z0-9\._-]{4,30}/',
             'message' => 'EL nombre de usuario no debe tener espacios ni caracteres especiales, tampoco letras mayúsculas y debe tener mínimo 4 y máximo 40 caracteres'
         )));
