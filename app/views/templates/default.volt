@@ -25,7 +25,13 @@
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
             $(function () {
-                 $('#toggle-one').bootstrapSwitch();
+                 $('#toggle-one').bootstrapSwitch({
+                    on: 'On',
+                    off: 'Off',
+                    onstyle: 'success',
+                    offstyle: 'danger',
+                    size: 'small'
+                });
                 $(".select2").select2();
                 $('[data-toggle="tooltip"]').tooltip();
           });
@@ -80,12 +86,6 @@
                     </a>    
                 </div>    
             </footer>   
-        </div>
-                
-        <script type="text/javascript">
-            $(function () {
-                $('[data-toggle="tooltip"]').tooltip();
-            });
-        </script>     
+        </div>  
     </body>
 </html>

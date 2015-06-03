@@ -40,7 +40,7 @@
                         </div>
                         <div class="form-group ">
                             Estado:<br />
-                            <div id="animated-switch" class="make-switch" data-on="success" data-off="warning" data-animated="true">
+                            <div id="animated-switch" class="make-switch switch-small" data-on="success" data-off="warning" data-animated="true">
                                 {{accountForm.render('status', {'id': 'toggle-one'})}}
                             </div>
                         </div>
