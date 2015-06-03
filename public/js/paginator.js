@@ -77,7 +77,7 @@ Paginator.prototype.loadControls = function() {
                         <li class="">\n\
                             <a href="javascript:void(0);" class="step-backward"><i class="glyphicon glyphicon-step-backward"></i></a>\n\
                         </li>\n\
-                        <li><span><b>0</b> registros </span><span>Página <b>0</b> de <b>0</b></span></li>\n\
+                        <li><span><b id="rows">0</b> registros </span><span>Página <b id="page">0</b> de <b id="pages">0</b></span></li>\n\
                         <li class="">\n\
                             <a href="javascript:void(0);" class="step-forward"><i class="glyphicon glyphicon-step-forward"></i></a>\n\
                         </li>\n\
@@ -87,6 +87,15 @@ Paginator.prototype.loadControls = function() {
                     </ul>');
     
     $('#' + this.container).append(this.control);
+};
+
+Paginator.prototype.refreshControls = function() {
+    this.control.find('#rows').empty();
+    this.control.find('#page').empty();
+    this.control.find('#pages').empty();
+    this.control.find('#rows').append(this.data.rows);
+    this.control.find('#page').append(this.data.page);
+    this.control.find('#pages').append(this.data.pages);
 };
 
 Paginator.prototype.initialize = function() {
@@ -102,6 +111,7 @@ Paginator.prototype.initialize = function() {
             self.dom.setRows(self.rows);
             self.dom.setData(self.data);
             self.dom.load();
+            self.refreshControls();
         });
     });
     
@@ -117,6 +127,7 @@ Paginator.prototype.initialize = function() {
                 self.dom.setRows(self.rows);
                 self.dom.setData(self.data);
                 self.dom.load();
+                self.refreshControls();
             });
         }
     });
@@ -135,6 +146,7 @@ Paginator.prototype.initialize = function() {
                 self.dom.setRows(self.rows);
                 self.dom.setData(self.data);
                 self.dom.load();
+                self.refreshControls();
             });
         }
     });
@@ -149,6 +161,7 @@ Paginator.prototype.initialize = function() {
             self.dom.setRows(self.rows);
             self.dom.setData(self.data);
             self.dom.load();
+            self.refreshControls();
         });
     });
 };
@@ -161,7 +174,7 @@ Paginator.prototype.load = function() {
         self.dom.setData(self.data);
         self.dom.createTable();
         self.dom.load();
-        
+        self.refreshControls();
         self.initialize();
     });
     
