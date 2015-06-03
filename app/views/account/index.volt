@@ -1,10 +1,5 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    <script type="text/javascript">
-        $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
-          });
-    </script>
 {% endblock %}
 {% block content %}
     <div class="row">

@@ -14,9 +14,9 @@ class AccountController extends ControllerBase
             "limit"=> 15,
             "page" => $currentPage
         ));
-        
+
         $page = $paginator->getPaginate();
-        $this->view->setVar("page", $page);
+        $this->view->setVar("page", $page);        
     }
     
     public function addAction()
@@ -100,7 +100,7 @@ class AccountController extends ControllerBase
         
         $this->view->setVar('account_value', $account);
         
-        if($idAccount != $account->idAccount){
+        if($account->idAccount != $this->user->idAccount){
             $this->logger->log('La cuenta a la que intenta acceder no existe');
             return $this->response->redirect('account/index');
         }
