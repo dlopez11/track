@@ -18,14 +18,14 @@
         {{ javascript_include('library/select2/js/select2.min.js') }}
         {{ stylesheet_link('library/select2/css/select2.min.css') }}
         {# Switch #}
-        {{ javascript_include('library/bootstrap-switch/js/bootstrap-switch.js') }}
-        {{ stylesheet_link('library/bootstrap-switch/css/bootstrap3/bootstrap-switch.css') }}
+        {{ javascript_include('library/bootstrap-switch/js/bootstrap-toggle.min.js') }}
+        {{ stylesheet_link('library/bootstrap-switch/css/bootstrap-toggle.min.css') }}
 
         {{ stylesheet_link('css/adjustments.css') }}
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
             $(function () {
-                 $('#toggle-one').bootstrapSwitch({
+                 $('#toggle-one').bootstrapToggle({
                     on: 'On',
                     off: 'Off',
                     onstyle: 'success',
