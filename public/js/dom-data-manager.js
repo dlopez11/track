@@ -39,7 +39,6 @@ DomManager.prototype.createTable = function() {
 };
 
 DomManager.prototype.refreshTable = function() {
-    console.log(this.rows);
     this.content.find('#content').empty('slow'); 
     for (var i = 0; i < this.rows.length; i++) {
         var row = $('<tr>\n\

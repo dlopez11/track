@@ -25,12 +25,13 @@
     
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div class="form-inline">
+            <div class="form-inline text-center">
                 <div class="form-group">
                     <label for="limit">Registros</label>
                     <select id="limit" class="form-control">
                         <option value="5">5</option>
                         <option value="10">10</option>
+                        <option value="15" selected>15</option>
                         <option value="20">20</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
@@ -68,18 +69,28 @@
     </div>    
     
     <div class="space"></div>
+    <div class="clearfix"></div>
+    <div class="space"></div>
+    <div class="clearfix"></div>
+    <div class="space"></div>
+    <div class="clearfix"></div>
+    <div class="space"></div>
+    <div class="clearfix"></div>
+    <div class="space"></div>
+    <div class="clearfix"></div>
+    <div class="space"></div>
+    
+    <div class="row">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="container"></div>
+        </div>    
+    </div>    
+    
+    <div class="space"></div>
     
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div id="pagination" class="text-center"></div>
         </div>    
     </div>
-    
-    <div class="space"></div>
-                    
-    <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div id="container"></div>
-        </div>    
-    </div>    
 {% endblock %}
