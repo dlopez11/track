@@ -30,7 +30,7 @@
             <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
                 <h3><span class="glyphicon glyphicon-user"></span> Usuario administrador</h3>
                 <hr />
-                {{userForm.render('username')}}
+                {{userForm.render('userName')}}
                 <br /><br />
                 {{userForm.render('pass')}}
                 <br /><br />
@@ -40,7 +40,7 @@
                 <br /><br />
                 {{userForm.render('name-user')}}
                 <br /><br />
-                {{userForm.render('lastname')}}
+                {{userForm.render('lastName')}}
                 <br /><br />
                 {{userForm.render('address-user')}}
                 <br /><br />
