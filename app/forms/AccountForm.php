@@ -13,19 +13,19 @@ class AccountForm extends Form
             'placeholder' => '*Nombre de la cuenta',
             'required' => 'required',
             'autofocus' => 'autofocus',
-            'style' => 'width:100%;'
+            'class' => 'form-control'
         )));
         
         $this->add(new Text("nit", array(                        
             'placeholder' => '*NIT',
             'required' => 'required',
-            'style' => 'width:100%;',
+            'class' => 'form-control'
         )));
         
         $this->add(new Text("address", array(                        
             'placeholder' => '*Dirección',
             'required' => 'required',
-            'style' => 'width:100%;',
+            'class' => 'form-control'
         )));
         
         $this->add(new Select('city', array(
@@ -37,7 +37,7 @@ class AccountForm extends Form
         $this->add(new Text("phone", array(                        
             'placeholder' => '*Teléfono',
             'required' => 'required',
-            'style' => 'width:100%;',
+            'class' => 'form-control'
         )));
         
         $this->add(new Check('status', array(
