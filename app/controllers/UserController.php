@@ -115,7 +115,9 @@ class UserController extends ControllerBase
             
             $editUser->updated = time();
             $email = strtolower($form->getValue('email'));
-            $editUser->email = $email;             
+            $editUser->email = $email;
+            $editUser->state = $this->request->getPost('state_user');
+            $editUser->city = $this->request->getPost('city_user');
             
             if($editUser->save()){
                 $this->flashSession->success('Se ha editado exitosamente el usuario <strong>' .$editUser->userName. '</strong>');
