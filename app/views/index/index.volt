@@ -3,6 +3,7 @@
     {{ javascript_include('js/dom-data-manager.js') }}
     {{ javascript_include('js/paginator.js') }}
     <script type="text/javascript">
+        var url = '{{url('visit')}}';
         $(function() {
             var domManager = new DomManager();
             domManager.setContainer('container');

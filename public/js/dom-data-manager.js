@@ -39,7 +39,14 @@ DomManager.prototype.createTable = function() {
 };
 
 DomManager.prototype.refreshTable = function() {
-    this.content.find('#content').empty('slow'); 
+    this.content.find('#content').empty(); 
+//    var self = this;
+//    this.content.find('#content').animate({
+//        opacity: 0.25
+//    }, 500, function() {
+//        self.content.find('#content').empty(); 
+//    });
+    
     for (var i = 0; i < this.rows.length; i++) {
         var row = $('<tr>\n\
                         <td>' + this.rows[i].date + '</td>\n\
@@ -47,8 +54,9 @@ DomManager.prototype.refreshTable = function() {
                         <td>' + this.rows[i].visit + '</td>\n\
                         <td>' + this.rows[i].client + '</td>\n\
                         <td>' + this.rows[i].battery + '%</td>\n\
-                        <td><a href="#">' + this.rows[i].location + '</a></td>\n\
+                        <td><a href="' + url + '/map">' + this.rows[i].location + '</a></td>\n\
                     </tr>');
-        this.content.find('#content').append(row); 
+        
+        this.content.find('#content').append(row);
     }
 };
