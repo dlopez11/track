@@ -5,6 +5,7 @@
         <meta name="viewport" content="width=device-width, maximum-scale=1, initial-scale=1, user-scalable=1">
         <link href='http://fonts.googleapis.com/css?family=Roboto+Condensed' rel='stylesheet' type='text/css'>
         <link rel="shortcut icon" type="image/x-icon" href="{{url('')}}images/favicons/favicon48x48.ico">
+        <script src="http://maps.googleapis.com/maps/api/js"></script>
         <!-- Always force latest IE rendering engine or request Chrome Frame -->
         <meta content="IE=edge,chrome=1" http-equiv="X-UA-Compatible">
         {{ get_title() }}
@@ -31,7 +32,7 @@
                     size: 'small'
                 });
                 $(".select2").select2();
-                $('[data-toggle="tooltip"]').tooltip();
+                $('[data-toggle="tooltip"]').tooltip(); 
           });
         </script>
         {% block header %}<!-- custom header code -->{% endblock %}
