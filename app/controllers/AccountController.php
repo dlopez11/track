@@ -36,15 +36,11 @@ class AccountController extends ControllerBase
             
             try {
                 
-                $findAccount = Account::findByName($this->request->getPost('name'));
-            
-                if(count($findAccount) > 0){
-                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
-                }
-                
                 $accountForm->bind($this->request->getPost(), $account);
+                
                 $account->created = time();
                 $account->updated = time();
+                
                 if(!$this->request->getPost('status')){
                     $account->status = 0;
                 }
@@ -110,8 +106,6 @@ class AccountController extends ControllerBase
             "bind" => array(1 => $idAccount)
         ));
         
-        
-        
         if(!$editAccount){
             $this->flashSession->error('La cuenta a la que intenta acceder no existe, por favor valide la información.');
             return $this->response->redirect('account/index');
@@ -128,14 +122,22 @@ class AccountController extends ControllerBase
             
             $accountForm->bind($this->request->getPost(), $editAccount);
             
-            try {
-                $findAccount = Account::findByName($this->request->getPost('name'));
-            
-                if(count($findAccount) > 0){
-                    $this->flashSession->error('Ya existe una cuenta con este mismo nombre, por favor valide la información.');
-                    return $this->response->redirect('account/edit/'.$idAccount);
+            if($this->request->getPost('name') == $editAccount->name){
+                    
+            }
+            elseif($this->request->getPost('name') != $editAccount->name){
+                $findAccounts = Account::findByIdAccount($editAccount->idAccount);
+                $objects = array();
+                foreach($findAccounts as $findAccount){
+                    $objects[] = $findAccount->name;
                 }
-
+                if(in_array($this->request->getPost('name'), $objects)){
+                    $this->flashSession->error('Ya existe una cuenta con este nombre, por favor valide la informacion'.$findAccounts->name);
+                    return $this->response->redirect('account/edit/'.$editAccount->idAccount);
+                }
+            }
+            
+            try {
                 $editAccount->updated = time();
                 
                 if(!$this->request->getPost('status')){
@@ -150,6 +152,7 @@ class AccountController extends ControllerBase
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
+                return $this->response->redirect('account/edit/'.$editAccount->idAccount);
             }
             
             return $this->response->redirect('account/index');

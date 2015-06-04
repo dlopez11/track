@@ -118,7 +118,7 @@ class UserController extends ControllerBase
             $editUser->email = $email;             
             
             if($editUser->save()){
-                $this->flashSession->error('Se ha editado exitosamente el usuario <strong>' .$editUser->userName. '</strong>');
+                $this->flashSession->success('Se ha editado exitosamente el usuario <strong>' .$editUser->userName. '</strong>');
                 //$this->trace("success","Se edito un usuario con ID: {$editUser->idUser}");
                 return $this->response->redirect("user/index/{$account->idAccount}");
             }

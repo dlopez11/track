@@ -69,10 +69,10 @@
                             {{item.city}}<br />
                             {{item.state}}
                         </td>
-                        <td style="width: 12%;">
-                            <a href="{{url('user/passedit')}}/{{item.idUser}}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>
-                            <a href="{{url('user/edit')}}/{{item.idUser}}" class="btn btn-primary btn-sm" data-toggle="tooltip" data-placement="top" title="Editar usuario"><span class="glyphicon glyphicon-pencil"></span></a>                            
-                            <button id="delete" data-id="{{url('user/delete')}}/{{item.idUser}}" type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#myModal">
+                        <td class="text-right">
+                            <a href="{{url('user/passedit')}}/{{item.idUser}}" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>
+                            <a href="{{url('user/edit')}}/{{item.idUser}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar usuario"><span class="glyphicon glyphicon-pencil"></span></a>                            
+                            <button id="delete" data-id="{{url('user/delete')}}/{{item.idUser}}" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </td>
