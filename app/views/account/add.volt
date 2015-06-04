@@ -68,10 +68,10 @@
                             {{userForm.render('address_user')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('state_user', {'class': 'form-control select2'})}}
+                            {{userForm.render('state_user', {'class': 'form-control select2', 'id':'state_user'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('city_user', {'class': 'form-control select2'})}}
+                            {{userForm.render('city_user', {'class': 'form-control select2', 'id':'city_user'})}}
                         </div>   
                         <div class="form-group">
                             {{userForm.render('phone_user')}}
