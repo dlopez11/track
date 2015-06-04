@@ -85,14 +85,38 @@ var GUAVIARE = [
     {display: "SAN JOSE DEL GUAVIARE", value: "SAN JOSE DEL GUAVIARE" }
 ];
 
+var GUAJIRA = [
+    {display: "RIOACHA", value: "RIOACHA" },
+    {display: "MAICAO", value: "MAICAO" }
+];
+
 var HUILA = [
     {display: "NEIVA", value: "NEIVA" },
     {display: "PITALITO", value: "PITALITO" }
 ];
 
-var GUAJIRA = [
-    {display: "NEIVA", value: "NEIVA" },
-    {display: "PITALITO", value: "PITALITO" }
+var MAGDALENA = [
+    {display: "SANTA MARTA", value: "SANTA MARTA" },
+    {display: "CIENAGA", value: "CIENAGA" },
+    {display: "PLATO", value: "PLATO" }
+];
+
+var META = [
+    {display: "VILLAVICENCIO", value: "VILLAVICENCIO" },
+    {display: "ACACIAS", value: "ACACIAS" },
+    {display: "GRANADA", value: "GRANADA" }
+];
+
+var NARIÑO = [
+    {display: "PASTO", value: "PASTO" },
+    {display: "IPIALES", value: "IPIALES" },
+    {display: "TUMACO", value: "TUMACO" }
+];
+
+var NTE_SANTANDER = [
+    {display: "CUCUTA", value: "CUCUTA" },
+    {display: "OCAÑA", value: "OCAÑA" },
+    {display: "VILLA DEL ROSARIO", value: "VILLA DEL ROSARIO" }
 ];
 
 $("#state").change(function(){
@@ -164,8 +188,28 @@ case "GUAVIARE":
     city(GUAVIARE);
 break;
 
+case "GUAJIRA":
+    city(GUAJIRA);
+break;
+
 case "HUILA":
     city(HUILA);
+break;
+
+case "MAGDALENA":
+    city(MAGDALENA);
+break;
+
+case "META":
+    city(META);
+break;
+
+case "NARIÑO":
+    city(NARIÑO);
+break;
+
+case "NTE_SANTANDER":
+    city(NTE_SANTANDER);
 break;
 
 default:

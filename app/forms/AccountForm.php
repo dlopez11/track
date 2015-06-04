@@ -52,7 +52,7 @@ class AccountForm extends Form
             'MAGDALENA' => 'MAGDALENA',
             'META' => 'META',
             'NARIÑO' => 'NARIÑO',
-            'NORTE DE SANTANDER' => 'NORTE DE SANTANDER',
+            'NTE_SANTANDER' => 'NORTE DE SANTANDER',
             'PUTUMAYO' => 'PUTUMAYO',
             'QUINDIO' => 'QUINDIO',
             'RISARALDA' => 'RISARALDA',
