@@ -21,6 +21,9 @@
         {# Switch #}
         {{ javascript_include('library/bootstrap-switch/js/bootstrap-toggle.min.js') }}
         {{ stylesheet_link('library/bootstrap-switch/css/bootstrap-toggle.min.css') }}
+        {# Seletc State/City #}
+        {{ javascript_include('library/jquery-select-change/select_jquery.js') }}
+        
         <script type="text/javascript">
             var myBaseURL = '{{url('')}}';
             $(function () {
