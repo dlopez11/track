@@ -48,7 +48,7 @@
                         <td>
                             {{item.city}}
                             <br />
-                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% endif %}
+                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% else %}{{item.state}} {% endif %}
                         </td>
                         <td>{{item.phone}}</td>
                         <td class="text-right">
