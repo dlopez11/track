@@ -1,5 +1,26 @@
 {% extends "templates/default.volt" %}
 {% block header %}
+    {# Select 2 #}
+    {{ javascript_include('library/select2/js/select2.min.js') }}
+    {{ stylesheet_link('library/select2/css/select2.min.css') }}
+    {# Switch #}
+    {{ javascript_include('library/bootstrap-switch/js/bootstrap-toggle.min.js') }}
+    {{ stylesheet_link('library/bootstrap-switch/css/bootstrap-toggle.min.css') }}
+    {# Seletc State/City #}
+    {{ javascript_include('library/jquery-select-change/select_jquery_account.js') }}
+    {{ javascript_include('library/jquery-select-change/select_jquery_user.js') }}
+    <script type="text/javascript">
+        $(function () {
+            $('#toggle-one').bootstrapToggle({
+               on: 'On',
+               off: 'Off',
+               onstyle: 'success',
+               offstyle: 'danger',
+               size: 'small'
+           });
+           $(".select2").select2(); 
+          });
+    </script>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -81,10 +102,10 @@
                 <hr />
                 <div style="margin-bottom: 17px;" class="text-right wrap">
                     <small style="margin-right: 20px;">*<em>Todos los campos son necesarios.</em></small>
-                    <a href="{{url('account/index')}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                    <a href="{{url('account/index')}}" class="btn btn-default btn-sm">
                         Cancelar
                     </a>
-                    <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Guardar">
+                    <button type="submit" class="btn btn-success btn-sm">
                         Guardar
                     </button>
                 </div>

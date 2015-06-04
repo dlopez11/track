@@ -2,13 +2,11 @@
 {% block header %}
     <script type="text/javascript">
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+           $('[data-toggle="tooltip"]').tooltip();
+           $('#myModal').on('shown.bs.modal', function () {
+               $('#myInput').focus();
+             });
           });
-          
-          $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').focus();
-          });
-
     </script>
 {% endblock %}
 {% block content %}
