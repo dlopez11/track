@@ -65,7 +65,9 @@
                         </li>
                     </ul>
                 </nav>
-                <img src="{{url('')}}images/logo.png" height="70" />
+                <a href="http://www.sigmamovil.com/" target="_blank">
+                    <img src="{{url('')}}images/logo.png" height="70" />
+                </a>
             </div>
 
             <div class="row">
