@@ -1,17 +1,42 @@
 $(document).ready(function(){
 
 var AMAZONAS = [
-    {display: "LETICIA", value: "LETICIA" }];
+    {display: "LETICIA", value: "LETICIA" }
+];
     
 var ANTIOQUIA = [
-    {display: "APARTADO", value: "APARTADO" },
-    {display: "BELLO", value: "BELLO" },
     {display: "MEDELLIN", value: "MEDELLIN" },
-    {display: "TURBO", value: "TURBO" }
+    {display: "BELLO", value: "BELLO" },
+    {display: "CAUCASIA", value: "CAUCASIA" },
+    {display: "ENVIGADO", value: "ENVIGADO" },
+    {display: "ITAGUI", value: "ITAGUI" },
+    {display: "RIONEGRO", value: "RIONEGRO" }
 ];
     
 var ARAUCA = [
-    {display: "ARAUCA", value: "ARAUCA" }];
+    {display: "ARAUCA", value: "ARAUCA" }
+];
+
+var ATLANTICO = [
+    {display: "BARRANQUILLA", value: "BARRANQUILLA" },
+    {display: "SOLEDAD", value: "SOLEDAD" }
+];
+
+var BOLIVAR = [
+    {display: "CARTAGENA", value: "CARTAGENA" }
+];
+
+var BOYACA = [
+    {display: "TUNJA", value: "TUNJA" },
+    {display: "SOGAMOSO", value: "SOGAMOSO" },
+    {display: "DUITAMA", value: "DUITAMA" }
+];
+
+var CALDAS = [
+    {display: "MANIZALES", value: "MANIZALES" },
+    {display: "LA DORADA", value: "LA DORADA" },
+    {display: "CHINCHINA", value: "CHINCHINA" }
+];
 
 $("#state").change(function(){
 
@@ -28,6 +53,22 @@ break;
 
 case "ARAUCA":
     city(ARAUCA);
+break;
+
+case "ATLANTICO":
+    city(ATLANTICO);
+break;
+
+case "BOLIVAR":
+    city(BOLIVAR);
+break;
+
+case "BOYACA":
+    city(BOYACA);
+break;
+
+case "CALDAS":
+    city(CALDAS);
 break;
 
 default:
