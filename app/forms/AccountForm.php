@@ -29,7 +29,7 @@ class AccountForm extends Form
         )));
         
         $this->add(new Select('state', array(
-            '' => 'Seleccione un Departamento',
+            '' => 'Seleccionar Departamento',
             'AMAZONAS' => 'AMAZONAS',
             'ANTIOQUIA' => 'ANTIOQUIA',
             'ARAUCA' => 'ARAUCA',

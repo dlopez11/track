@@ -53,6 +53,7 @@ class UserForm extends Form
         )));
         
         $this->add(new Select('state_user', array(
+            '' => 'Seleccionar Departamento',
             'AMAZONAS' => 'AMAZONAS',
             'ANTIOQUIA' => 'ANTIOQUIA',
             'ARAUCA' => 'ARAUCA',
