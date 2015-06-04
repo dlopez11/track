@@ -29,9 +29,7 @@
     
     <div class="clearfix"></div>
     <div class="space"></div>
-    
     {{flashSession.output()}}
-    
     <div class="row">
         <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">            
             <form action="{{url('user/add')}}/{{(account.idAccount)}}" method="post">

@@ -35,7 +35,6 @@
     <div class="row">
         <div class="col-md-12">
             {{flashSession.output()}}
-            
             <form action="{{url('account/add')}}" method="post" onload="javascript:city(arr);">
                 <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">

@@ -15,7 +15,6 @@
     </div>    
     
     <div class="space"></div>
-    
     {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('account/add')}}" class="btn btn-success">
