@@ -168,6 +168,14 @@ var VALLE = [
     {display: "YUMBO", value: "YUMBO" }
 ];
 
+var VAUPES = [
+    {display: "MITU", value: "MITU" }
+];
+
+var VICHADA = [
+    {display: "PUERTO CARREÑO", value: "PUERTO CARREÑO" }
+];
+
 $("#state").change(function(){
 
 var select = $("#state option:selected").val();
@@ -291,6 +299,14 @@ break;
 
 case "VALLE":
     city(VALLE);
+break;
+
+case "VAUPES":
+    city(VAUPES);
+break;
+
+case "VICHADA":
+    city(VICHADA);
 break;
 
 default:
