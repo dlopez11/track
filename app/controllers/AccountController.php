@@ -58,10 +58,12 @@ class AccountController extends ControllerBase
            
                 $this->db->commit();
                 $this->flashSession->success('La cuenta se creo exitosamente.');
+                $this->trace("success","Se creo exitosamente una nueva cuenta con ID: {$account->idAccount}");
                 return $this->response->redirect('account/index');
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
+                $this->trace("fail",$ex->getMessage());
                 return $this->response->redirect('account/add');
             }
         }
@@ -95,6 +97,7 @@ class AccountController extends ControllerBase
             foreach ($user->getMessages() as $msg) {
                 throw new Exception($msg);
             }
+            $this->trace("fail","No se pudo guardar el usuario de una cuenta");
             $this->db->rollback();
         }
     }
@@ -145,6 +148,7 @@ class AccountController extends ControllerBase
                 }
 
                 if (!$editAccount->save()) {
+                    $this->trace("fail","Error al editar una cuenta con ID: ".$editAccount->idAccount);
                     foreach ($editAccount->getMessages() as $msg) {
                         throw new Exception($msg);
                     }
@@ -152,9 +156,10 @@ class AccountController extends ControllerBase
             } 
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
+                $this->trace("fail","Ha ocurrido un error: ".$ex->getMessage());
                 return $this->response->redirect('account/edit/'.$editAccount->idAccount);
             }
-            
+            $this->trace("success","Se edito la cuenta con ID: ".$editAccount->idAccount);
             return $this->response->redirect('account/index');
         }
         
@@ -167,9 +172,9 @@ class AccountController extends ControllerBase
 
         $paginator = new Phalcon\Paginator\Adapter\Model(array(
              "data" => User::find(array(
-                     "conditions" => "idAccount = ?1",
-                     "bind" => array(1 => $id)                    
-             )),
+                            "conditions" => "idAccount = ?1",
+                            "bind" => array(1 => $id)                    
+                        )),
              "limit"=> 15,
              "page" => $currentPage
          ));

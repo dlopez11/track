@@ -67,7 +67,7 @@
                         <td>{{item.phone}}</td>
                         <td>
                             {{item.city}}<br />
-                            {{item.state}}
+                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% endif %}
                         </td>
                         <td class="text-right">
                             <a href="{{url('user/passedit')}}/{{item.idUser}}" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>
