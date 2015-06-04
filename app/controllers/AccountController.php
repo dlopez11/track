@@ -160,4 +160,23 @@ class AccountController extends ControllerBase
         
         $this->view->accountForm = $accountForm;
     }
+    
+    public function userlistAction($id)
+    {
+        $currentPage = $this->request->getQuery('page', null, 1);
+
+        $paginator = new Phalcon\Paginator\Adapter\Model(array(
+             "data" => User::find(array(
+                     "conditions" => "idAccount = ?1",
+                     "bind" => array(1 => $id)                    
+             )),
+             "limit"=> 15,
+             "page" => $currentPage
+         ));
+
+         $page = $paginator->getPaginate();
+
+         $this->view->setVar("page", $page);
+         $this->view->setVar("idAccount", $id);
+    }
 }

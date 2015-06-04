@@ -123,6 +123,8 @@ class Security extends Plugin
                 'index::index' => array('dashboard' => array('read')),
                 /* Account */
                 'account::index' => array('account' => array('read')),
+                'account::userlist' => array('user' => array ('read'),
+                                        'account' => array('read')),
                 'account::add' => array('account' => array('create','read')),
                 'account::edit' => array('account' => array('update','read')),
                 /* User */

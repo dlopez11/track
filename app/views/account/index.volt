@@ -52,7 +52,7 @@
                         </td>
                         <td>{{item.phone}}</td>
                         <td class="text-right">
-                            <a href="{{url('user')}}/{{item.idAccount}}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
+                            <a href="{{url('account/userlist')}}/{{item.idAccount}}" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Usuarios"><span class="glyphicon glyphicon-user"></span></a>
                             <a href="{{url('account/edit')}}/{{item.idAccount}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar"><span class="glyphicon glyphicon-pencil"></span></a>
                         </td>
                     </tr>
