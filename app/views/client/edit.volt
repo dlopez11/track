@@ -16,7 +16,7 @@
     
     <div class="row">
         <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
-            <form action="{{url('client/edit')}}/{{client.idClient}}" method="post" class="form-horizontal">
+            <form action="{{url('client/edit')}}/{{client.idClient}}" method="post" class="form-horizontal" onload="javascript:city(arr);">
                 <div class="form-group">
                     {{form.render('name')}}
                 </div>
@@ -30,10 +30,10 @@
                     {{form.render('address')}}
                 </div>
                 <div class="form-group">
-                    {{form.render('state', {'class': 'form-control'})}}
+                    {{form.render('state', {'class': 'form-control select2', 'id':'state'})}}
                 </div>
                 <div class="form-group">
-                    {{form.render('city', {'class': 'form-control'})}}
+                    {{form.render('city', {'class': 'form-control select2', 'id':'city'})}}
                 </div>
                 <div class="form-group">
                     {{form.render('phone')}}
