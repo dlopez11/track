@@ -144,6 +144,8 @@ class Security extends Plugin
                 'visittype::edit' => array('visittype' => array('update','read')),
                 'visittype::remove' => array('visittype' => array('delete')),
                 /* Visit */
+                'visit::index' => array('visit' => array('read')),
+                'visit::map' => array('visit' => array('read')),
                 'visit::getrows' => array('visit' => array('read')),
                 'visit::maphistory' => array('visit' => array('read')),
                 'session::superuser' => array('user' => array('sudo')),
