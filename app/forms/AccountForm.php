@@ -56,11 +56,11 @@ class AccountForm extends Form
             'PUTUMAYO' => 'PUTUMAYO',
             'QUINDIO' => 'QUINDIO',
             'RISARALDA' => 'RISARALDA',
-            'SAN ANDRES Y PROVIDENCIA' => 'SAN ANDRES Y PROVIDENCIA',
+            'SAN_ANDRES' => 'SAN ANDRES Y PROVIDENCIA',
             'SANTANDER' => 'SANTANDER',
             'SUCRE' => 'SUCRE',
             'TOLIMA' => 'TOLIMA',
-            'VALLE DEL CAUCA' => 'VALLE DEL CAUCA',
+            'VALLE' => 'VALLE DEL CAUCA',
             'VAUPES' => 'VAUPES',
             'VICHADA' => 'VICHADA',
         )));
