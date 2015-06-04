@@ -47,7 +47,7 @@ class UserController extends ControllerBase
             $pass2 = $form->getValue('pass2');
             
             if($pass !== $pass2){
-                $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intenrelo nuevamente.");
+                $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
             }
             else if(strlen($pass) < 8) {
                 $this->flashSession->error("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
