@@ -32,6 +32,7 @@ break;
 
 default:
     $("#city").empty();
+    $("#city").append("<option>--Seleccionar ciudad--</option>");
 break;
 }
 });
@@ -39,8 +40,10 @@ break;
 //Function To List out Cities in Second Select tags
 function city(arr){
     $("#city").empty();//To reset cities
+    $("#city").append("<option>--Seleccionar ciudad--</option>");
     $(arr).each(function(i){//to list cities
-            $("#city").append("<option value=\""+arr[i].value+"\">"+arr[i].display+"</option>")
+        $("#city").append("<option value=\""+arr[i].value+"\">"+arr[i].display+"</option>")
     });
 }
+
 });
