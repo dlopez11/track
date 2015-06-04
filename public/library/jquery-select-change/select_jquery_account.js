@@ -77,6 +77,97 @@ var CUNDINAMARCA = [
     {display: "SOACHA", value: "SOACHA" }
 ];
 
+var GUAINIA = [
+    {display: "INIRIDA", value: "INIRIDA" }
+];
+
+var GUAVIARE = [
+    {display: "SAN JOSE DEL GUAVIARE", value: "SAN JOSE DEL GUAVIARE" }
+];
+
+var GUAJIRA = [
+    {display: "RIOACHA", value: "RIOACHA" },
+    {display: "MAICAO", value: "MAICAO" }
+];
+
+var HUILA = [
+    {display: "NEIVA", value: "NEIVA" },
+    {display: "PITALITO", value: "PITALITO" }
+];
+
+var MAGDALENA = [
+    {display: "SANTA MARTA", value: "SANTA MARTA" },
+    {display: "CIENAGA", value: "CIENAGA" },
+    {display: "PLATO", value: "PLATO" }
+];
+
+var META = [
+    {display: "VILLAVICENCIO", value: "VILLAVICENCIO" },
+    {display: "ACACIAS", value: "ACACIAS" },
+    {display: "GRANADA", value: "GRANADA" }
+];
+
+var NARIÑO = [
+    {display: "PASTO", value: "PASTO" },
+    {display: "IPIALES", value: "IPIALES" },
+    {display: "TUMACO", value: "TUMACO" }
+];
+
+var NTE_SANTANDER = [
+    {display: "CUCUTA", value: "CUCUTA" },
+    {display: "OCAÑA", value: "OCAÑA" },
+    {display: "VILLA DEL ROSARIO", value: "VILLA DEL ROSARIO" }
+];
+
+var PUTUMAYO = [
+    {display: "MOCOA", value: "MOCOA" },
+    {display: "PUERTO ASIS", value: "PUERTO ASIS" }
+];
+
+var QUINDIO = [
+    {display: "ARMENIA", value: "ARMENIA" },
+    {display: "CALARCA", value: "CALARCA" }
+];
+
+var RISARALDA = [
+    {display: "PEREIRA", value: "PEREIRA" },
+    {display: "DOSQUEBRADAS", value: "DOSQUEBRADAS" },
+    {display: "SANTA ROSA DE CABAL", value: "SANTA ROSA DE CABAL" }
+];
+
+var SAN_ANDRES = [
+    {display: "SAN ANDRES", value: "SAN ANDRES" }
+];
+
+var SANTANDER = [
+    {display: "BUCARAMANGA", value: "BUCARAMANGA" },
+    {display: "BARRANCABERMEJA", value: "BARRANCABERMEJA" },
+    {display: "FLORIDABLANCA", value: "FLORIDABLANCA" },
+    {display: "GIRON", value: "GIRON" },
+    {display: "PIEDECUESTA", value: "PIEDECUESTA" }
+];
+
+var SUCRE = [
+    {display: "SINCELEJO", value: "SINCELEJO" },
+    {display: "COROZAL", value: "SINCELEJO" }
+];
+
+var TOLIMA = [
+    {display: "IBAGUE", value: "IBAGUE" },
+    {display: "ESPINAL", value: "ESPINAL" }
+];
+
+var VALLE = [
+    {display: "CALI", value: "CALI" },
+    {display: "BUENAVENTURA", value: "BUENAVENTURA" },
+    {display: "BUGA", value: "BUGA" },
+    {display: "CARTAGO", value: "CARTAGO" },
+    {display: "JAMUNDI", value: "JAMUNDI" },
+    {display: "PALMIRA", value: "PALMIRA" },
+    {display: "TULUA", value: "TULUA" },
+    {display: "YUMBO", value: "YUMBO" }
+];
+
 $("#state").change(function(){
 
 var select = $("#state option:selected").val();
@@ -136,6 +227,70 @@ break;
 
 case "CUNDINAMARCA":
     city(CUNDINAMARCA);
+break;
+
+case "GUAINIA":
+    city(GUAINIA);
+break;
+
+case "GUAVIARE":
+    city(GUAVIARE);
+break;
+
+case "GUAJIRA":
+    city(GUAJIRA);
+break;
+
+case "HUILA":
+    city(HUILA);
+break;
+
+case "MAGDALENA":
+    city(MAGDALENA);
+break;
+
+case "META":
+    city(META);
+break;
+
+case "NARIÑO":
+    city(NARIÑO);
+break;
+
+case "NTE_SANTANDER":
+    city(NTE_SANTANDER);
+break;
+
+case "PUTUMAYO":
+    city(PUTUMAYO);
+break;
+
+case "QUINDIO":
+    city(QUINDIO);
+break;
+
+case "RISARALDA":
+    city(RISARALDA);
+break;
+
+case "SAN_ANDRES":
+    city(SAN_ANDRES);
+break;
+
+case "SANTANDER":
+    city(SANTANDER);
+break;
+
+case "SUCRE":
+    city(SUCRE);
+break;
+
+case "TOLIMA":
+    city(TOLIMA);
+break;
+
+case "VALLE":
+    city(VALLE);
 break;
 
 default:
