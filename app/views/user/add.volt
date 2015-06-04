@@ -1,5 +1,23 @@
 {% extends "templates/default.volt" %}
 {% block header %}
+    {# Select 2 #}
+    {{ javascript_include('library/select2/js/select2.min.js') }}
+    {{ stylesheet_link('library/select2/css/select2.min.css') }}
+    {# Seletc State/City #}
+    {{ javascript_include('library/jquery-select-change/select_jquery_account.js') }}
+    {{ javascript_include('library/jquery-select-change/select_jquery_user.js') }}
+    <script type="text/javascript">
+        $(function () {
+            $('#toggle-one').bootstrapToggle({
+               on: 'On',
+               off: 'Off',
+               onstyle: 'success',
+               offstyle: 'danger',
+               size: 'small'
+           });
+           $(".select2").select2();
+          });
+    </script>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -11,9 +29,7 @@
     
     <div class="clearfix"></div>
     <div class="space"></div>
-    
     {{flashSession.output()}}
-    
     <div class="row">
         <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">            
             <form action="{{url('user/add')}}/{{(account.idAccount)}}" method="post">

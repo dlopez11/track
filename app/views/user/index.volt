@@ -2,13 +2,11 @@
 {% block header %}
     <script type="text/javascript">
         $(function () {
-            $('[data-toggle="tooltip"]').tooltip();
+           $('[data-toggle="tooltip"]').tooltip();
+           $('#myModal').on('shown.bs.modal', function () {
+               $('#myInput').focus();
+             });
           });
-          
-          $('#myModal').on('shown.bs.modal', function () {
-            $('#myInput').focus();
-          });
-
     </script>
 {% endblock %}
 {% block content %}
@@ -20,7 +18,6 @@
     </div>
     
     <div class="space"></div>
-    
     {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('user/add')}}/{{(userData.idAccount)}}" class="btn btn-success">
@@ -67,7 +64,7 @@
                         <td>{{item.phone}}</td>
                         <td>
                             {{item.city}}<br />
-                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% endif %}
+                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% else %} {{item.state}} {% endif %}
                         </td>
                         <td class="text-right">
                             <a href="{{url('user/passedit')}}/{{item.idUser}}" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>

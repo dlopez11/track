@@ -125,21 +125,6 @@ class AccountController extends ControllerBase
             
             $accountForm->bind($this->request->getPost(), $editAccount);
             
-            if($this->request->getPost('name') == $editAccount->name){
-                    
-            }
-            elseif($this->request->getPost('name') != $editAccount->name){
-                $findAccounts = Account::findByIdAccount($editAccount->idAccount);
-                $objects = array();
-                foreach($findAccounts as $findAccount){
-                    $objects[] = $findAccount->name;
-                }
-                if(in_array($this->request->getPost('name'), $objects)){
-                    $this->flashSession->error('Ya existe una cuenta con este nombre, por favor valide la informacion'.$findAccounts->name);
-                    return $this->response->redirect('account/edit/'.$editAccount->idAccount);
-                }
-            }
-            
             try {
                 $editAccount->updated = time();
                 
@@ -160,6 +145,7 @@ class AccountController extends ControllerBase
                 return $this->response->redirect('account/edit/'.$editAccount->idAccount);
             }
             $this->trace("success","Se edito la cuenta con ID: ".$editAccount->idAccount);
+            $this->flashSession->success('Se ha editado exitosamente la cuenta <strong>'.$editAccount->name.'</strong>');
             return $this->response->redirect('account/index');
         }
         

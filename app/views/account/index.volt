@@ -1,5 +1,10 @@
 {% extends "templates/default.volt" %}
 {% block header %}
+    <script type="text/javascript">
+        $(function () {
+           $('[data-toggle="tooltip"]').tooltip(); 
+          });
+    </script>
 {% endblock %}
 {% block content %}
     <div class="row">
@@ -10,7 +15,6 @@
     </div>    
     
     <div class="space"></div>
-    
     {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('account/add')}}" class="btn btn-success">
@@ -48,7 +52,7 @@
                         <td>
                             {{item.city}}
                             <br />
-                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% endif %}
+                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% else %}{{item.state}} {% endif %}
                         </td>
                         <td>{{item.phone}}</td>
                         <td class="text-right">

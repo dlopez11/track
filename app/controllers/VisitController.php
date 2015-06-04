@@ -50,4 +50,19 @@ class VisitController extends ControllerBase
 //            'data' => $finder->getRows(),			
 //        ));
     }
+    
+    public function maphistoryAction($idUser)
+    {
+        $visits = Account::findFirst(array(
+            "conditions" => "idAccount = ?1",
+            "bind" => array(1 => $idUser)
+        ));
+        
+        if(!$visits){
+            $this->flashSession->error('Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.');
+            return $this->response->redirect('visit/index');
+        }
+        
+        
+    }
 }
