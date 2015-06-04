@@ -50,4 +50,21 @@ class VisitController extends ControllerBase
 //            'data' => $finder->getRows(),			
 //        ));
     }
+    
+    public function mapAction($idUser)
+    {
+        $visit = Visit::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $idUser)
+        ));
+        
+        $user = User::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $idUser)
+        ));
+                
+        $this->view->setVar('visit', $visit);
+        $this->view->setVar('user', $user);
+                
+    }
 }
