@@ -92,15 +92,13 @@
         <div class="modal-dialog">
           <div class="modal-content">
             <div class="modal-header">              
-              <h4 class="modal-title" id="myModalLabel">Eliminar usuario</h4>
+              <h2 class="modal-title" id="myModalLabel">Eliminar usuario</h2>
             </div>
             <div class="modal-body">
                 ¿Esta seguro de eliminar este usuario?
             </div>
             <div class="modal-footer">
-              <button type="button" class="btn btn-danger btn-sm" data-dismiss="modal" >
-                  Cancelar
-              </button>
+              <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >Cancelar</button>
               <a href="#" id="btn-ok" class="btn btn-success btn-sm">Confirmar</a>
             </div>
           </div>
