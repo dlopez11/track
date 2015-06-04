@@ -72,14 +72,14 @@ class UserController extends ControllerBase
                 
                 if($user->save()){
                     $this->flashSession->success("Se ha creado el usuario exitosamente.");
-//                    $this->trace("success","Se creo un usuario con ID: {$user->idUser}");
+                    $this->trace("success","Se creo un usuario con ID: {$user->idUser}");
                     return $this->response->redirect("user/index/{$account->idAccount}");
                 }
                 else{
                     foreach($user->getMessages() as $message){
                         $this->flashSession->error($message);
                     }
-//                    $this->trace("fail","No se creo el usuario a la cuenta {$account->idAccount}");
+                    $this->trace("fail","No se creo el usuario a la cuenta {$account->idAccount}");
                 }
             }
         }
@@ -119,14 +119,14 @@ class UserController extends ControllerBase
             
             if($editUser->save()){
                 $this->flashSession->success('Se ha editado exitosamente el usuario <strong>' .$editUser->userName. '</strong>');
-                //$this->trace("success","Se edito un usuario con ID: {$editUser->idUser}");
+                $this->trace("success","Se edito un usuario con ID: {$editUser->idUser}");
                 return $this->response->redirect("user/index/{$account->idAccount}");
             }
             else{
                 foreach ($editUser->getMessages() as $message) {
                     $this->flashSession->error($message);
                 }
-                //$this->trace("fail","No se edito el usuario con ID: {$editUser->idUser}");
+                $this->trace("fail","No se edito el usuario con ID: {$editUser->idUser}");
             }
         }
         $this->view->UserForm = $form;
@@ -138,7 +138,7 @@ class UserController extends ControllerBase
         
         if($id == $idUser){
             $this->flashSession->error("No se puede eliminar el usuario que esta actualmente en sesión, por favor verifique la información");
-            //$this->trace('fail', "Se intento borrar un usuario en sesión: {$idUser}");
+            $this->trace('fail', "Se intento borrar un usuario en sesión: {$idUser}");
             return $this->response->redirect("user/index/{$this->user->account->idAccount}");
         }
         
@@ -149,7 +149,7 @@ class UserController extends ControllerBase
         
         if(!$user){
             $this->flashSession->error("El usuario que ha intentado eliminar no existe, por favor verifique la información");
-            //$this->trace('fail', "El usuario no existe: {$idUser}");
+            $this->trace('fail', "El usuario no existe: {$idUser}");
             return $this->response->redirect("user/index");
         }
         
@@ -162,7 +162,7 @@ class UserController extends ControllerBase
         }
         else{
             $this->flashSession->warning("Se ha eliminado el usuario <strong>{$user->userName}</strong> exitosamente");
-            //$this->trace('success', "Se elimino el usuario: {$id}");            
+            $this->trace('success', "Se elimino el usuario: {$id}");            
             return $this->response->redirect("user/index/{$user->idAccount}");
         }
     }
@@ -204,11 +204,11 @@ class UserController extends ControllerBase
                     foreach ($editUser->getMessages() as $message) {
                         $this->flashSession->error($message);
                     }
-//                    $this->trace("fail","No se edito la contraseña del usuario con ID: {$editUser->idUser}");
+                    $this->trace("fail","No se edito la contraseña del usuario con ID: {$editUser->idUser}");
                 }
                 else{
                     $this->flashSession->success('Se ha editado la contraseña exitosamente del usuario <strong>' .$editUser->userName. '</strong>');
-                    //$this->trace("sucess","Se edito la contraseña del usuario con ID: {$editUser->idUser}");
+                    $this->trace("sucess","Se edito la contraseña del usuario con ID: {$editUser->idUser}");
                     return $this->response->redirect("user/index/{$account->idAccount}");
                 }
             }
