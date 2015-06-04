@@ -105,7 +105,7 @@ class VisitFinder
         if ($crows > 0) {
             foreach ($rows as $row) {
                 $array = array();
-                $array['date'] = $row->date;
+                $array['date'] = date('d/M/Y', $row->date);
                 $array['name'] = "{$row->name} {$row->lastname}";
                 $array['visit'] = $row->visit;
                 $array['client'] = $row->client;

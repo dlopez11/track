@@ -19,10 +19,10 @@
                     {{accountForm.render('address')}}
                 </div>
                 <div class="form-group">
-                    {{accountForm.render('state', {'class': 'form-control select2'})}}
+                    {{accountForm.render('state', {'class': 'form-control select2', 'id':'state'})}}
                 </div>
                 <div class="form-group">
-                    {{accountForm.render('city', {'class': 'form-control select2'})}}
+                    {{accountForm.render('city', {'class': 'form-control select2', 'id':'city'})}}
                 </div>    
                 <div class="form-group">
                     {{accountForm.render('phone')}}

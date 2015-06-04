@@ -15,7 +15,7 @@
         <div class="col-md-12">
             {{flashSession.output()}}
             
-            <form action="{{url('account/add')}}" method="post">
+            <form action="{{url('account/add')}}" method="post" onload="javascript:city(arr);">
                 <div class="row form-horizontal wrap">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
                         <h3>Datos de la cuenta</h3>
@@ -30,10 +30,10 @@
                             {{accountForm.render('address')}}
                         </div>
                         <div class="form-group">
-                            {{accountForm.render('state', {'class': 'form-control select2'})}}
+                            {{accountForm.render('state', {'class': 'form-control select2', 'id':'state'})}}
                         </div>
                         <div class="form-group">
-                            {{accountForm.render('city', {'class': 'form-control select2'})}}
+                            {{accountForm.render('city', {'class': 'form-control select2', 'id':'city'})}}
                         </div>    
                         <div class="form-group">
                             {{accountForm.render('phone')}}

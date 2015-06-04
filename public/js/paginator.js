@@ -152,17 +152,20 @@ Paginator.prototype.initialize = function() {
     });
     
     this.control.on("click", ".fast-forward", function () {
-        self.data.page = self.data.pages;
-        self.data.limit = $('#limit').val();
-        self.data.user = $('#user').val();
-        self.data.visit = $('#visittype').val();
-        self.data.client = $('#client').val();
-        self.getData().then(function() { 
-            self.dom.setRows(self.rows);
-            self.dom.setData(self.data);
-            self.dom.load();
-            self.refreshControls();
-        });
+        var page = self.data.pages;
+        if (page !== self.data.pages) {
+            self.data.page = page;
+            self.data.limit = $('#limit').val();
+            self.data.user = $('#user').val();
+            self.data.visit = $('#visittype').val();
+            self.data.client = $('#client').val();
+            self.getData().then(function() { 
+                self.dom.setRows(self.rows);
+                self.dom.setData(self.data);
+                self.dom.load();
+                self.refreshControls();
+            });
+        }
     });
 };
 

@@ -46,8 +46,8 @@ DomManager.prototype.refreshTable = function() {
                         <td>' + this.rows[i].name + '</td>\n\
                         <td>' + this.rows[i].visit + '</td>\n\
                         <td>' + this.rows[i].client + '</td>\n\
-                        <td>' + this.rows[i].battery + '</td>\n\
-                        <td>' + this.rows[i].location + '</td>\n\
+                        <td>' + this.rows[i].battery + '%</td>\n\
+                        <td><a href="#">' + this.rows[i].location + '</a></td>\n\
                     </tr>');
         this.content.find('#content').append(row); 
     }
