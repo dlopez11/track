@@ -77,6 +77,24 @@ var CUNDINAMARCA = [
     {display: "SOACHA", value: "SOACHA" }
 ];
 
+var GUAINIA = [
+    {display: "INIRIDA", value: "INIRIDA" }
+];
+
+var GUAVIARE = [
+    {display: "SAN JOSE DEL GUAVIARE", value: "SAN JOSE DEL GUAVIARE" }
+];
+
+var HUILA = [
+    {display: "NEIVA", value: "NEIVA" },
+    {display: "PITALITO", value: "PITALITO" }
+];
+
+var GUAJIRA = [
+    {display: "NEIVA", value: "NEIVA" },
+    {display: "PITALITO", value: "PITALITO" }
+];
+
 $("#state").change(function(){
 
 var select = $("#state option:selected").val();
@@ -136,6 +154,18 @@ break;
 
 case "CUNDINAMARCA":
     city(CUNDINAMARCA);
+break;
+
+case "GUAINIA":
+    city(GUAINIA);
+break;
+
+case "GUAVIARE":
+    city(GUAVIARE);
+break;
+
+case "HUILA":
+    city(HUILA);
 break;
 
 default:

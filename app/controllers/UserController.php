@@ -8,7 +8,7 @@ class UserController extends ControllerBase
         
         $builder = $this->modelsManager->createBuilder()
             ->from('User')
-//            ->where("User.idAccount = {$this->user->idAccount}")
+            ->where("User.idAccount = {$this->user->idAccount}")
             ->orderBy('User.created');
 
         $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(
