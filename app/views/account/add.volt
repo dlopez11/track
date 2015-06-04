@@ -16,7 +16,7 @@
             {{flashSession.output()}}
             
             <form action="{{url('account/add')}}" method="post" onload="javascript:city(arr);">
-                <div class="row form-horizontal wrap">
+                <div class="row">
                     <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
                         <h3>Datos de la cuenta</h3>
                         <hr />
@@ -68,10 +68,10 @@
                             {{userForm.render('address_user')}}
                         </div>
                         <div class="form-group">
-                            {{userForm.render('state_user', {'class': 'form-control select2'})}}
+                            {{userForm.render('state_user', {'class': 'form-control select2', 'id':'state_user'})}}
                         </div>   
                         <div class="form-group">
-                            {{userForm.render('city_user', {'class': 'form-control select2'})}}
+                            {{userForm.render('city_user', {'class': 'form-control select2', 'id':'city_user'})}}
                         </div>   
                         <div class="form-group">
                             {{userForm.render('phone_user')}}
@@ -81,11 +81,11 @@
                 <hr />
                 <div style="margin-bottom: 17px;" class="text-right wrap">
                     <small style="margin-right: 20px;">*<em>Todos los campos son necesarios.</em></small>
-                    <a href="{{url('account/index')}}" class="btn btn-danger btn-xs" data-toggle="tooltip" data-placement="top" title="Cancelar">
-                        <span class="glyphicon glyphicon-remove"></span>
+                    <a href="{{url('account/index')}}" class="btn btn-default btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
+                        Cancelar
                     </a>
-                    <button type="submit" class="btn btn-success btn-xs" data-toggle="tooltip" data-placement="top" title="Guardar">
-                        <span class="glyphicon glyphicon-ok"></span>
+                    <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Guardar">
+                        Guardar
                     </button>
                 </div>
             </form>
