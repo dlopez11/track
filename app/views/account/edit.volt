@@ -22,7 +22,9 @@
                     {{accountForm.render('state', {'class': 'form-control select2', 'id':'state'})}}
                 </div>
                 <div class="form-group">
-                    {{accountForm.render('city', {'class': 'form-control select2', 'id':'city'})}}
+                    <select id="city" name="city" class="form-control select2">
+                        <option value="{{account_value.city}}">{{account_value.city}}</option>
+                    </select>
                 </div>    
                 <div class="form-group">
                     {{accountForm.render('phone')}}

@@ -47,6 +47,11 @@
                 <nav>
                     <ul class="nav nav-pills pull-right">
                         {{ partial("partials/menu_partial") }}
+                        {% if userEfective.enable %}
+                            <li role="presentation" data-toggle="tooltip" data-placement="bottom" title="Regresar a la sesión original">
+                                <a href="{{url('session/logoutsuperuser')}}"><span class="glyphicon glyphicon-log-out"></span></a>
+                            </li>
+                        {% endif %}
                         <li role="presentation" class="dropdown">
                             <a id="drop4" href="#" class="dropdown-toggle" data-toggle="dropdown" aria-haspopup="true" role="button" aria-expanded="false">
                                 {{userData.name}} {{userData.lastName}}
