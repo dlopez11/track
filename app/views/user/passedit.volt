@@ -28,12 +28,8 @@
                                             
                 <div class="form-group text-right">
                     <small style="margin-right: 20px;">*<em>Todos los campos son necesarios.</em></small>
-                    <a href="{{url('user/index')}}" class="btn btn-danger btn-sm" data-toggle="tooltip" data-placement="top" title="Cancelar">
-                        <span class="glyphicon glyphicon-remove"></span>
-                    </a>
-                    <button type="submit" class="btn btn-success btn-sm" data-toggle="tooltip" data-placement="top" title="Guardar">
-                        <span class="glyphicon glyphicon-ok"></span>
-                    </button>
+                    <a href="{{url('user/index')}}" class="btn btn-default btn-sm">Cancelar</a>
+                    <button type="submit" class="btn btn-success btn-sm">Guardar</button>
                 </div>                
             </form>
         </div>
