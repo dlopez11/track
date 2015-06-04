@@ -40,7 +40,9 @@
                     {{UserForm.render('state_user', {'class': 'form-control select2'})}}
                 </div>
                 <div class="form-group">
-                    {{UserForm.render('city_user', {'class': 'form-control select2'})}}
+                    <select id="city_user" name="city_user" class="form-control select2">
+                        <option value="{{user.city}}">{{user.city}}</option>
+                    </select>
                 </div>
                 <div class="form-group">
                     {{UserForm.render('phone_user')}}
