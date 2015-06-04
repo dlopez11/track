@@ -145,6 +145,9 @@ class Security extends Plugin
                 'visittype::remove' => array('visittype' => array('delete')),
                 
                 'visit::getrows' => array('visit' => array('read')),
+                
+                'session::superuser' => array('user' => array('sudo')),
+                'session::logoutsuperuser' => array('user' => array('sudo')),
             );
             
             $this->cache->save('controllermap-cache', $map);
