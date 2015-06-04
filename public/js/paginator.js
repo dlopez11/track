@@ -98,74 +98,51 @@ Paginator.prototype.refreshControls = function() {
     this.control.find('#pages').append(this.data.pages);
 };
 
+Paginator.prototype.catchAndSendData = function(page) {
+    var self = this;
+    self.data.page = page;
+    self.data.limit = $('#limit').val();
+    self.data.user = $('#user').val();
+    self.data.visit = $('#visittype').val();
+    self.data.client = $('#client').val();
+
+    self.getData().then(function() { 
+        self.dom.setRows(self.rows);
+        self.dom.setData(self.data);
+        self.dom.load();
+        self.refreshControls();
+    });
+};
+
 Paginator.prototype.initialize = function() {
     var self = this;
     this.control.on("click", ".fast-backward", function () {
-        self.data.page = 1;
-        self.data.limit = $('#limit').val();
-        self.data.user = $('#user').val();
-        self.data.visit = $('#visittype').val();
-        self.data.client = $('#client').val();
-        
-        self.getData().then(function() { 
-            self.dom.setRows(self.rows);
-            self.dom.setData(self.data);
-            self.dom.load();
-            self.refreshControls();
-        });
+        self.catchAndSendData(1);
     });
     
     this.control.on("click", ".step-backward", function () {
         var page = parseInt(self.data.page) - 1;
         if (page > 0) {
-            self.data.page = page;
-            self.data.limit = $('#limit').val();
-            self.data.user = $('#user').val();
-            self.data.visit = $('#visittype').val();
-            self.data.client = $('#client').val();
-            self.getData().then(function() { 
-                self.dom.setRows(self.rows);
-                self.dom.setData(self.data);
-                self.dom.load();
-                self.refreshControls();
-            });
+            self.catchAndSendData(page);
         }
     });
     
     this.control.on("click", ".step-forward", function () {
         var page = parseInt(self.data.page) + 1;
         if (page <= self.data.pages) {
-            self.data.page = parseInt(self.data.page) + 1;
-            self.data.limit = $('#limit').val();
-            self.data.user = $('#user').val();
-            self.data.visit = $('#visittype').val();
-            self.data.client = $('#client').val();
-
-
-            self.getData().then(function() { 
-                self.dom.setRows(self.rows);
-                self.dom.setData(self.data);
-                self.dom.load();
-                self.refreshControls();
-            });
+            self.catchAndSendData(page);
         }
     });
     
     this.control.on("click", ".fast-forward", function () {
         var page = self.data.pages;
         if (page !== self.data.pages) {
-            self.data.page = page;
-            self.data.limit = $('#limit').val();
-            self.data.user = $('#user').val();
-            self.data.visit = $('#visittype').val();
-            self.data.client = $('#client').val();
-            self.getData().then(function() { 
-                self.dom.setRows(self.rows);
-                self.dom.setData(self.data);
-                self.dom.load();
-                self.refreshControls();
-            });
+            self.catchAndSendData(page);
         }
+    });
+    
+    $( "#refresher" ).click(function() {
+        self.catchAndSendData(1);
     });
 };
 

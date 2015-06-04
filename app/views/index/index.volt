@@ -75,6 +75,9 @@
                         {% endfor %}
                     </select>    
                 </div>
+                <div class="form-group">
+                    <button class="btn btn-sm btn-primary" id="refresher"><span class="glyphicon glyphicon-refresh"></span></button>
+                </div>    
             </div>
         </div>    
     </div>    
