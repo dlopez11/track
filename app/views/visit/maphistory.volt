@@ -3,6 +3,7 @@
     <script src="https://maps.googleapis.com/maps/api/js"  type="text/javascript"></script>
     <script type="text/javascript">
         var markers = new Array();
+        var infoWindowContent = new Array();
         jQuery(function($) {
             // Asynchronously Load the map API 
             var script = document.createElement('script');
@@ -33,16 +34,14 @@
             
             console.log(markers);
 
-            // Info Window Content
-            var infoWindowContent = [
-                ['<div class="info_content">' +
-                '<h3>London Eye</h3>' +
-                '<p>The London Eye is a giant Ferris wheel situated on the banks of the River Thames. The entire structure is 135 metres (443 ft) tall and the wheel has a diameter of 120 metres (394 ft).</p>' +        '</div>'],
-                ['<div class="info_content">' +
-                '<h3>Palace of Westminster</h3>' +
-                '<p>The Palace of Westminster is the meeting place of the House of Commons and the House of Lords, the two houses of the Parliament of the United Kingdom. Commonly known as the Houses of Parliament after its tenants.</p>' +
-                '</div>']
-            ];
+            for(var ii = 0; ii < result.length; ii++){
+                var array2 = new Array();
+                array2.push(result[ii].name);
+                array2.push(result[ii].description);
+                array2.push(result[ii].created);
+                
+                infoWindowContent.push(array2);
+            };
 
             // Display multiple markers on a map
             var infoWindow = new google.maps.InfoWindow(), marker, i;
