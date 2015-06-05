@@ -124,21 +124,30 @@ class VisitController extends ControllerBase
     }
     public function getmapAction($idUser)
     {
-        $phqlvisits = 'SELECT visit.latitude,visit.longitude,visit.location FROM visit WHERE visit.idUser = ?0';
+        $phqlvisits = 'SELECT visit.latitude,visit.longitude,visit.location,visit.idClient,visit.idVisittype FROM visit WHERE visit.idUser = ?0';
         $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         
         $objects = array();
         foreach ($visits as $visit) {
-            $phqlclients = 'SELECT client.name FROM client, visit WHERE visit.idClient = ?0';
-            $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => "{$visit->idClient}"));
+            $phqlclients = 'SELECT client.name,client.address,visit.idClient FROM client INNER JOIN visit ON visit.idClient = client.idClient WHERE client.idClient = ?0';
+            $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => "{$visit['idClient']}"));
             foreach ($clients as $client) {
-                $client_name = $client->name;
+                $phqlvisittype = 'SELECT visittype.name FROM visittype INNER JOIN visit ON visit.idVisittype = visittype.idVisittype WHERE visit.idVisittype = ?0';
+                $visitstype = $this->modelsManager->executeQuery($phqlvisittype, array(0 => "{$visit['idVisittype']}"));
+                foreach ($visitstype as $visittype){
+                    $visitData = "<strong>Tipo</strong>: ".$visittype['name'];
+                }
+                $clientData = "<div style='width: 250px;'>";
+                $clientData .= "<strong>".$client['name']."</strong>";
+                $clientData .= "<br />";
+                $clientData .= "<strong>Dirección</strong>: ".$client['address'];
+                $clientData .= "<br />";
             }
             $objects[] = array(
                 'latitude' => $visit->latitude,
                 'longitude' => $visit->longitude,
                 'location' => $visit->location,
-                'client' => $client_name
+                'client' => $clientData.$visitData,
             );
         }
         return $this->set_json_response($objects);
