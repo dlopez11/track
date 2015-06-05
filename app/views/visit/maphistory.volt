@@ -1,6 +1,6 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
+    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     
     <script type="text/javascript">
         var markers = "";
@@ -22,14 +22,16 @@
             // Display a map on the page
             map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
             map.setTilt(45);
-            geoData = "markers = [";
-                $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function marks(result){
-                    for(var i = 0; i < result.length; i++){
-                        geoData += "['"+result[i].location+"',"+result[i].latitude+","+result[i].longitude+"],";
-                    };
-                    geoData += "];";
-                    return geoData;
-                });
+            
+            $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function (result){
+                geoData = "markers = [";
+                for(var i = 0; i < result.length; i++){
+                    geoData += "['"+result[i].location+"',"+result[i].latitude+","+result[i].longitude+"],";
+                };
+                geoData += "];";
+                console.log(geoData);
+                return geoData;
+            });
 
             // Info Window Content
             var infoWindowContent = [
