@@ -74,7 +74,7 @@ class VisitController extends ControllerBase
         
         if (!$visit) {
             $this->flashSession->error("Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.");
-            return $this->response->redirect('visit/index');
+            return $this->response->redirect('index');
         }
         
         $user = User::findFirst(array(
