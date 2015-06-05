@@ -1,10 +1,23 @@
 {% extends "templates/default.volt" %}
 {% block header %}
+    {# Classie #}
+    {{ javascript_include('library/notification-styles/js/classie.min.js') }}
+    {# Modernizr #}
+    {{ javascript_include('library/notification-styles/js/modernizr.custom.js') }}
+    {# Notifications #}
+    {{ partial("partials/notifications_partial") }}
+    {# Paginator #}
     {{ javascript_include('js/dom-data-manager.js') }}
     {{ javascript_include('js/paginator.js') }}
+    
+    {# Select 2 #}
+    {{ javascript_include('library/select2/js/select2.min.js') }}
+    {{ stylesheet_link('library/select2/css/select2.min.css') }}
     <script type="text/javascript">
         var url = '{{url('visit')}}';
         $(function() {
+            $(".select2").select2();
+            
             var domManager = new DomManager();
             domManager.setContainer('container');
             var paginator = new Paginator();
@@ -13,17 +26,6 @@
             paginator.setContainerControls('pagination');
             paginator.load();
         });
-        
-        //function initialize() {
-        //    var mapProp = {
-        //        center:new google.maps.LatLng(51.508742,-0.120850),
-        //        zoom:5,
-        //        mapTypeId:google.maps.MapTypeId.ROADMAP
-        //    };
-        //    var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-        //}
-        
-        //google.maps.event.addDomListener(window, 'load', initialize);
     </script>
 {% endblock %}
 {% block content %}
@@ -40,7 +42,8 @@
             <div class="form-inline text-center">
                 <div class="form-group">
                     <label for="limit">Registros</label>
-                    <select id="limit" class="form-control">
+                    <select id="limit" class="form-control select2">
+                        <option value="1">1</option>
                         <option value="5">5</option>
                         <option value="10">10</option>
                         <option value="15" selected>15</option>
@@ -51,7 +54,7 @@
                 </div>
                 <div class="form-group">
                     <label for="user">Usuario</label>
-                    <select id="user" class="form-control">
+                    <select id="user" class="form-control select2">
                         <option value="0">Todos los usuarios</option>
                         {% for user in users%}
                              <option value="{{user.idUser}}">{{user.name}} {{user.lastName}}</option>
@@ -60,7 +63,7 @@
                 </div>
                 <div class="form-group">
                     <label for="visittype">Tipo de visita</label>
-                    <select id="visittype" class="form-control">
+                    <select id="visittype" class="form-control select2">
                         <option value="0">Todos las visitas</option>
                         {% for tvisit in tvisits%}
                              <option value="{{tvisit.idVisittype}}">{{tvisit.name}}</option>
@@ -69,7 +72,7 @@
                 </div>
                 <div class="form-group">
                     <label for="client">Cliente</label>
-                    <select id="client" class="form-control">
+                    <select id="client" class="form-control select2">
                         <option value="0">Todos ls clientes</option>
                         {% for client in clients%}
                              <option value="{{client.idClient}}">{{client.name}}</option>

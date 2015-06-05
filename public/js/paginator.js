@@ -44,7 +44,9 @@ Paginator.prototype.getData = function() {
                 paginator: self.data
             },
             error: function(error){
-                console.log('Error: ' + error);
+//                console.log(error.responseText);
+                slideOnTop(error.responseText, 5000, 'glyphicon glyphicon-fire', 'error');
+                throw error.responseText;
             },
             success: function(data){
                 self.refreshData(data);
@@ -77,7 +79,7 @@ Paginator.prototype.loadControls = function() {
                         <li class="">\n\
                             <a href="javascript:void(0);" class="step-backward"><i class="glyphicon glyphicon-step-backward"></i></a>\n\
                         </li>\n\
-                        <li><span><b id="rows">0</b> registros </span><span>Página <b id="page">0</b> de <b id="pages">0</b></span></li>\n\
+                        <li><span><b id="rows">0</b> registros de <b id="total">0</b></span><span>Página <b id="page">0</b> de <b id="pages">0</b></span></li>\n\
                         <li class="">\n\
                             <a href="javascript:void(0);" class="step-forward"><i class="glyphicon glyphicon-step-forward"></i></a>\n\
                         </li>\n\
@@ -91,9 +93,11 @@ Paginator.prototype.loadControls = function() {
 
 Paginator.prototype.refreshControls = function() {
     this.control.find('#rows').empty();
+    this.control.find('#total').empty();
     this.control.find('#page').empty();
     this.control.find('#pages').empty();
     this.control.find('#rows').append(this.data.rows);
+    this.control.find('#total').append(this.data.total);
     this.control.find('#page').append(this.data.page);
     this.control.find('#pages').append(this.data.pages);
 };
