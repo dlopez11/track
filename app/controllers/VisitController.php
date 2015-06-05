@@ -112,17 +112,22 @@ class VisitController extends ControllerBase
     }
     public function getmapAction($idUser)
     {
-        $phql3 = 'SELECT visit.latitude,visit.longitude,visit.location FROM visit WHERE visit.idUser = ?0';
-        $visits = $this->modelsManager->executeQuery($phql3, array(0 => "{$idUser}"));
+        $phqlvisits = 'SELECT visit.latitude,visit.longitude,visit.location FROM visit WHERE visit.idUser = ?0';
+        $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         
         $objects = array();
         foreach ($visits as $visit) {
+            $phqlclients = 'SELECT client.name FROM client, visit WHERE visit.idClient = ?0';
+            $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => "{$visit->idClient}"));
+            foreach ($clients as $client) {
+                $client_name = $client->name;
+            }
             $objects[] = array(
                 'latitude' => $visit->latitude,
                 'longitude' => $visit->longitude,
-                'location' => $visit->location
+                'location' => $visit->location,
+                'client' => $client_name
             );
-            
         }
         return $this->set_json_response($objects);
     }
