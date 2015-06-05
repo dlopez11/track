@@ -8,14 +8,9 @@
     {{ javascript_include('library/jquery-select-change/select_jquery_user.js') }}
     <script type="text/javascript">
         $(function () {
-            $('#toggle-one').bootstrapToggle({
-               on: 'On',
-               off: 'Off',
-               onstyle: 'success',
-               offstyle: 'danger',
-               size: 'small'
-           });
+            
            $(".select2").select2();
+           
           });
     </script>
 {% endblock %}
@@ -31,8 +26,8 @@
     <div class="space"></div>
     {{flashSession.output()}}
     <div class="row">
-        <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">            
-            <form action="{{url('user/add')}}/{{(account.idAccount)}}" method="post">
+        <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
+            <form action="{{url('user/add')}}/{{(account.idAccount)}}" method="post" onload="javascript:city(arr);">
                                       
                 <div class="form-group">
                     {{UserForm.render('userName')}}
@@ -59,10 +54,10 @@
                     {{UserForm.render('address_user')}}
                 </div>
                 <div class="form-group">
-                    {{UserForm.render('state_user', {'class': 'form-control select2'})}}
+                    {{UserForm.render('state_user', {'class': 'form-control select2' , 'id':'state'})}}
                 </div>
                 <div class="form-group">
-                    {{UserForm.render('city_user', {'class': 'form-control select2'})}}
+                    {{UserForm.render('city_user', {'class': 'form-control select2' , 'id':'city'})}}
                 </div>                                        
                 <div class="form-group">
                     {{UserForm.render('phone_user')}}

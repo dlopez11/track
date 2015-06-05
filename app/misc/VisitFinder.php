@@ -93,8 +93,12 @@ class VisitFinder
                     
         $this->logger->log($sql_rows);
                     
-        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
-        $rows = $modelsManager->executeQuery($sql_rows);
+//        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
+//        $rows = $modelsManager->executeQuery($sql_rows);
+
+        $db = \Phalcon\DI::getDefault()->get('db'); 
+        $result  = $db->query($sql_rows);
+        $rows = $result->fetchAll();
         return $rows;
     }
     
@@ -105,16 +109,16 @@ class VisitFinder
         if ($crows > 0) {
             foreach ($rows as $row) {
                 $array = array();
-                $array['idVisit'] = $row->idVisit;
-                $array['idUser'] = $row->idUser;
-                $array['date'] = date('d/M/Y', $row->date);
-                $array['name'] = "{$row->name} {$row->lastname}";
-                $array['visit'] = $row->visit;
-                $array['client'] = $row->client;
-                $array['battery'] = $row->battery;
-                $array['latitude'] = $row->latitude;
-                $array['longitude'] = $row->longitude;
-                $array['location'] = $row->location;
+                $array['idVisit'] = $row['idVisit'];
+                $array['idUser'] = $row['idUser'];
+                $array['date'] = date('d/M/Y', $row['date']);
+                $array['name'] = "{$row['name']} {$row['lastname']}";
+                $array['visit'] = $row['visit'];
+                $array['client'] = $row['client'];
+                $array['battery'] = $row['battery'];
+                $array['latitude'] = $row['latitude'];
+                $array['longitude'] = $row['longitude'];
+                $array['location'] = $row['location'];
                 
                 $this->rows[] = $array;
             }

@@ -9,9 +9,7 @@ class VisitController extends ControllerBase
     public function getrowsAction()
     {
         $post = $this->request->getPost('paginator');
-//        $this->logger->log($post);
-        $this->logger->log(print_r($post, true));
-        
+//        $this->logger->log(print_r($post, true));
         
         $limit = $post['limit'];
         $page = $post['page'];
@@ -35,24 +33,14 @@ class VisitController extends ControllerBase
             $finder->setFilter($filter);
             $finder->load();
             $rows = $finder->getRows();
-            $this->logger->log(print_r($rows, true));
+//            $this->logger->log(print_r($rows, true));
             
             return $this->set_json_response(json_encode($rows), 200, 'success');
         } 
         catch (Exception $ex) {
             $this->logger->log($ex->getMessage());
+            return $this->set_json_response("ha ocurrido un error, contacte al administrador", 500, 'error');
         }
-       
-        
-        
-//        $pagination = array('pagination' => array(
-//            'page' => $pager->getCurrentPage(),
-//            'limit' => $pager->getRowsPerPage(),
-//            'total' => $pager->getTotalRecords(),
-//            'rows' => $pager->getRowsPerPage(),
-//            'availablepages' => $pager->getTotalPages(),			
-//            'data' => $finder->getRows(),			
-//        ));
     }
     
     public function maphistoryAction($idUser)
