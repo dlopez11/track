@@ -15,7 +15,7 @@
             var map;
             var bounds = new google.maps.LatLngBounds();
             var mapOptions = {
-                mapTypeId: 'roadmap'
+                mapTypeId: 'terrain'
             };
 
             // Display a map on the page

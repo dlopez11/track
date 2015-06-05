@@ -15,7 +15,7 @@
             var mapProp = {
               center:myLatlng,
               zoom:14,
-              mapTypeId:google.maps.MapTypeId.ROADMAP
+              mapTypeId:google.maps.MapTypeId.TERRAIN
             };
             
             map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
