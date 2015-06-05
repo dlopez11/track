@@ -118,4 +118,20 @@ class VisitController extends ControllerBase
             return;
         }     
     }
+    public function getmapAction($idUser)
+    {
+        $phql3 = 'SELECT visit.latitude,visit.longitude,visit.location FROM visit WHERE visit.idUser = ?0';
+        $visits = $this->modelsManager->executeQuery($phql3, array(0 => "{$idUser}"));
+        
+        $objects = array();
+        foreach ($visits as $visit) {
+            $objects[] = array(
+                'latitude' => $visit->latitude,
+                'longitude' => $visit->longitude,
+                'location' => $visit->location
+            );
+            
+        }
+        return $this->set_json_response($objects);
+    }
 }
