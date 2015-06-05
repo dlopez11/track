@@ -71,7 +71,7 @@ class VisitFinder
                     . " WHERE u.idAccount = {$this->account->idAccount} "
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ";
                     
-        $this->logger->log($sql_count);
+//        $this->logger->log($sql_count);
                     
         $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
         $r = $modelsManager->executeQuery($sql_count);
@@ -91,7 +91,7 @@ class VisitFinder
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} "
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
-        $this->logger->log($sql_rows);
+//        $this->logger->log($sql_rows);
                     
 //        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
 //        $rows = $modelsManager->executeQuery($sql_rows);

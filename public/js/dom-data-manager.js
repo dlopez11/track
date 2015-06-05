@@ -45,7 +45,7 @@ DomManager.prototype.refreshTable = function() {
         for (var i = 0; i < this.rows.length; i++) {
             var row = $('<tr>\n\
                             <td>' + this.rows[i].date + '</td>\n\
-                            <td>' + this.rows[i].name + '</td>\n\
+                            <td><strong>' + this.rows[i].name + '</strong></td>\n\
                             <td>' + this.rows[i].visit + '</td>\n\
                             <td>' + this.rows[i].client + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
