@@ -1,28 +1,40 @@
 {% extends "templates/default.volt" %}
-{% block header %}        
-    <script type="text/javascript">        
+{% block header %}
+    <script src="http://maps.googleapis.com/maps/api/js"></script>
+    <script type="text/javascript">
         function initialize() {
+            var marker;
+            var map;
+            var myLatlng = new google.maps.LatLng({{visit.latitude}},{{visit.longitude}});
             var mapProp = {
-              center:new google.maps.LatLng(51.508742,-0.120850),
-              zoom:8,
+              center:myLatlng,
+              zoom:14,
               mapTypeId:google.maps.MapTypeId.ROADMAP
             };
-            var map=new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            
+            map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
+            
+            marker = new google.maps.Marker({
+                position: myLatlng,
+                map: map,
+                title: '{{visit.location}}'
+            });
           }
-          google.maps.event.addDomListener(window, 'load', initialize);        
+        google.maps.event.addDomListener(window, 'load', initialize);
+    </script>    
     </script>
 {% endblock %}
 {% block content %}
+    
     <div class="row">
         <div class="col-md-12">
-            <h2><strong>Usuario: {{user.name}} {{user.lastName}}</strong></h2>
-            <hr />
-        </div>
+            <h2><strong>Usuario: {{user.name}} {{user.lastName}}</strong></h2>                        
+        </div>        
     </div>
     
-    <div class="space"></div>   
     <div class="text-right">
-        <a href="{{url('index')}}" class="btn btn-default">Regresar</a>
+        <a href="{{url('index')}}" class="btn btn-default" >Regresar</a>
+        <hr />
     </div>
     
     <div class="row">
@@ -32,9 +44,9 @@
                     <tr>
                         <td>
                             <strong>Fecha:</strong>
-                        </td>
+                        </td>                            
                         <td>
-                            
+                           {{date('d/m/Y g:i a', visit.date)}} 
                         </td>
                     </tr>
                     <tr>
@@ -42,7 +54,7 @@
                             <strong>Tipo de Visita:</strong>
                         </td>
                         <td>
-                            
+                            {{visit.visit}}
                         </td>
                     </tr>
                     <tr>
@@ -50,6 +62,7 @@
                             <strong>Cliente:</strong>
                         </td>
                         <td>
+                            {{visit.client}}
                         </td>
                     </tr>
                     <tr>
@@ -57,14 +70,18 @@
                             <strong>Ubicación:</strong>
                         </td>
                         <td>
+                            {{visit.location}}
                         </td>
                     </tr>
                 </tbody>                
             </table>
-        </div>                            
-    </div>
+        </div>
         
-    <div id="googleMap" style="width:500px;height:380px;"></div>    
+        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
+            <div id="googleMap" style="width:500px;height:380px;"></div>
+        </div>
+            
+    </div>
     
     <div class="space"></div>
     
