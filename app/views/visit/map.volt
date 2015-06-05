@@ -19,11 +19,12 @@
             };
             
             map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-            
+            var image = '{{url('images/marker.png')}}';
             marker = new google.maps.Marker({
                 position: myLatlng,
                 map: map,
-                title: '{{visit.location}}'
+                title: '{{visit.location}}',
+                icon: image
             });
           }
         google.maps.event.addDomListener(window, 'load', initialize);
