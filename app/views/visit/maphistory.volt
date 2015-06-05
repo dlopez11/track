@@ -3,8 +3,8 @@
     <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
     
     <script type="text/javascript">
-        var markers = "";
-        var geoData = "";
+        var markers = new Array();
+        
         jQuery(function($) {
             // Asynchronously Load the map API 
             var script = document.createElement('script');
@@ -13,6 +13,7 @@
         });
 
         function initialize() {
+            $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function (result){
             var map;
             var bounds = new google.maps.LatLngBounds();
             var mapOptions = {
@@ -22,16 +23,18 @@
             // Display a map on the page
             map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
             map.setTilt(45);
-            $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function mk(result){
-                for(var i = 0; i < result.length; i++){
-                    geoData += "['"+result[i].location+"',"+result[i].latitude+","+result[i].longitude+"],";
-                };
-                console.log(geoData);
-                return geoData;
-            });
-            markers = [
+            
+            for(var i = 0; i < result.length; i++){
+                var array = new Array();
+                array.push(result[i].location);
+                array.push(result[i].latitude);
+                array.push(result[i].longitude);
                 
-            ];
+                markers.push(array);
+            };
+            
+            
+            console.log(markers);
 
             // Info Window Content
             var infoWindowContent = [
@@ -68,13 +71,12 @@
                 // Automatically center the map fitting all markers on the screen
                 map.fitBounds(bounds);
             }
-
             // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
             var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
                 this.setZoom(12);
                 google.maps.event.removeListener(boundsListener);
             });
-
+});
         }
     </script>
     
