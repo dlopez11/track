@@ -22,16 +22,16 @@
             // Display a map on the page
             map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
             map.setTilt(45);
-            
-            $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function (result){
-                geoData = "markers = [";
+            $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function mk(result){
                 for(var i = 0; i < result.length; i++){
                     geoData += "['"+result[i].location+"',"+result[i].latitude+","+result[i].longitude+"],";
                 };
-                geoData += "];";
                 console.log(geoData);
                 return geoData;
             });
+            markers = [
+                
+            ];
 
             // Info Window Content
             var infoWindowContent = [
