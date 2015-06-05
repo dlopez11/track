@@ -1,10 +1,8 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    <script type="text/javascript" src="http://maps.googleapis.com/maps/api/js"></script>
-    
+    <script src="https://maps.googleapis.com/maps/api/js"  type="text/javascript"></script>
     <script type="text/javascript">
         var markers = new Array();
-        
         jQuery(function($) {
             // Asynchronously Load the map API 
             var script = document.createElement('script');
@@ -32,7 +30,6 @@
                 
                 markers.push(array);
             };
-            
             
             console.log(markers);
 
