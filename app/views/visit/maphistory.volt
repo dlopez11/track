@@ -39,17 +39,17 @@
             console.log(markers);
             console.log(infoWindowContent);
 
-            // Display multiple markers on a map
             var infoWindow = new google.maps.InfoWindow(), marker, i;
-
-            // Loop through our array of markers & place each one on the map  
+ 
+            var image = '{{url('images/marker.png')}}';
             for( i = 0; i < markers.length; i++ ) {
                 var position = new google.maps.LatLng(markers[i][1], markers[i][2]);
                 bounds.extend(position);
                 marker = new google.maps.Marker({
                     position: position,
                     map: map,
-                    title: markers[i][0]
+                    title: markers[i][0],
+                    icon: image
                 });
 
                 // Allow each marker to have an info window    
@@ -60,10 +60,9 @@
                     }
                 })(marker, i));
 
-                // Automatically center the map fitting all markers on the screen
                 map.fitBounds(bounds);
             }
-            // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
+            
             var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
                 this.setZoom(12);
                 google.maps.event.removeListener(boundsListener);
