@@ -2,3 +2,4 @@ app/compiled-templates/c%%%%users%%luis.rodriguez%%documents%%netbeansprojects%%
 /app/compiled-templates/
 /app/logs/
 /app/cache/
+/app/config/configuration.ini
