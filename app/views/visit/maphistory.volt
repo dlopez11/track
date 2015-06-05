@@ -66,7 +66,7 @@
             }
             // Override our map zoom level once our fitBounds function runs (Make sure it only runs once)
             var boundsListener = google.maps.event.addListener((map), 'bounds_changed', function(event) {
-                this.setZoom(12);
+                this.setZoom(13);
                 google.maps.event.removeListener(boundsListener);
             });
 });
@@ -81,7 +81,12 @@
             <hr />
         </div>
     </div>
-    {{flashSession.output()}}    
+    {{flashSession.output()}}
+    
+    <div class="text-right">
+        <a href="{{url('index')}}" class="btn btn-default" >Regresar</a>
+    </div>
+    
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
             <h4>Usuario: <strong>{{user.name}} {{user.lastName}}</strong></h4>

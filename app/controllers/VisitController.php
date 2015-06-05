@@ -126,7 +126,7 @@ class VisitController extends ControllerBase
                     $visitData = "<strong>Tipo</strong>: ".$visittype['name'];
                 }
                 $clientData = "<div style='width: 250px;'>";
-                $clientData .= "<strong>".$client['name']."</strong>";
+                $clientData .= "<strong><span style='font-size: 17px;'>".$client['name']."</span></strong>";
                 $clientData .= "<br />";
                 $clientData .= "<strong>Dirección</strong>: ".$client['address'];
                 $clientData .= "<br />";
