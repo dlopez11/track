@@ -85,7 +85,8 @@ class VisitController extends ControllerBase
         ));
         
         if (!$visit) {
-            return;
+            $this->flashSession->error("Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.");
+            return $this->response->redirect('visit/index');
         }
         
         $user = User::findFirst(array(
@@ -95,7 +96,8 @@ class VisitController extends ControllerBase
         ));
         
         if (!$user) {
-            return;
+            $this->flashSession->error("Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.");
+            return $this->response->redirect('visit/index');
         }
         
         try {
@@ -115,7 +117,9 @@ class VisitController extends ControllerBase
             $this->view->setVar('user', $user);
         }
         catch (Exception $e) {
-            return;
+            $this->flashSession->error($e->getMessage());
+            $this->trace("fail",$e->getMessage());
+            return $this->response->redirect('visit/index');            
         }     
     }
     public function getmapAction($idUser)
