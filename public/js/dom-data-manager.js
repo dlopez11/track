@@ -39,7 +39,7 @@ DomManager.prototype.createTable = function() {
 };
 
 DomManager.prototype.refreshTable = function() {
-    this.content.find('#content').hide('slow');
+    this.content.find('#content').hide();
     this.content.find('#content').empty(); 
     if (this.rows.length > 0) {
         for (var i = 0; i < this.rows.length; i++) {
@@ -57,11 +57,12 @@ DomManager.prototype.refreshTable = function() {
 
 
             this.content.find('#content').append(row);
-            this.content.find('#content').show('slow');
-        } 
+        }
+        
+        this.content.find('#content').show('slow');
     }
     else {
-        var row = $('<tr><td>Nothing here</td></tr>');
+        var row = $('<tr class="text-center"><td colspan="6">Nothing here</td></tr>');
         this.content.find('#content').append(row);
         this.content.find('#content').show('slow');
     }
