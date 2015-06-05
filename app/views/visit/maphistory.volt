@@ -28,20 +28,17 @@
                 array.push(result[i].location);
                 array.push(result[i].latitude);
                 array.push(result[i].longitude);
-                
                 markers.push(array);
             };
             
-            console.log(markers);
-
             for(var ii = 0; ii < result.length; ii++){
                 var array2 = new Array();
-                array2.push(result[ii].name);
-                array2.push(result[ii].description);
-                array2.push(result[ii].created);
-                
+                array2.push(result[ii].client);
                 infoWindowContent.push(array2);
             };
+            
+            console.log(markers);
+            console.log(infoWindowContent);
 
             // Display multiple markers on a map
             var infoWindow = new google.maps.InfoWindow(), marker, i;
