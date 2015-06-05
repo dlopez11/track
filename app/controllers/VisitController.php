@@ -112,24 +112,9 @@ class VisitController extends ControllerBase
     }
     public function getmapAction($idUser)
     {
-        if(isset($_GET['date1'])){
-            $date1 = $_GET['date1'];
-            $date1 = time($date1);
-            $date2 = $_GET['date1'];
-            $date2 = time($date2);
-            $phqlvisits = 'SELECT visit.date, visit.latitude,visit.longitude,visit.location,visit.idClient,visit.idVisittype FROM visit WHERE visit.idUser = ?0 and visit.date = ?1 and visit.date = ?2';
-            $visits = $this->modelsManager->executeQuery(
-                $phqlvisits, array(
-                    0 => "{$idUser}",
-                    1 => "{$date1}",
-                    2 => "{$date2}"
-                )
-            );
-        }
-        else{
-            $phqlvisits = 'SELECT visit.latitude,visit.longitude,visit.location,visit.idClient,visit.idVisittype FROM visit WHERE visit.idUser = ?0';
-            $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
-        }
+        
+        $phqlvisits = 'SELECT visit.latitude,visit.longitude,visit.location,visit.idClient,visit.idVisittype FROM visit WHERE visit.idUser = ?0';
+        $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         $objects = array();
         foreach ($visits as $visit) {
             $phqlclients = 'SELECT client.name,client.address,visit.idClient FROM client INNER JOIN visit ON visit.idClient = client.idClient WHERE client.idClient = ?0';
