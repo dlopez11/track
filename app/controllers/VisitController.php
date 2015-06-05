@@ -65,4 +65,46 @@ class VisitController extends ControllerBase
         
         
     }
+    
+    public function mapAction($idVisit)
+    {
+        $visit = Visit::findFirst(array(
+            "conditions" => "idVisit = ?1",
+            "bind" => array(1 => $idVisit)
+        ));
+        
+        if (!$visit) {
+            return;
+        }
+        
+        $user = User::findFirst(array(
+            "conditions" => "idUser = ?1 AND idAccount = ?2",
+            "bind" => array(1 => $visit->idUser,
+                            2 => $this->user->idAccount)
+        ));
+        
+        if (!$user) {
+            return;
+        }
+        
+        try {
+            $sql_rows = "SELECT v.idVisit AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+                    . "FROM Visit AS v "
+                    . " JOIN User AS u ON (u.idUser = v.idUser) "
+                    . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
+                    . " JOIN Client AS c ON (c.idClient = v.idClient) "
+                    . " WHERE v.idVisit = {$idVisit}";
+                    
+            $this->logger->log($sql_rows);
+
+            $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
+            $rows = $modelsManager->executeQuery($sql_rows);
+
+            $this->view->setVar('visit', $rows->getFirst());
+            $this->view->setVar('user', $user);
+        }
+        catch (Exception $e) {
+            return;
+        }     
+    }
 }
