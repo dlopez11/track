@@ -1,6 +1,5 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    <script src="https://maps.googleapis.com/maps/api/js"  type="text/javascript"></script>
     <script type="text/javascript">
         var markers = new Array();
         var infoWindowContent = new Array();
