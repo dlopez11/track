@@ -39,7 +39,7 @@ DomManager.prototype.createTable = function() {
 };
 
 DomManager.prototype.refreshTable = function() {
-    this.content.find('#content').hide('slow');
+    this.content.find('#content').hide();
     this.content.find('#content').empty(); 
     if (this.rows.length > 0) {
         for (var i = 0; i < this.rows.length; i++) {
@@ -50,18 +50,19 @@ DomManager.prototype.refreshTable = function() {
                             <td>' + this.rows[i].client + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
                             <td>\n\
-                                <a href="' + url + '/map/' + this.rows[i].idUser + '">' + this.rows[i].location + '</a><br />\n\
-                                <a href="' + url + '/maphistory/' + this.rows[i].idUser + '">Ver historial</a>\n\
+                                <a href="' + url + '/map/' + this.rows[i].idVisit + '" target="_blank">' + this.rows[i].location + '</a><br />\n\
+                                <a href="' + url + '/maphistory/' + this.rows[i].idUser + '" target="_blank">Ver historial</a>\n\
                             </td>\n\
                         </tr>');
 
 
             this.content.find('#content').append(row);
-            this.content.find('#content').show('slow');
-        } 
+        }
+        
+        this.content.find('#content').show('slow');
     }
     else {
-        var row = $('<tr><td>Nothing here</td></tr>');
+        var row = $('<tr class="text-center"><td colspan="6">Nothing here</td></tr>');
         this.content.find('#content').append(row);
         this.content.find('#content').show('slow');
     }
