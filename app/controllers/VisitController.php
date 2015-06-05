@@ -63,7 +63,6 @@ class VisitController extends ControllerBase
         ));
         
         
-        
         $user = User::findFirst(array(
             "conditions" => "idUser = ?1",
             "bind" => array(1 => $idUser)
@@ -76,5 +75,31 @@ class VisitController extends ControllerBase
         
         $this->view->setVar('visits', $visits);
         $this->view->setVar('user', $user);
+    }
+    
+    public function getmapAction($idUser)
+    {
+        $phql3 = 'SELECT visit.latitude,visit.longitude,visit.location FROM visit WHERE visit.idUser = ?0';
+        $visits = $this->modelsManager->executeQuery($phql3, array(0 => "{$idUser}"));
+        
+        $objects = array();
+        foreach ($visits as $visit) {
+            $objects[] = array(
+                'latitude' => $visit->latitude,
+                'longitude' => $visit->longitude,
+                'location' => $visit->location
+            );
+            
+        }
+        return $this->set_json_response($objects);
+        
+//        $getData = "";
+//        $getDatas = json_decode($objects, true);
+//        if (is_array($getDatas) || is_object($getDatas)){
+//            foreach ($getDatas as $name => $value) {
+//                $getData .= "['".$value["location"]."',".$value["latitude"].",".$value["longitude"]."],";
+//            }
+//            $this->view->setVar('getData', $getData);
+//        }
     }
 }

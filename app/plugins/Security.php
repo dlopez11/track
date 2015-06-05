@@ -146,6 +146,7 @@ class Security extends Plugin
                 /* Visit */
                 'visit::index' => array('visit' => array('read')),
                 'visit::map' => array('visit' => array('read')),
+                'visit::getmap' => array('visit' => array('read')),
                 'visit::getrows' => array('visit' => array('read')),
                 'visit::maphistory' => array('visit' => array('read')),
                 'session::superuser' => array('user' => array('sudo')),

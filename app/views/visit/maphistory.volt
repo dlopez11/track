@@ -1,49 +1,10 @@
 {% extends "templates/default.volt" %}
 {% block header %}
     <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?v=3.exp"></script>
-
-    <!-- <script type="text/javascript">
-        var marker;
-        var map;
-        function initialize() {
-            var myLatlng = new google.maps.LatLng({{visits.latitude}},{{visits.longitude}});
-            var mapProp = {
-              center:myLatlng,
-              zoom:11,
-              mapTypeId:google.maps.MapTypeId.ROADMAP
-            };
-
-            map = new google.maps.Map(document.getElementById("googleMap"), mapProp);
-            
-            var markers = [
-                ['London Eye, London', 51.503454,-0.119562]
-            ];
-
-            marker = new google.maps.Marker({
-                position: myLatlng,
-                map: map,
-                title: '{{visits.location}}',
-                draggable:true,
-                animation: google.maps.Animation.DROP
-            });
-          google.maps.event.addListener(marker, 'click', toggleBounce);
-        }
-        function toggleBounce() {
-            if (marker.getAnimation() != null) {
-              marker.setAnimation(null);
-            } else {
-              marker.setAnimation(google.maps.Animation.BOUNCE);
-            }
-        }
-        google.maps.event.addDomListener(window, 'load', initialize);
-    </script>
-    <script type="text/javascript">
-        $(function () {
-           $('[data-toggle="tooltip"]').tooltip();
-          });
-    </script> -->
     
     <script type="text/javascript">
+        var markers = "";
+        var geoData = "";
         jQuery(function($) {
             // Asynchronously Load the map API 
             var script = document.createElement('script');
@@ -61,13 +22,14 @@
             // Display a map on the page
             map = new google.maps.Map(document.getElementById("map_canvas"), mapOptions);
             map.setTilt(45);
-
-            // Multiple Markers
-            var markers = [
-                ['London Eye, London', 51.503454,-0.119562],
-                ['Palace of Westminster, London', 51.499633,-0.124755],
-                ['London Eye, London', 51.532454,-0.114462],
-            ];
+            geoData = "markers = [";
+                $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function marks(result){
+                    for(var i = 0; i < result.length; i++){
+                        geoData += "['"+result[i].location+"',"+result[i].latitude+","+result[i].longitude+"],";
+                    };
+                    geoData += "];";
+                    return geoData;
+                });
 
             // Info Window Content
             var infoWindowContent = [
@@ -118,16 +80,16 @@
 {% block content %}
     <div class="row">
         <div class="col-md-12">
-            <h3>Historial de visitas</h3>
+            <h2>Historial de visitas</h2>
             <hr />
         </div>
     </div>
     {{flashSession.output()}}    
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
-            <h3>Usuario: <strong>{{user.name}} {{user.lastName}}</strong></h3>
+            <h4>Usuario: <strong>{{user.name}} {{user.lastName}}</strong></h4>
         </div>
     </div>
-    <div id="map_canvas" style="width:700px;height:380px;"></div>
+    <div id="map_canvas" style="width:100%;height:380px;"></div>
     
 {% endblock %}
