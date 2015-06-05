@@ -50,8 +50,8 @@ DomManager.prototype.refreshTable = function() {
                             <td>' + this.rows[i].client + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
                             <td>\n\
-                                <a href="' + url + '/map/' + this.rows[i].idVisit + '">' + this.rows[i].location + '</a><br />\n\
-                                <a href="' + url + '/maphistory/' + this.rows[i].idUser + '">Ver historial</a>\n\
+                                <a href="' + url + '/map/' + this.rows[i].idVisit + '" target="_blank">' + this.rows[i].location + '</a><br />\n\
+                                <a href="' + url + '/maphistory/' + this.rows[i].idUser + '" target="_blank">Ver historial</a>\n\
                             </td>\n\
                         </tr>');
 
