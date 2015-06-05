@@ -2,6 +2,10 @@
 
 class VisitController extends ControllerBase
 {
+    public function indexAction()
+    {
+        
+    }
     public function getrowsAction()
     {
         $post = $this->request->getPost('paginator');
@@ -53,8 +57,15 @@ class VisitController extends ControllerBase
     
     public function maphistoryAction($idUser)
     {
-        $visits = Account::findFirst(array(
-            "conditions" => "idAccount = ?1",
+        $visits = Visit::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $idUser)
+        ));
+        
+        
+        
+        $user = User::findFirst(array(
+            "conditions" => "idUser = ?1",
             "bind" => array(1 => $idUser)
         ));
         
@@ -63,7 +74,8 @@ class VisitController extends ControllerBase
             return $this->response->redirect('visit/index');
         }
         
-        
+        $this->view->setVar('visits', $visits);
+        $this->view->setVar('user', $user);
     }
     
     public function mapAction($idVisit)
