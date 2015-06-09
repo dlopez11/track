@@ -26,7 +26,7 @@ class UrlManager
                 $this->app_base = $config->urlmanager->urlbase . '/';
             }
             else {
-                $this->appbase = $config->urlmanager->urlbase;
+                $this->app_base = $config->urlmanager->urlbase;
             }
         }
         else {
@@ -34,6 +34,7 @@ class UrlManager
             $this->host = "localhost";
             $this->port = 80;
             $this->url_base = "track";
+            $this->app_base = "track";
         }
         
         $this->app_base_trailing = $this->app_base . ($this->app_base == ''?'/':'');
