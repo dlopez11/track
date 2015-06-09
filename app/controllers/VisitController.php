@@ -113,14 +113,14 @@ class VisitController extends ControllerBase
     public function getmapAction($idUser)
     {
         
-        $phqlvisits = 'SELECT visit.latitude,visit.longitude,visit.location,visit.idClient,visit.idVisittype FROM visit WHERE visit.idUser = ?0';
+        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype FROM Visit WHERE Visit.idUser = ?0';
         $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         $objects = array();
         foreach ($visits as $visit) {
-            $phqlclients = 'SELECT client.name,client.address,visit.idClient FROM client INNER JOIN visit ON visit.idClient = client.idClient WHERE client.idClient = ?0';
+            $phqlclients = 'SELECT Client.name,Client.address,Visit.idClient FROM Client INNER JOIN visit ON Visit.idClient = Client.idClient WHERE Client.idClient = ?0';
             $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => "{$visit['idClient']}"));
             foreach ($clients as $client) {
-                $phqlvisittype = 'SELECT visittype.name FROM visittype INNER JOIN visit ON visit.idVisittype = visittype.idVisittype WHERE visit.idVisittype = ?0';
+                $phqlvisittype = 'SELECT Visittype.name FROM Visittype INNER JOIN Visit ON Visit.idVisittype = Visittype.idVisittype WHERE Visit.idVisittype = ?0';
                 $visitstype = $this->modelsManager->executeQuery($phqlvisittype, array(0 => "{$visit['idVisittype']}"));
                 foreach ($visitstype as $visittype){
                     $visitData = "<strong>Tipo</strong>: ".$visittype['name'];
