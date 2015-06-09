@@ -117,7 +117,7 @@ class VisitController extends ControllerBase
         $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         $objects = array();
         foreach ($visits as $visit) {
-            $phqlclients = 'SELECT Client.name,Client.address,Visit.idClient FROM Client INNER JOIN visit ON Visit.idClient = Client.idClient WHERE Client.idClient = ?0';
+            $phqlclients = 'SELECT Client.name,Client.address,Visit.idClient FROM Client INNER JOIN Visit ON Visit.idClient = Client.idClient WHERE Client.idClient = ?0';
             $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => "{$visit['idClient']}"));
             foreach ($clients as $client) {
                 $phqlvisittype = 'SELECT Visittype.name FROM Visittype INNER JOIN Visit ON Visit.idVisittype = Visittype.idVisittype WHERE Visit.idVisittype = ?0';
