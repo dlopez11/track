@@ -55,9 +55,8 @@ try {
     $urlManager = new \Sigmamovil\Misc\UrlManager($config);	
     $di->set('urlManager', $urlManager); 
     
-    $logger = $di->get('logger');
     //Setup a base URI so that all generated URIs include the "tutorial" folder
-    $di->set('url', function() use ($urlManager, $logger){
+    $di->set('url', function() use ($urlManager){
         $url = new \Phalcon\Mvc\Url();
         $uri = $urlManager->get_base_uri();
 
@@ -68,8 +67,6 @@ try {
         if (substr($uri, -1) != '/') {
                 $uri .= '/';
         }
-
-        $logger->log($uri);
         
         $url->setBaseUri($uri);
         return $url;
