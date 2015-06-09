@@ -50,7 +50,7 @@
                     {{UserForm.render('address_user')}}
                 </div>                
                 <div class="form-group">
-                    {{UserForm.render('state_user', {'class': 'form-control select2' , 'id':'state'})}}
+                    {{UserForm.render('state_user', {'class': 'form-control select2' , 'id':'state_user'})}}
                 </div>
                 <div class="form-group">
                     <select id="city_user" name="city_user" class="form-control select2">
