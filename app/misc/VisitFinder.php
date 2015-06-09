@@ -83,10 +83,10 @@ class VisitFinder
     private function selectRows()
     {
         $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
-                    . "FROM Visit AS v "
-                    . " JOIN User AS u ON (u.idUser = v.idUser) "
-                    . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
-                    . " JOIN Client AS c ON (c.idClient = v.idClient) "
+                    . "FROM visit AS v "
+                    . " JOIN user AS u ON (u.idUser = v.idUser) "
+                    . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
+                    . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} "
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
