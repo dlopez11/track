@@ -24,12 +24,12 @@ DomManager.prototype.createTable = function() {
     this.content = $('<table class="table table-bordered">\n\
                     <thead>\n\
                         <tr>\n\
-                            <th class="col-md-2">Fecha</th>\n\
+                            <th class="col-md-1">Fecha</th>\n\
                             <th class="col-md-2">Nombre</th>\n\
                             <th class="col-md-2">Tipo de visita</th>\n\
                             <th class="col-md-2">Cliente</th>\n\
                             <th class="col-md-1">Estado de batería</th>\n\
-                            <th class="col-md-3">Ubicación</th>\n\
+                            <th class="col-md-4">Ubicación</th>\n\
                         </tr>\n\
                     </thead>\n\
                     <tbody id="content"></tbody>\n\
@@ -50,7 +50,7 @@ DomManager.prototype.refreshTable = function() {
                             <td>' + this.rows[i].client + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
                             <td>\n\
-                                <a href="' + url + '/map/' + this.rows[i].idVisit + '" target="_blank">' + this.rows[i].location + '</a><br />\n\
+                                <strong><a href="' + url + '/map/' + this.rows[i].idVisit + '" target="_blank">' + this.rows[i].location + '</a></strong><br />\n\
                                 <a href="' + url + '/maphistory/' + this.rows[i].idUser + '" target="_blank">Ver historial</a>\n\
                             </td>\n\
                         </tr>');
