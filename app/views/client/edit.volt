@@ -1,5 +1,15 @@
 {% extends "templates/default.volt" %}
 {% block header %}
+     {# Select 2 #}
+    {{ javascript_include('library/select2/js/select2.min.js') }}
+    {{ stylesheet_link('library/select2/css/select2.min.css') }}
+    {# Seletc State/City #}
+    {{ javascript_include('library/jquery-select-change/select_jquery_account.js') }}
+    <script type="text/javascript">
+        $(function () {
+           $(".select2").select2(); 
+          });
+    </script>
 {% endblock %}
 {% block content %}
     <div class="row">

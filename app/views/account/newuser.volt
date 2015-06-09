@@ -17,7 +17,7 @@
 {% block content %}
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h2>Agregar un nuevo Usuario</h2>
+            <h2>Agregar un nuevo Usuario en la cuenta <strong>{{account.name}}</strong></h2>
             <hr />
         </div>
     </div>
@@ -27,7 +27,7 @@
     {{flashSession.output()}}
     <div class="row">
         <div class="col-xs-12 col-sm-offset-2 col-sm-8 col-md-offset-2 col-md-8 col-lg-offset-2 col-lg-8">
-            <form action="{{url('user/add')}}" method="post" onload="javascript:city(arr);">
+            <form action="{{url('account/newuser')}}/{{account.idAccount}}" method="post" onload="javascript:city(arr);">
                                       
                 <div class="form-group">
                     {{UserForm.render('userName')}}
@@ -65,7 +65,7 @@
                 
                 <div class="form-group text-right">
                     <small style="margin-right: 20px;">*<em>Todos los campos son necesarios.</em></small>
-                    <a href="{{url('user/index')}}" class="btn btn-default btn-sm">Cancelar</a>
+                    <a href="{{url('account/userlist')}}/{{account.idAccount}}" class="btn btn-default btn-sm">Cancelar</a>
                     <button type="submit" class="btn btn-success btn-sm" >Guardar</button>
                 </div>                
             </form>

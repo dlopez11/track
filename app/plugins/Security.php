@@ -113,6 +113,7 @@ class Security extends Plugin
                 'error::forbidden' => array(),
                 /* Session */
                 'session::login' => array(),
+                'session::validate' => array(),
                 'session::logout' => array(),
                 'session::recoverpass' => array(),
                 'session::resetpassword' => array(),
@@ -124,6 +125,14 @@ class Security extends Plugin
                 /* Account */
                 'account::index' => array('account' => array('read')),
                 'account::userlist' => array('user' => array ('read'),
+                                        'account' => array('read')),
+                'account::newuser' => array('user' => array ('read','create'),
+                                        'account' => array('read')),
+                'account::edituser' => array('user' => array ('read','update'),
+                                        'account' => array('read')),
+                'account::passedituser' => array('user' => array ('read','update'),
+                                        'account' => array('read')),
+                'account::deleteuser' => array('user' => array ('read','delete'),
                                         'account' => array('read')),
                 'account::add' => array('account' => array('create','read')),
                 'account::edit' => array('account' => array('update','read')),
@@ -200,6 +209,7 @@ class Security extends Plugin
             'error::forbidden',
             /* Session */
             'session::login',
+            'session::validate',
             'session::logout',
             'session::recoverpass',
             'session::resetpassword',

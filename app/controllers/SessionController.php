@@ -19,16 +19,63 @@ class SessionController extends ControllerBase
                     $this->session->set('idUser', $user->idUser);
                     $this->session->set('authenticated', true);
 //
-//                    $this->user = $user;
-//                    $this->trace("success", "User: {$username} login");
+                    $this->user = $user;
+                    $this->trace("success", "User: {$username} login");
                     return $this->response->redirect("");
                 }
                 else {
-//                    $this->trace("fail", "Access denied username: {$username}, password: [{$password}]");
+                    $this->trace("fail", "Access denied username: {$username}, password: [{$password}]");
                 }
 
                 $this->flashSession->error($msg);
                 return $this->response->redirect('session/login');    
+//            }
+        }
+    }
+    
+    public function validateAction()
+    {
+        if ($this->request->isPost()) {
+            
+//            if ($this->security->checkToken()) {
+                $username = $this->request->getPost("username");
+                $password = $this->request->getPost("password");
+                $idEmpresa = $this->request->getPost("idEmpresa");
+
+                $user = User::findFirst(array(
+                    "userName = ?0 AND idAccount = ?1",
+                    "bind" => array(
+                                0 => $username,
+                                1 => $idEmpresa
+                            )
+                ));
+
+                if ($user && $this->hash->checkHash($password, $user->password)) {
+                    $this->session->set('idUser', $user->idUser);
+                    $this->session->set('authenticated', true);
+//
+                    $this->trace("success", "User: {$username} login on android app");
+                    
+                    $array = array(
+                        'total' => 1,
+                        'idUser' => $user->idUser,
+                        'idAccount' => $user->idAccount,
+                        'userName' => $user->userName,
+                    );
+                }
+                else {
+                    $this->trace("fail", "Access denied on android app username: {$username}, password: [{$password}]");
+                    
+                    $array = array(
+                        'total' => 0,
+                        'idUser' => null,
+                        'idAccount' => null,
+                        'userName' => null,
+                    );
+                }
+                
+                return $this->set_json_response(array($array), 200);
+                 
 //            }
         }
     }
