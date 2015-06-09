@@ -24,7 +24,11 @@
     {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('account/index')}}" class="btn btn-default">Regresar a lista de Cuentas</a>
+<<<<<<< HEAD
         <a href="{{url('account/newuser')}}/{{(idAccount)}}" class="btn btn-success">Crear nuevo Usuario</a>
+=======
+        <a href="{{url('user/add')}}" class="btn btn-success">Crear nuevo Usuario</a>
+>>>>>>> c9219d1a3785b488864e3edccbd3cced62f870ea
     </div>
     
     <div class="row">

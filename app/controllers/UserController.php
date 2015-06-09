@@ -72,6 +72,7 @@ class UserController extends ControllerBase
                 }
             }
         }
+        
         $this->view->UserForm = $form;
     }
     

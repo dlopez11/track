@@ -113,6 +113,7 @@ class Security extends Plugin
                 'error::forbidden' => array(),
                 /* Session */
                 'session::login' => array(),
+                'session::validate' => array(),
                 'session::logout' => array(),
                 'session::recoverpass' => array(),
                 'session::resetpassword' => array(),
@@ -208,6 +209,7 @@ class Security extends Plugin
             'error::forbidden',
             /* Session */
             'session::login',
+            'session::validate',
             'session::logout',
             'session::recoverpass',
             'session::resetpassword',
