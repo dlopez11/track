@@ -75,8 +75,18 @@ class SessionController extends ControllerBase
                 }
                 
                 return $this->set_json_response(array($array), 200);
+                 
 //            }
         }
+        
+        $array = array(
+                        'total' => 0,
+                        'idUser' => null,
+                        'idAccount' => null,
+                        'userName' => null,
+                    );
+                 
+                return $this->set_json_response(array($array), 200);
     }
     
     public function logoutAction()
