@@ -60,19 +60,19 @@
                 <p style="float: left;">&copy; Sigma Engine 2015, Todos los derechos reservados</p>
                 <div style="float: right;">
                     <a href="https://es-es.facebook.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en facebook">
-                        <img src="images/social/facebook.png" />
+                        <img src="/images/social/facebook.png" />
                     </a>
                     <a href="https://twitter.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en twitter">
-                        <img src="images/social/twitter.png" />
+                        <img src="/images/social/twitter.png" />
                     </a>
                     <a href="https://www.youtube.com/channel/UCC_-Dd4-718gwoCPux8AtwQ" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en youtube">
-                        <img src="images/social/youtube.png" />
+                        <img src="/images/social/youtube.png" />
                     </a>
                     <a href="https://plus.google.com/+Sigmamovil/posts" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en google plus">
-                        <img src="images/social/google+.png" />
+                        <img src="/images/social/google+.png" />
                     </a>
                     <a href="https://www.linkedin.com/company/sigma-m-vil-s.a." target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en linkedin">
-                        <img src="images/social/linkedin.png" />
+                        <img src="/images/social/linkedin.png" />
                     </a>    
                 </div>    
             </footer>   
