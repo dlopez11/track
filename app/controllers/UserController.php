@@ -22,21 +22,11 @@ class UserController extends ControllerBase
         $this->view->setVar("page", $page);        
     }
     
-    public function addAction($idAccount)
+    public function addAction()
     {
         $user = new User();
         
         $form = new UserForm($user, $this->user->role);
-        
-        $account = Account::findFirst(array(
-            'conditions' => 'idAccount = ?1',
-            'bind' => array(1 => $idAccount)
-        ));
-        
-         if (!$account){
-            $this->flashSession->error("La cuenta enviada no existe, por favor verifique la información.");
-            return $this->response->redirect("user/index");
-        }
         
         if($this->request->isPost()){
             
@@ -64,7 +54,7 @@ class UserController extends ControllerBase
                 $user->state = $this->request->getPost('state_user');
                 $user->city = $this->request->getPost('city_user');
                 $user->phone = $this->request->getPost('phone_user');
-                $user->idAccount = $account->idAccount;
+                $user->idAccount = $this->user->idAccount;
                 $user->email = $email;
                 $user->password =  $this->security->hash($pass);
                 $user->created = time();
@@ -83,8 +73,8 @@ class UserController extends ControllerBase
                 }
             }
         }
+        
         $this->view->UserForm = $form;
-        $this->view->setVar('account', $account);
     }
     
     public function editAction($id)
