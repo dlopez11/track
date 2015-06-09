@@ -11,7 +11,8 @@
         function initialize() {
             var marker;
             var map;
-            var myLatlng = new google.maps.LatLng({{visit.latitude}},{{visit.longitude}});
+            {# var myLatlng = new google.maps.LatLng({{visit.latitude}},{{visit.longitude}}); #}
+            var myLatlng = new google.maps.LatLng({{visit.longitude}}{{visit.latitude}});
             var mapProp = {
               center:myLatlng,
               zoom:14,
