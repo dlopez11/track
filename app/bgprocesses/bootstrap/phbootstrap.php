@@ -18,7 +18,7 @@ try {
 
     $di->set('logger', function () {
         // Archivo de log
-        return new \Phalcon\Logger\Adapter\File("../app/logs/debug.log");
+        return new \Phalcon\Logger\Adapter\File("../../app/logs/debug.log");
     });
 
     /*
