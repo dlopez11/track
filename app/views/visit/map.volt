@@ -35,18 +35,19 @@
     
     <div class="row">
         <div class="col-md-12">
-            <h2><strong>Usuario: {{user.name}} {{user.lastName}}</strong></h2>                        
+            <div class="col-md-6">
+                <h2><strong>Usuario: {{user.name}} {{user.lastName}}</strong></h2>
+            </div>
+            <div class="col-md-6" align="right">
+                <h2><a href="{{url('index')}}" class="btn btn-default">Regresar</a></h2>
+            </div>
         </div>        
     </div>
-    
-    <div class="text-right">
-        <a href="{{url('index')}}" class="btn btn-default" >Regresar</a>
-        <hr />
-    </div>
+    <hr /> 
     
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
-            <table class="table table-bordered" style="width: 45%;" align="rigth">                
+        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4 wrap">
+            <table class="table table-bordered" style="width: 80%;" align="rigth">                
                 <tbody>
                     <tr>
                         <td>
@@ -84,8 +85,8 @@
             </table>
         </div>
         
-        <div class="col-xs-12 col-sm-12 col-md-6 col-lg-6 wrap">
-            <div id="googleMap" style="width:500px;height:380px;"></div>
+        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8 wrap">
+            <div id="googleMap" style="width:750px;height:400px;"></div>
         </div>
             
     </div>
