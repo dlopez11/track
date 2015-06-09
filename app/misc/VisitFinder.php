@@ -88,7 +88,7 @@ class VisitFinder
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
-                    . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} "
+                    . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.date DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
 //        $this->logger->log($sql_rows);

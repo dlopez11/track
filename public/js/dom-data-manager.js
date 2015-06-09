@@ -24,12 +24,12 @@ DomManager.prototype.createTable = function() {
     this.content = $('<table class="table table-bordered">\n\
                     <thead>\n\
                         <tr>\n\
-                            <th>Fecha</th>\n\
-                            <th>Nombre</th>\n\
-                            <th>Tipo de visita</th>\n\
-                            <th>Cliente</th>\n\
-                            <th>Estado de batería</th>\n\
-                            <th>Ubicación</th>\n\
+                            <th class="col-md-2">Fecha</th>\n\
+                            <th class="col-md-2">Nombre</th>\n\
+                            <th class="col-md-2">Tipo de visita</th>\n\
+                            <th class="col-md-2">Cliente</th>\n\
+                            <th class="col-md-1">Estado de batería</th>\n\
+                            <th class="col-md-3">Ubicación</th>\n\
                         </tr>\n\
                     </thead>\n\
                     <tbody id="content"></tbody>\n\
