@@ -47,12 +47,17 @@ try {
         return $volt;
     });
     
+    $di->set('logger', function () {
+        // Archivo de log
+        return new \Phalcon\Logger\Adapter\File("../app/logs/debug.log");
+    });
       
     $urlManager = new \Sigmamovil\Misc\UrlManager($config);	
     $di->set('urlManager', $urlManager); 
     
+    $logger = $di->get('logger');
     //Setup a base URI so that all generated URIs include the "tutorial" folder
-    $di->set('url', function() use ($urlManager){
+    $di->set('url', function() use ($urlManager, $logger){
         $url = new \Phalcon\Mvc\Url();
         $uri = $urlManager->get_base_uri();
 
@@ -64,6 +69,8 @@ try {
                 $uri .= '/';
         }
 
+        $logger->log($uri);
+        
         $url->setBaseUri($uri);
         return $url;
     });
@@ -115,10 +122,7 @@ try {
     });
     
     
-    $di->set('logger', function () {
-        // Archivo de log
-        return new \Phalcon\Logger\Adapter\File("../app/logs/debug.log");
-    });
+   
             
     $di->set('flashSession', function(){
         $flash = new \Phalcon\Flash\Session(array(
