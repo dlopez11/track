@@ -20,7 +20,7 @@
     <div class="space"></div>
     {{flashSession.output()}}
     <div class="text-right">
-        <a href="{{url('user/add')}}/{{(userData.idAccount)}}" class="btn btn-success">
+        <a href="{{url('user/add')}}" class="btn btn-success">
             Crear nuevo Usuario
         </a>
     </div>

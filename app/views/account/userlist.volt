@@ -24,7 +24,7 @@
     {{flashSession.output()}}
     <div class="text-right">
         <a href="{{url('account/index')}}" class="btn btn-default">Regresar a lista de Cuentas</a>
-        <a href="{{url('user/add')}}/{{(userData.idAccount)}}" class="btn btn-success">Crear nuevo Usuario</a>
+        <a href="{{url('account/newuser')}}/{{(idAccount)}}" class="btn btn-success">Crear nuevo Usuario</a>
     </div>
     
     <div class="row">
@@ -70,9 +70,9 @@
                         </td>
                         <td class="text-right">
                             <a href="{{url('session/superuser')}}/{{item.idUser}}" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Ingresar como este usuario"><span class="glyphicon glyphicon-retweet"></span></a>
-                            <a href="{{url('user/passedit')}}/{{item.idUser}}" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>
-                            <a href="{{url('user/edit')}}/{{item.idUser}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar usuario"><span class="glyphicon glyphicon-pencil"></span></a>                            
-                            <button id="delete" data-id="{{url('user/delete')}}/{{item.idUser}}" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
+                            <a href="{{url('account/passedituser')}}/{{item.idUser}}" class="btn btn-info btn-xs" data-toggle="tooltip" data-placement="top" title="Editar contraseña"><span class="glyphicon glyphicon-lock"></span></a>
+                            <a href="{{url('account/edituser')}}/{{item.idUser}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar usuario"><span class="glyphicon glyphicon-pencil"></span></a>                            
+                            <button id="delete" data-id="{{url('account/deleteuser')}}/{{item.idUser}}" type="button" class="btn btn-danger btn-xs" data-toggle="modal" data-target="#myModal">
                                 <span class="glyphicon glyphicon-trash"></span>
                             </button>
                         </td>

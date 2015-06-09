@@ -170,4 +170,200 @@ class AccountController extends ControllerBase
          $this->view->setVar("page", $page);
          $this->view->setVar("idAccount", $id);
     }
+    
+    public function newuserAction($idAccount)
+    {
+        $user = new User();
+        $form = new UserForm($user, $this->user->role);
+        
+        $account = Account::findFirst(array(
+            'conditions' => 'idAccount = ?1',
+            'bind' => array(1 => $idAccount)
+        ));
+        
+        if (!$account) {
+            $this->flashSession->error("La cuenta enviada no existe, por favor verifique la información");
+            return $this->response->redirect("account/index/{$this->user->account->idAccount}");
+        }
+        
+        if($this->request->isPost()){
+            
+            $form->bind($this->request->getPost(), $user);
+            
+            $username = $form->getValue('userName');
+            $pass = $form->getValue('pass');
+            $pass2 = $form->getValue('pass2');
+            
+            if($pass !== $pass2){
+                $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
+            }
+            else if(strlen($pass) < 8) {
+                $this->flashSession->error("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
+            }
+            else if(strlen($username) < 4){
+                $this->flashSession->error("El nombre de usuario es muy corto, debe tener minimo 4 caracteres.");
+            }
+            else{
+                
+                $email = strtolower($form->getValue('email'));
+                
+                $user->name = $this->request->getPost('name_user');
+                $user->address = $this->request->getPost('address_user');
+                $user->state = $this->request->getPost('state_user');
+                $user->city = $this->request->getPost('city_user');
+                $user->phone = $this->request->getPost('phone_user');
+                $user->idAccount = $this->user->idAccount;
+                $user->email = $email;
+                $user->password =  $this->security->hash($pass);
+                $user->created = time();
+                $user->updated = time();                
+                
+                if($user->save()){
+                    $this->flashSession->success("Se ha creado el usuario exitosamente.");
+                    $this->trace("success","Se creo un usuario con ID: {$user->idUser}");
+                    return $this->response->redirect("account/userlist/{$account->idAccount}");
+                }
+                else{
+                    foreach($user->getMessages() as $message){
+                        $this->flashSession->error($message);
+                    }
+                    $this->trace("fail","No se creo el usuario");
+                }
+            }
+        }
+        $this->view->UserForm = $form;
+        $this->view->setVar('account', $account);
+    }
+    
+    public function edituserAction($id)
+    {
+        $userExist = User::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
+        
+        if(!$userExist){
+            $this->flashSession->error("El usuario que intenta editar no existe, por favor verifique la información");
+            return $this->response->redirect("account/userlist");
+        }                
+        
+        $this->view->setVar("user", $userExist);
+        
+        $userExist->address_user = $userExist->address;
+        $userExist->name_user = $userExist->name;
+        $userExist->city_user = $userExist->city;
+        $userExist->state_user = $userExist->state;
+        $userExist->phone_user = $userExist->phone;
+        
+        $form = new UserForm($userExist, $this->user->role);
+        
+        if($this->request->isPost()){
+            $form->bind($this->request->getPost(), $userExist);
+            
+            $userExist->updated = time();
+            $email = strtolower($form->getValue('email'));
+            $userExist->email = $email;
+            $userExist->name = $this->request->getPost('name_user');
+            $userExist->phone = $this->request->getPost('phone_user');
+            $userExist->address = $this->request->getPost('address_user');
+            $userExist->state = $this->request->getPost('state_user');
+            $userExist->city = $this->request->getPost('city_user');
+            
+            if($userExist->save()){
+                $this->flashSession->success('Se ha editado exitosamente el usuario <strong>' .$userExist->userName. '</strong>');
+                $this->trace("success","Se edito un usuario con ID: {$userExist->idUser}");
+                return $this->response->redirect("account/userlist/{$userExist->idAccount}");
+            }
+            else{
+                foreach ($userExist->getMessages() as $message) {
+                    $this->flashSession->error($message);
+                }
+                $this->trace("fail","No se edito el usuario con ID: {$userExist->idUser}");
+            }
+        }
+        $this->view->setVar("user", $userExist);
+        $this->view->UserForm = $form;
+    }
+    
+    public function deleteuserAction($id)
+    {
+        $idUser = $this->session->get('idUser');
+        
+        if($id == $idUser){
+            $this->flashSession->error("No se puede eliminar el usuario que esta actualmente en sesión, por favor verifique la información");
+            $this->trace('fail', "Se intento borrar un usuario en sesión: {$idUser}");
+            return $this->response->redirect("account/userlist/{$this->user->account->idAccount}");
+        }
+        
+        $user = User::findFirst(array(
+           "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
+        
+        if(!$user){
+            $this->flashSession->error("El usuario que ha intentado eliminar no existe, por favor verifique la información");
+            $this->trace('fail', "El usuario no existe: {$idUser}");
+            return $this->response->redirect("account/index");
+        }
+        
+        if(!$user->delete()){
+            foreach ($user->getMessages() as $msg){
+                $this->flashSession->error($msg);
+                $this->logger->log("Error while deleting user {$msg}, user: {$user->idUser}/{$user->userName}");                
+            }
+            return $this->response->redirect("account/userlist/{$user->idAccount}");
+        }
+        else{
+            $this->flashSession->warning("Se ha eliminado el usuario <strong>{$user->userName}</strong> exitosamente");
+            $this->trace('success', "Se elimino el usuario: {$id}");            
+            return $this->response->redirect("account/userlist/{$user->idAccount}");
+        }
+    }
+
+        public function passedituserAction($id)
+    {                
+        $editpassUser = User::findFirst(array(
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $id)
+        ));
+        
+        if(!$editpassUser){
+            $this->flashSession->error("El usuario que intenta editar no existe, por favor verifique la información");
+            return $this->response->redirect("account/userlist");
+        }
+        
+        $this->view->setVar("user", $editpassUser);
+        
+        if($this->request->isPost()){
+            
+            $pass = $this->request->getPost('pass1');
+            $pass2 = $this->request->getPost('pass2');
+            
+            if((empty($pass)||empty($pass2))){
+                $this->flashSession->error('El campo Contraseña esta vacío, por favor valide la información');
+            }
+            else if(($pass != $pass2)){
+                $this->flashSession->error('Las contraseñas no coinciden');
+            }
+            else if(strlen($pass) < 8){
+                $this->flashSession->error('La contraseña es muy corta, debe tener como minimo 8 caracteres');
+            }
+            else{
+                $editUser->password = $this->security->hash($pass);
+                $editUser->updated = time();
+                
+                if(!$editpassUser->save()){
+                    foreach ($editpassUser->getMessages() as $message) {
+                        $this->flashSession->error($message);
+                    }
+                    $this->trace("fail","No se edito la contraseña del usuario con ID: {$editpassUser->idUser}");
+                }
+                else{
+                    $this->flashSession->success('Se ha editado la contraseña exitosamente del usuario <strong>' .$editpassUser->userName. '</strong>');
+                    $this->trace("sucess","Se edito la contraseña del usuario con ID: {$editpassUser->idUser}");
+                    return $this->response->redirect("account/userlist/{$editpassUser->idAccount}");
+                }
+            }
+        }
+    }
 }
