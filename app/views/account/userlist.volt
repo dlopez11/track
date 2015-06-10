@@ -63,10 +63,10 @@
                         <td>{{item.role.name}}</td>
                         <td>{{item.email}}</td>
                         <td>{{item.address}}</td>
-                        <td>{{item.phone}}</td>
-                        <td>
+                        <td>{{item.phone}}</td>                        
+                        <td>                            
                             {{item.city}}<br />
-                            {{item.state}}
+                            {% if item.state == "SAN_ANDRES" %}SAN ANDRES Y PROVIDENCIA {% elseif item.state == "VALLE" %}VALLE DEL CAUCA {% elseif item.state == "NTE_SANTANDER" %}NORTE DE SANTANDER {% else %}{{item.state}} {% endif %}
                         </td>
                         <td class="text-right">
                             <a href="{{url('session/superuser')}}/{{item.idUser}}" class="btn btn-warning btn-xs" data-toggle="tooltip" data-placement="top" title="Ingresar como este usuario"><span class="glyphicon glyphicon-retweet"></span></a>
@@ -99,7 +99,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >Cancelar</button>
-              <a href="#" id="btn-ok" class="btn btn-success btn-sm">Confirmar</a>
+              <a href="#" id="btn-ok" class="btn btn-danger btn-sm">Confirmar</a>
             </div>
           </div>
         </div>

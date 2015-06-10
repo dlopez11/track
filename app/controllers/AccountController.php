@@ -212,7 +212,7 @@ class AccountController extends ControllerBase
                 $user->state = $this->request->getPost('state_user');
                 $user->city = $this->request->getPost('city_user');
                 $user->phone = $this->request->getPost('phone_user');
-                $user->idAccount = $this->user->idAccount;
+                $user->idAccount = $account->idAccount;
                 $user->email = $email;
                 $user->password =  $this->security->hash($pass);
                 $user->created = time();

@@ -96,7 +96,7 @@
             </div>
             <div class="modal-footer">
               <button type="button" class="btn btn-default btn-sm" data-dismiss="modal" >Cancelar</button>
-              <a href="#" id="btn-ok" class="btn btn-success btn-sm">Confirmar</a>
+              <a href="#" id="btn-ok" class="btn btn-danger btn-sm">Confirmar</a>
             </div>
           </div>
         </div>
