@@ -9,10 +9,14 @@ class SessionController extends ControllerBase
 //            if ($this->security->checkToken()) {
                 $username = $this->request->getPost("username");
                 $password = $this->request->getPost("password");
+                $company = $this->request->getPost("company");
 
                 $user = User::findFirst(array(
-                    "userName = ?0",
-                    "bind" => array($username)
+                    "userName = ?0 AND idAccount = ?1",
+                    "bind" => array(
+                                0 => $username,
+                                1 => $company
+                            )
                 ));
 
                 if ($user && $this->hash->checkHash($password, $user->password)) {
