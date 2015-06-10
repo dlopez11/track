@@ -43,7 +43,7 @@
                     {% for item in page.items %}
                     <tr {% if item.status == 0 %} class="account-disabled" {% endif %}>
                         <td>
-                            <strong>{{item.name}}</strong><br />
+                            <strong>{{item.idAccount}} - {{item.name}}</strong><br />
                             <span {% if item.status == 0 %} style="color:#ffffff;" {% endif %} class="xs-text">Creada el {{date('d/M/Y', item.created)}}</span> <br />
                             <span {% if item.status == 0 %} style="color:#ffffff;" {% endif %} class="xs-text">Actualizada el {{date('d/M/Y', item.updated)}}</span>
                         </td>
