@@ -111,7 +111,7 @@ class VisitFinder
                 $array = array();
                 $array['idVisit'] = $row['idVisit'];
                 $array['idUser'] = $row['idUser'];
-                $array['date'] = date('d/M/Y', $row['date']);
+                $array['date'] = date('d/M/Y h:i:s A', $row['date']);
                 $array['name'] = "{$row['name']} {$row['lastname']}";
                 $array['visit'] = $row['visit'];
                 $array['client'] = $row['client'];
