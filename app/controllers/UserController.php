@@ -35,7 +35,16 @@ class UserController extends ControllerBase
             $pass = $form->getValue('pass');
             $pass2 = $form->getValue('pass2');
             
-            if($pass !== $pass2){
+            $uservalidate = User::findFirst(array(
+                "conditions" => "userName = ?1 AND idAccount = ?2" ,
+                "bind" => array(1 => $username,
+                                2 => $this->user->idAccount)
+            ));
+            
+            if($uservalidate){
+                $this->flashSession->error("El nombre de usuario ya existe, por favor valide la información");                
+            }
+            else if($pass !== $pass2){
                 $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
             }
             else if(strlen($pass) < 8) {

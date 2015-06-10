@@ -51,11 +51,6 @@ class User extends Phalcon\Mvc\Model
             'message' => 'El nombre de usuario es obligatorio, por favor valide la información'
         )));
         
-        $this->validate(new Uniqueness(array(
-            'field' => 'userName',
-            'message' => 'El nombre de usuario ya existe, por favor valide la información'
-        )));
-        
         $this->validate(new SpaceValidator(array(
             'field' => 'userName',
             'message' => 'El nombre de usuario esta vacío, por favor valide la información'
