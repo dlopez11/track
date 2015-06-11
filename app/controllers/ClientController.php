@@ -87,8 +87,9 @@ class ClientController extends ControllerBase
     public function removeAction($idClient)
     {
         $client = Client::findFirst(array(
-            'conditions' => 'idClient = ?1',
-            'bind' => array(1 => $idClient),
+            'conditions' => 'idClient = ?1 AND idAccount = ?2',
+            'bind' => array(1 => $idClient,
+                            2 => $this->user->idAccount),
         ));
         
         if (!$client) {
@@ -103,7 +104,7 @@ class ClientController extends ControllerBase
         } 
         catch (Exception $ex) {
             $this->logger->log("Exception: {$ex}");
-            $this->flashSession->error("Ocurrió un error, por favor contacte al administrador");
+            $this->flashSession->error("Ocurrió un error al eliminar este registro de cliente, es posible que esté asociado a una visita, por favor contacte al administrador");
 //            return $this->response->redirect('client');
         }
         

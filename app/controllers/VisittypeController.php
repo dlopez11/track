@@ -87,8 +87,9 @@ class VisittypeController extends ControllerBase
     public function removeAction($idVisittype)
     {
         $vtype = Visittype::findFirst(array(
-            'conditions' => 'idVisittype = ?1',
-            'bind' => array(1 => $idVisittype),
+            'conditions' => 'idVisittype = ?1 AND idAccount = ?2',
+            'bind' => array(1 => $idVisittype,
+                            2 => $this->user->idAccount),
         ));
         
         if (!$vtype) {
@@ -103,7 +104,7 @@ class VisittypeController extends ControllerBase
         } 
         catch (Exception $ex) {
             $this->logger->log("Exception: {$ex}");
-            $this->flashSession->error("Ocurrió un error, por favor contacte al administrador");
+            $this->flashSession->error("Ocurrió un error al eliminar este registro de tipo de visita, es posible que esté asociado a una visita, por favor contacte al administrador");
 //            return $this->response->redirect('client');
         }
         
