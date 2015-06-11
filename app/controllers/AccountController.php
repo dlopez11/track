@@ -305,9 +305,8 @@ class AccountController extends ControllerBase
             }
             
             $user = User::findFirst(array(
-                "conditions" => "idUser = ?1 AND idAccount = ?2",
-                "bind" => array(1 => $id,
-                                2 => $this->user->idAccount)
+                "conditions" => "idUser = ?1",
+                "bind" => array(1 => $id)
             ));
             
             if(!$user){
