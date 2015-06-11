@@ -64,7 +64,6 @@ class AccountController extends ControllerBase
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
                 $this->trace("fail",$ex->getMessage());
-                return $this->response->redirect('account/add');
             }
         }
     }
@@ -75,12 +74,10 @@ class AccountController extends ControllerBase
         if($this->request->getPost('pass') != $this->request->getPost('pass2')){
             throw new Exception('Las contraseñas no coinciden, por favor valide la información');
         }
-        if(strlen($this->request->getPost('pass') < 8)){
-            throw new Exception('La contraseña es demasiado corta, recuerde que debe tener mínimo 8 caracteres, por favor valide la información');
-        }
         
         //Datos usuario
         $userForm->bind($this->request->getPost(), $user);
+        $user->password = hash($this->request->getPost('pass'));
         $user->account = $account;
         $user->idRole = 2;
         $user->created = time();
@@ -99,6 +96,7 @@ class AccountController extends ControllerBase
             }
             $this->trace("fail","No se pudo guardar el usuario de una cuenta");
             $this->db->rollback();
+            throw new Exception('No se pudo guardar el usuario de una cuenta');
         }
     }
 
@@ -142,7 +140,7 @@ class AccountController extends ControllerBase
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
                 $this->trace("fail","Ha ocurrido un error: ".$ex->getMessage());
-                return $this->response->redirect('account/edit/'.$editAccount->idAccount);
+                throw new Exception('Ha ocurrido un error');
             }
             $this->trace("success","Se edito la cuenta con ID: ".$editAccount->idAccount);
             $this->flashSession->success('Se ha editado exitosamente la cuenta <strong>'.$editAccount->name.'</strong>');
@@ -298,34 +296,42 @@ class AccountController extends ControllerBase
     {
         $idUser = $this->session->get('idUser');
         
-        if($id == $idUser){
-            $this->flashSession->error("No se puede eliminar el usuario que esta actualmente en sesión, por favor verifique la información");
-            $this->trace('fail', "Se intento borrar un usuario en sesión: {$idUser}");
-            return $this->response->redirect("account/userlist/{$this->user->account->idAccount}");
-        }
-        
-        $user = User::findFirst(array(
-           "conditions" => "idUser = ?1",
-            "bind" => array(1 => $id)
-        ));
-        
-        if(!$user){
-            $this->flashSession->error("El usuario que ha intentado eliminar no existe, por favor verifique la información");
-            $this->trace('fail', "El usuario no existe: {$idUser}");
-            return $this->response->redirect("account/index");
-        }
-        
-        if(!$user->delete()){
-            foreach ($user->getMessages() as $msg){
-                $this->flashSession->error($msg);
-                $this->logger->log("Error while deleting user {$msg}, user: {$user->idUser}/{$user->userName}");                
+        try {
+            if($id == $idUser){
+                $this->trace('fail', "Se intento borrar un usuario en sesión: {$idUser}");
+                throw new InvalidArgumentException("No se puede eliminar el usuario que esta actualmente en sesión, por favor verifique la información");
             }
-            return $this->response->redirect("account/userlist/{$user->idAccount}");
-        }
-        else{
+            
+            $user = User::findFirst(array(
+                "conditions" => "idUser = ?1",
+                "bind" => array(1 => $id)
+            ));
+            
+            if(!$user){
+                $this->trace('fail', "El usuario no existe: {$idUser}");
+                throw new InvalidArgumentException("El usuario que ha intentado eliminar no existe, por favor verifique la información");
+            }
+            
+            if(!$user->delete()){
+                foreach ($user->getMessages() as $msg){
+                    $this->logger->log("Error while deleting user {$msg}, user: {$user->idUser}/{$user->userName}");                
+                }
+                throw new InvalidArgumentException("Ha ocurrido un error, contacte al administrador");
+            }
+            
+            
             $this->flashSession->warning("Se ha eliminado el usuario <strong>{$user->userName}</strong> exitosamente");
             $this->trace('success', "Se elimino el usuario: {$id}");            
-            return $this->response->redirect("account/userlist/{$user->idAccount}");
+            return $this->response->redirect("user/index");
+        } 
+        catch (InvalidArgumentException $ex) {
+            $this->flashSession->error($ex->getMessage());
+            return $this->response->redirect("user/index");
+        }
+        catch (Exception $ex) {
+            $this->logger->log("Error while deleting user {$idUser}, {$ex->getMessage()}");    
+            $this->flashSession->error("Ha ocurrido un error al eliminar el usuario, es posible que este usuario tenga visitas registradas, por favor contacte al administrador");
+            return $this->response->redirect("user/index");
         }
     }
 
