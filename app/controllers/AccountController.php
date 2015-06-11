@@ -64,7 +64,6 @@ class AccountController extends ControllerBase
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
                 $this->trace("fail",$ex->getMessage());
-                return $this->response->redirect('account/add');
             }
         }
     }
@@ -75,12 +74,10 @@ class AccountController extends ControllerBase
         if($this->request->getPost('pass') != $this->request->getPost('pass2')){
             throw new Exception('Las contraseñas no coinciden, por favor valide la información');
         }
-        if(strlen($this->request->getPost('pass') < 8)){
-            throw new Exception('La contraseña es demasiado corta, recuerde que debe tener mínimo 8 caracteres, por favor valide la información');
-        }
         
         //Datos usuario
         $userForm->bind($this->request->getPost(), $user);
+        $user->password = hash($this->request->getPost('pass'));
         $user->account = $account;
         $user->idRole = 2;
         $user->created = time();
@@ -99,6 +96,7 @@ class AccountController extends ControllerBase
             }
             $this->trace("fail","No se pudo guardar el usuario de una cuenta");
             $this->db->rollback();
+            throw new Exception('No se pudo guardar el usuario de una cuenta');
         }
     }
 
@@ -142,7 +140,7 @@ class AccountController extends ControllerBase
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
                 $this->trace("fail","Ha ocurrido un error: ".$ex->getMessage());
-                return $this->response->redirect('account/edit/'.$editAccount->idAccount);
+                throw new Exception('Ha ocurrido un error');
             }
             $this->trace("success","Se edito la cuenta con ID: ".$editAccount->idAccount);
             $this->flashSession->success('Se ha editado exitosamente la cuenta <strong>'.$editAccount->name.'</strong>');
