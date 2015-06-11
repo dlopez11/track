@@ -19,11 +19,11 @@
             <form action="{{url('account/passedituser')}}/{{(user.idUser)}}" method="post" class="form-horizontal">
                                
                 <div class="form-group">
-                    <input type="password" class="form-control" min="8" autofocus name="pass1" placeholder="*Digite la contraseña:">                    
+                    <input type="password" class="form-control" min="8" autofocus name="pass" placeholder="*Digite la contraseña:">                    
                 </div>
 
                 <div class="form-group">                                        
-                    <input type="password" class="form-control" min="8"  name="pass2" placeholder="*Repita la contraseña:">
+                    <input type="password" class="form-control" min="8"  name="passw" placeholder="*Repita la contraseña:">
                 </div>
                                             
                 <div class="form-group text-right">

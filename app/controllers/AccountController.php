@@ -345,8 +345,8 @@ class AccountController extends ControllerBase
         
         if($this->request->isPost()){
             
-            $pass = $this->request->getPost('pass1');
-            $pass2 = $this->request->getPost('pass2');
+            $pass = $this->request->getPost('pass');
+            $pass2 = $this->request->getPost('passw');
             
             if((empty($pass)||empty($pass2))){
                 $this->flashSession->error('El campo Contraseña esta vacío, por favor valide la información');
@@ -358,8 +358,8 @@ class AccountController extends ControllerBase
                 $this->flashSession->error('La contraseña es muy corta, debe tener como minimo 8 caracteres');
             }
             else{
-                $editUser->password = $this->security->hash($pass);
-                $editUser->updated = time();
+                $editpassUser->password = $this->security->hash($pass);
+                $editpassUser->updated = time();
                 
                 if(!$editpassUser->save()){
                     foreach ($editpassUser->getMessages() as $message) {
