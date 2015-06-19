@@ -14,6 +14,7 @@ class User extends Phalcon\Mvc\Model
     
     public function initialize()
     {
+        $this->hasMany("idUser", "Tmprecoverpass", "idUser");        
         $this->belongsTo("idAccount", "Account", "idAccount", array(
             "foreignKey" => true,
         ));
