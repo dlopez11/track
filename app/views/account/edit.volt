@@ -50,6 +50,9 @@
                 <div class="form-group">
                     {{accountForm.render('phone')}}
                 </div>
+                <div class="form-group">
+                    {{accountForm.render('totalUsers')}}
+                </div>
                 <div class="form-group ">
                     {{accountForm.render('status', {'id': 'toggle-one'})}}
                 </div>

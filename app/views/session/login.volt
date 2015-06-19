@@ -14,5 +14,7 @@
         <label for="password" class="sr-only">Contraseña</label>
         <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
+        <br>
+        <a href="/track/session/recoverpass">Recuperar Contraseña</a>        
     </form>
 {% endblock %}

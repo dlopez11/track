@@ -4,6 +4,7 @@ use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\Select;
 use Phalcon\Forms\Element\Check;
+use Phalcon\Forms\Element\Numeric;
 
 class AccountForm extends Form
 {
@@ -77,6 +78,12 @@ class AccountForm extends Form
         
         $this->add(new Check('status', array(
             'value' => '1'
+        )));
+        
+        $this->add(new Numeric("totalUsers", array(                        
+            'placeholder' => '*Cantidad de usuarios permitidos',
+            'required' => 'required',
+            'class' => 'form-control'
         )));
     }
     
