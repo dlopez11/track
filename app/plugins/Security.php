@@ -42,6 +42,8 @@ class Security extends Plugin
                 'visittype' => array('create', 'read', 'update', 'delete'),
                 'client' => array('create', 'read', 'update', 'delete'),
                 'visit' => array('read'),
+                'statistic' => array('read'),
+                'report' => array('download'),
             );
             
             foreach ($resources as $resource => $actions) {
@@ -160,6 +162,9 @@ class Security extends Plugin
                 'visit::maphistory' => array('visit' => array('read')),
                 'session::superuser' => array('user' => array('sudo')),
                 'session::logoutsuperuser' => array('user' => array('sudo')),
+                /* Estadisticas */
+                'statistic::index' => array('statistic' => array('read')),
+                'statistic::visitmostused' => array('statistic' => array('read')),
             );
             
             $this->cache->save('controllermap-cache', $map);

@@ -8,10 +8,18 @@ class SmartMenu extends \Phalcon\Mvc\User\Component implements \Iterator
 
     private $_menu = array (
         "Inicio" => array(
-            "controller" => array("index", "visit"),
+            "controller" => array("index"),
             "class" => "",
             "url" => "",
             "title" => "Inicio",
+            "icon" => "",
+            "target" => ""
+        ),
+        "Visitas" => array(
+            "controller" => array("visit"),
+            "class" => "",
+            "url" => "visit",
+            "title" => "Visitas",
             "icon" => "",
             "target" => ""
         ),
