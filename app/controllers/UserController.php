@@ -27,9 +27,21 @@ class UserController extends ControllerBase
         $user = new User();        
         $form = new UserForm($user, $this->user->role);
         
-        if($this->request->isPost()){
+        $this->view->UserForm = $form;
+        
+        try{
+            if($this->request->isPost()){
             
-            $form->bind($this->request->getPost(), $user);
+            $totalUsers = User::find(array(
+                "conditions" => "idAccount = ?1" ,
+                "bind" => array(1 => $this->user->idAccount)
+            ));                        
+            
+            if(count($totalUsers) >= $this->user->account->totalUsers){
+                throw new Exception("No es posible crear el usuario debido a que ha llegado al limite permitido en la cuenta");
+            }            
+            
+            $form->bind($this->request->getPost(), $user);                        
             
             $username = $form->getValue('userName');
             $pass = $form->getValue('pass');
@@ -40,49 +52,48 @@ class UserController extends ControllerBase
                 "bind" => array(1 => $username,
                                 2 => $this->user->idAccount)
             ));
-            
+                                   
             if($uservalidate){
-                $this->flashSession->error("El nombre de usuario ya existe, por favor valide la información");                
+                throw new Exception("El nombre de usuario ya existe, por favor valide la información");                
             }
-            else if($pass !== $pass2){
-                $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
+            if($pass !== $pass2){
+                throw new Exception("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
             }
-            else if(strlen($pass) < 8) {
-                $this->flashSession->error("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
+            if(strlen($pass) < 8) {
+                throw new Exception("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
             }
-            else if(strlen($username) < 4){
-                $this->flashSession->error("El nombre de usuario es muy corto, debe tener minimo 4 caracteres.");
-            }
-            else{
+            if(strlen($username) < 4){
+                throw new Exception("El nombre de usuario es muy corto, debe tener minimo 4 caracteres.");
+            }            
                 
-                $email = strtolower($form->getValue('email'));
-                
-                $user->name = $this->request->getPost('name_user');
-                $user->address = $this->request->getPost('address_user');
-                $user->state = $this->request->getPost('state_user');
-                $user->city = $this->request->getPost('city_user');
-                $user->phone = $this->request->getPost('phone_user');
-                $user->idAccount = $this->user->idAccount;
-                $user->email = $email;
-                $user->password =  $this->security->hash($pass);
-                $user->created = time();
-                $user->updated = time();                
-                
-                if($user->save()){
-                    $this->flashSession->success("Se ha creado el usuario exitosamente.");
-                    $this->trace("success","Se creo un usuario con ID: {$user->idUser}");
-                    return $this->response->redirect("user/index");
-                }
-                else{
-                    foreach($user->getMessages() as $message){
-                        $this->flashSession->error($message);
-                    }
-                    $this->trace("fail","No se creo el usuario");
-                }
+            $email = strtolower($form->getValue('email'));
+
+            $user->name = $this->request->getPost('name_user');
+            $user->address = $this->request->getPost('address_user');
+            $user->state = $this->request->getPost('state_user');
+            $user->city = $this->request->getPost('city_user');
+            $user->phone = $this->request->getPost('phone_user');
+            $user->idAccount = $this->user->idAccount;
+            $user->email = $email;
+            $user->password =  $this->security->hash($pass);
+            $user->created = time();
+            $user->updated = time();                                
+
+            if($user->save()){
+                $this->flashSession->success("Se ha creado el usuario exitosamente.");
+                $this->trace("success","Se creo un usuario con ID: {$user->idUser}");
+                return $this->response->redirect("user/index");
+            }
+
+            foreach($user->getMessages() as $message){
+                throw new Exception($message);
+            }
+            $this->trace("fail","No se creo el usuario");                     
             }
         }
-        
-        $this->view->UserForm = $form;
+        catch (Exception $e){
+            $this->flashSession->error($e->getMessage());        
+        }                
     }
     
     public function editAction($id)

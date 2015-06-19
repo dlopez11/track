@@ -58,6 +58,9 @@
                         <div class="form-group">
                             {{accountForm.render('phone')}}
                         </div>
+                        <div class="form-group">
+                            {{accountForm.render('totalUsers')}}
+                        </div>
                         <div class="form-group ">
                             Estado:<br />
                             {{accountForm.render('status', {'id': 'toggle-one', 'checked':'checked'})}}
