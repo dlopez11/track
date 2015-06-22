@@ -4,7 +4,24 @@ class VisitController extends ControllerBase
 {
     public function indexAction()
     {
+        $users = User::find(array(
+            'conditions' => 'idAccount = ?1',
+            'bind' => array(1 => $this->user->idAccount)
+        ));
         
+        $tvisits = Visittype::find(array(
+            'conditions' => 'idAccount = ?1',
+            'bind' => array(1 => $this->user->idAccount)
+        ));
+        
+        $clients = Client::find(array(
+            'conditions' => 'idAccount = ?1',
+            'bind' => array(1 => $this->user->idAccount)
+        ));
+        
+        $this->view->setVar('users', $users);
+        $this->view->setVar('tvisits', $tvisits);
+        $this->view->setVar('clients', $clients);
     }
     public function getrowsAction()
     {
@@ -96,7 +113,7 @@ class VisitController extends ControllerBase
                     . " JOIN Client AS c ON (c.idClient = v.idClient) "
                     . " WHERE v.idVisit = {$idVisit}";
                     
-            $this->logger->log($sql_rows);
+//            $this->logger->log($sql_rows);
 
             $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
             $rows = $modelsManager->executeQuery($sql_rows);
