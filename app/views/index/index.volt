@@ -2,12 +2,17 @@
 {% block header %}
     {{ javascript_include('library/highcharts-4.1.6/js/highcharts.js') }}
     {{ javascript_include('library/highcharts-4.1.6/js/modules/exporting.js') }}
+    {{ javascript_include('js/highcharts.js') }}
     <script type="text/javascript">
         $(function () {
-    
+            $.get("{{url('statistic/getdata')}}/pie", function(data, status){
+                createPie({
+                    container: '#container',
+                    title: 'Total de visitas',
+                    data: data
+                });
+            });
         });
-
-
     </script>
 
 {% endblock %}

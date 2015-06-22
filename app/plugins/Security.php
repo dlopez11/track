@@ -70,6 +70,8 @@ class Security extends Plugin
             $acl->allow("sudo", "client", "update");
             $acl->allow("sudo", "client", "delete");
             $acl->allow("sudo", "visit", "read");
+            $acl->allow("sudo", "statistic", "read");
+            $acl->allow("sudo", "report", "download");
             
             // admin
             $acl->allow("admin", "dashboard", "read");
@@ -86,6 +88,8 @@ class Security extends Plugin
             $acl->allow("admin", "client", "update");
             $acl->allow("admin", "client", "delete");
             $acl->allow("admin", "visit", "read");
+            $acl->allow("admin", "statistic", "read");
+            $acl->allow("admin", "report", "download");
             
             // user
             $acl->allow("user", "visittype", "read");
@@ -164,7 +168,7 @@ class Security extends Plugin
                 'session::logoutsuperuser' => array('user' => array('sudo')),
                 /* Estadisticas */
                 'statistic::index' => array('statistic' => array('read')),
-                'statistic::visitmostused' => array('statistic' => array('read')),
+                'statistic::getdata' => array('statistic' => array('read')),
             );
             
             $this->cache->save('controllermap-cache', $map);

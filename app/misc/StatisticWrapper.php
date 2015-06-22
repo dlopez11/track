@@ -23,17 +23,14 @@ class StatisticWrapper
         $this->account = $account;
     }
     
-    public function setVisits($visits)
-    {
-        $this->visits = $visits;
-    }
     
     public function processData($type)
     {
+        $this->findVisits();
+        
         switch ($type) {
-            case $value:
-
-
+            case "pie":
+                $this->modelPieData();
                 break;
 
             default:
@@ -41,10 +38,34 @@ class StatisticWrapper
         }
     }
     
-    private function modelData()
+    private function findVisits()
     {
-        foreach ($this->modelData as $data) {
+        $query = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visittype.name FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount}");
+        $this->visits = $query->execute();
+    }
+    
+    private function modelPieData()
+    {
+        $data = array();
+        $names = array();
+        
+        foreach ($this->visits as $v) {
+            if (isset($data[$v->idVisittype])) {
+                $data[$v->idVisittype] += 1;
+            }
+            else {
+                $data[$v->idVisittype] = 1;
+            }
             
+            $names[$v->idVisittype] = $v->name;
+        }
+        
+        $total = array_sum($data);
+        
+        foreach ($data as $key => $value) {
+            $percentage = $value/$total*100;
+            $array = array($names[$key], $percentage);
+            $this->modelData[] = $array;
         }
     }
     
