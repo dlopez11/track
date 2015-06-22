@@ -105,7 +105,7 @@ class SessionController extends ControllerBase
                     $cod = uniqid();
                     $urlManager = $urlManager = Phalcon\DI::getDefault()->get('urlManager');
                     $url = $urlManager->get_base_uri(true);
-                    $url.= 'session/recoverpass/' . $cod;
+                    $url.= 'session/resetpassword/' . $cod;
 
                     $recoverObj = new Tmprecoverpass();
                     $recoverObj->idTmprecoverpass = $cod;
@@ -131,7 +131,7 @@ class SessionController extends ControllerBase
                         $plainText = $url;
                     }
 
-                    $mailSender = new \Sigmamovil\General\Misc\MailSender();
+                    $mailSender = new \Sigmamovil\Misc\MailSender();
                     $mailSender->setData($data);
                     $mailSender->setHtml($html);
                     $mailSender->setPlainText($plainText);
@@ -191,7 +191,7 @@ class SessionController extends ControllerBase
                 $pass2 = $this->request->getPost("pass2");
                 
                 if(empty($pass) || empty($pass2)){
-                    $this->notification->error("Ha enviado campos vacíos, por favor verifique la información");
+                    $this->flashSession->error("Ha enviado campos vacíos, por favor verifique la información");
                     $this->dispatcher->forward(array(
                         "controller" => "session",
                         "action" => "resetpassword",
@@ -199,7 +199,7 @@ class SessionController extends ControllerBase
                     ));                    
                 }
                 else if(strlen($pass) < 8 || strlen($pass) > 40){
-                    $this->notification->error("La contraseña es muy corta o muy larga, esta debe tener mínimo 8 y máximo 40 caracteres, por favor verifique la información");
+                    $this->flashSession->error("La contraseña es muy corta o muy larga, esta debe tener mínimo 8 y máximo 40 caracteres, por favor verifique la información");
                     $this->dispatcher->forward(array(
                         "controller" => "session",
                         "action" => "resetpassword",
@@ -207,7 +207,7 @@ class SessionController extends ControllerBase
                     ));
                 }
                 else if($pass !== $pass2){
-                    $this->notification->error("Las contraseñas no coinciden, por favor verifique la información");
+                    $this->flashSession->error("Las contraseñas no coinciden, por favor verifique la información");
                     $this->dispatcher->forward(array(
                         "controller" => "session",
                         "action" => "resetpassword",
@@ -226,18 +226,18 @@ class SessionController extends ControllerBase
                         $user->password = $this->security->hash($pass);
                         
                         if(!$user->save()){
-                            $this->notification->error('Ha ocurrido un error, contacte con el administrador');
+                            $this->flashSession->error('Ha ocurrido un error, contacte con el administrador');
                             foreach ($user->getMessages() as $msg){
                                 $this->logger->log('Error while recovering user password' . $msg);
                                 $this->logger->log("User {$user->idUser}/{$user->username}");
                                 $this->trace("fail","Fallo la recuperación de contraseña");
-                                $this->notification->error('Ha ocurrido un error, por favor contacte al administrador');
+                                $this->flashSession->error('Ha ocurrido un error, por favor contacte al administrador');
                             }
                         }
                         else{
                             $idUser = $this->session->remove('idUser');
                             $url->delete();
-                            $this->notification->success('Se ha actualizado el usuario correctamente');
+                            $this->flashSession->success('Se ha actualizado el usuario correctamente');
                             $this->trace("success","Se recupero la contraseña del usuario {$user->idUser}/{$user->username}");
                             return $this->response->redirect('session/login');
                         }                        
@@ -249,6 +249,7 @@ class SessionController extends ControllerBase
                 }
             }
             else{
+                $this->flashSession->error('No se recupero la contraseña por que el link es invalido, no existe o expiro.');
                 $this->trace("fail","No se recupero la contraseña por que el link es invalido, no existe o expiro ID: {$uniq}");
                 return $this->response->redirect('error/link');
             }
@@ -263,7 +264,7 @@ class SessionController extends ControllerBase
         ));
 
         if (!$user) {
-            $this->notification->error("No se ha podido ingresar como el usuario, porque este no existe");
+            $this->flashSession->error("No se ha podido ingresar como el usuario, porque este no existe");
             return $this->response->redirect('account/index');
         }
 
