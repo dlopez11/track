@@ -23,7 +23,7 @@ function createPie(data) {
         },
         series: [{
             type: 'pie',
-            name: 'Visitas totales',
+            name: data.serie,
             //data: [['lala', 40],['lala', 60]]
             data: data.data[0]
         }]

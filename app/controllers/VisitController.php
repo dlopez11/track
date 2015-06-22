@@ -113,7 +113,7 @@ class VisitController extends ControllerBase
                     . " JOIN Client AS c ON (c.idClient = v.idClient) "
                     . " WHERE v.idVisit = {$idVisit}";
                     
-            $this->logger->log($sql_rows);
+//            $this->logger->log($sql_rows);
 
             $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
             $rows = $modelsManager->executeQuery($sql_rows);

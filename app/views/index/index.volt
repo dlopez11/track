@@ -9,6 +9,7 @@
                 createPie({
                     container: '#container',
                     title: 'Total de visitas',
+                    serie: 'Visitas totales',
                     data: data
                 });
             });
