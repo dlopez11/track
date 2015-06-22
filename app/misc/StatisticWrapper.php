@@ -32,6 +32,10 @@ class StatisticWrapper
             case "pie":
                 $this->modelPieData();
                 break;
+            
+            case "line":
+                $this->modelLineData();
+                break;
 
             default:
                 break;
@@ -45,6 +49,31 @@ class StatisticWrapper
     }
     
     private function modelPieData()
+    {
+        $data = array();
+        $names = array();
+        
+        foreach ($this->visits as $v) {
+            if (isset($data[$v->idVisittype])) {
+                $data[$v->idVisittype] += 1;
+            }
+            else {
+                $data[$v->idVisittype] = 1;
+            }
+            
+            $names[$v->idVisittype] = $v->name;
+        }
+        
+        $total = array_sum($data);
+        
+        foreach ($data as $key => $value) {
+            $percentage = $value/$total*100;
+            $array = array($names[$key], $percentage);
+            $this->modelData[] = $array;
+        }
+    }
+    
+    private function modelLineData()
     {
         $data = array();
         $names = array();
