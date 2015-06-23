@@ -22,6 +22,7 @@
             domManager.setContainer('container');
             var paginator = new Paginator();
             paginator.setUrl('{{url('visit/getrows')}}');
+            paginator.setUrlReport('{{url('report')}}');
             paginator.setDOM(domManager);
             paginator.setContainerControls('pagination');
             paginator.load();
@@ -81,7 +82,13 @@
                 </div>
                 <div class="form-group">
                     <button class="btn btn-sm btn-primary" id="refresher"><span class="glyphicon glyphicon-refresh"></span></button>
+                </div>      
+                <div class="form-group">
+                    <button class="btn btn-sm btn-default" id="filter-downloader"><span class="glyphicon glyphicon-download-alt"></span></button>
                 </div>    
+                <div class="form-group">
+                    <button class="btn btn-sm btn-default" id="downloader"><span class="glyphicon glyphicon-download"></span></button>
+                </div>      
             </div>
         </div>    
     </div>    

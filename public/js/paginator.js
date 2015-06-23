@@ -1,6 +1,8 @@
 function Paginator() {
     this.rows = null;
     this.url = null;
+    this.urlReport = null;
+    this.report = null;
     this.data = {
         page: 1,
         limit: 15,
@@ -23,6 +25,10 @@ Paginator.prototype.setData = function(data) {
 
 Paginator.prototype.setUrl = function(url) {
     this.url = url;
+};
+
+Paginator.prototype.setUrlReport = function(url) {
+    this.urlReport = url;
 };
 
 Paginator.prototype.setDOM = function(dom) {
@@ -50,6 +56,30 @@ Paginator.prototype.getData = function() {
             },
             success: function(data){
                 self.refreshData(data);
+                dfd.resolve();
+            }
+        });
+    });   
+};
+
+Paginator.prototype.getDataForReport = function(url) {
+    var self = this;
+	
+    return $.Deferred(function(dfd){
+        $.ajax({
+            url: url,
+            type: "POST",			
+            data: {
+                paginator: self.data
+            },
+            error: function(error){
+//                console.log(error.responseText);
+                slideOnTop(error.responseText, 5000, 'glyphicon glyphicon-fire', 'error');
+                throw error.responseText;
+            },
+            success: function(data){
+                console.log(data);
+                self.report = data;
                 dfd.resolve();
             }
         });
@@ -118,6 +148,20 @@ Paginator.prototype.catchAndSendData = function(page) {
     });
 };
 
+Paginator.prototype.catchAndSendDataForReport = function() {
+    var self = this;
+    self.data.page = "all";
+    self.data.limit = $('#limit').val();
+    self.data.user = $('#user').val();
+    self.data.visit = $('#visittype').val();
+    self.data.client = $('#client').val();
+
+    self.getDataForReport(self.urlReport + "/create").then(function() { 
+       console.log('now');
+       console.log(self.report);
+    });
+};
+
 Paginator.prototype.initialize = function() {
     var self = this;
     this.control.on("click", ".fast-backward", function () {
@@ -147,6 +191,10 @@ Paginator.prototype.initialize = function() {
     
     $( "#refresher" ).click(function() {
         self.catchAndSendData(1);
+    });
+    
+    $( "#filter-downloader" ).click(function() {
+        self.catchAndSendDataForReport();
     });
 };
 
