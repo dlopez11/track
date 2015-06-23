@@ -31,13 +31,13 @@ function createPie(data) {
 }
 
 function createLineGraphic(data) {
-    $('#container-line').highcharts({
+    $(data.container).highcharts({
         title: {
             text: data.title,
             x: -20 //center
         },
         xAxis: {
-            categories: ['30-Jun','29-Jun','28-Jun','27-Jun','26-Jun','25-Jun','24-Jun','23-Jun','22-Jun','21-Jun','20-Jun','19-Jun','18-Jun','17-Jun','16-Jun','15-Jun','14-Jun','13-Jun','12-Jun','11-Jun','10-Jun','09-Jun','08-Jun','07-Jun','06-Jun','05-Jun','04-Jun','03-Jun','02-Jun','01-Jun']
+            categories: data.categories
         },
         yAxis: {
             title: {
@@ -55,10 +55,7 @@ function createLineGraphic(data) {
             verticalAlign: 'middle',
             borderWidth: 0
         },
-        series: [{
-            name: data.serie,
-            data: data.data[0]
-        }]
+        series: data.data
     });
 }
 

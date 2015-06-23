@@ -14,12 +14,14 @@
                 });
             });
             
-            $.get("{{url('statistic/getdata')}}/line", function(data, status){
+            $.get("{{url('statistic/getdata')}}/line", function(r, status){
+                console.log(r[0].data);
                 createLineGraphic({
                     container: '#container-line',
                     title: 'Visitas diarias',
                     serie: 'Visitas totales',
-                    data: data
+                    categories: r[0].categories,
+                    data: r[0].data
                 });
             });
             
@@ -42,14 +44,14 @@
 {% block content %}
     <div class="space"></div>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-            <div id="container-line" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto"></div>
-        </div>
-        
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
         </div>
         
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="container-line"></div>
+        </div>    
+            
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div id="column"></div>
         </div>        
