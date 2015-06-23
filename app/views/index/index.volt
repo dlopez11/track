@@ -17,8 +17,8 @@
             $.get("{{url('statistic/getdata')}}/line", function(data, status){
                 createLineGraphic({
                     container: '#container-line',
-                    title: 'Total de visitas diarias',
-                    serie: 'Visitas diarias',
+                    title: 'Visitas diarias',
+                    serie: 'Visitas totales',
                     data: data
                 });
             });

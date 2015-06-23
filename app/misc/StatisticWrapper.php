@@ -79,7 +79,18 @@ class StatisticWrapper
     
     private function modelLineData()
     {
+        $data = array();
+        $names = array();
         
+        foreach ($this->visits as $v) {
+            $data["visitar"] .= "'1',";
+            $names[$v->idVisittype] = $v->name;
+        }
+        
+        foreach ($data as $key => $value) {
+            $array = array($data["visitar"]);
+            $this->modelData[] = $array;
+        }
     }
     
     public function modelColumnData()
