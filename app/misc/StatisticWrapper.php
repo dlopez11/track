@@ -44,10 +44,17 @@ class StatisticWrapper
     
     private function findVisits()
     {
-        $query = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visittype.name FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount}");
-        $this->visits = $query->execute();
+        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visittype.name FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount}");
+        $this->visits = $query_visits->execute();
+        
+        $today = date("Y-m-d");
+        $first_day = strtotime("-29 days", $today);
+        $tomorrow = strtotime("Tomorrow");
+        $query_visits_line = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT * FROM Visit WHERE Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
+        $this->visits_line = $query_visits_line->execute();
     }
-    
+
+
     private function modelPieData()
     {
         $data = array();
@@ -67,8 +74,7 @@ class StatisticWrapper
         $total = array_sum($data);
         
         foreach ($data as $key => $value) {
-            $percentage = $value/$total*100;
-            $array = array($names[$key], $percentage);
+            $array = array($names[$key], $total);
             $this->modelData[] = $array;
         }
     }
@@ -76,27 +82,18 @@ class StatisticWrapper
     private function modelLineData()
     {
         $data = array();
-        $names = array();
         
-        foreach ($this->visits as $v) {
-            if (isset($data[$v->idVisittype])) {
-                $data[$v->idVisittype] += 1;
-            }
-            else {
-                $data[$v->idVisittype] = 1;
-            }
-            
-            $names[$v->idVisittype] = $v->name;
+        foreach ($this->visits_line as $vl){
+            $data["visitas"] += 1;
+            $data["fecha"] = $vl->date;
         }
         
         $total = array_sum($data);
-        
         foreach ($data as $key => $value) {
-            $percentage = $value/$total*100;
-            $array = array($names[$key], $percentage);
+            $array = array($names[$key], $total);
             $this->modelData[] = $array;
         }
-    }
+}
     
     public function getModelData()
     {
