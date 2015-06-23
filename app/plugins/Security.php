@@ -117,6 +117,7 @@ class Security extends Plugin
                 'error::notavailable' => array(),
                 'error::unauthorized' => array(),
                 'error::forbidden' => array(),
+                'error::link' => array(),
                 /* Session */
                 'session::login' => array(),
                 'session::validate' => array(),
