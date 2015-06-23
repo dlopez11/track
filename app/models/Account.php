@@ -11,6 +11,7 @@ class Account extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->hasMany("idAccount", "User", "idAccount");
+        $this->hasMany("idAccount", "Tmpreport", "idAccount");
     }
     
     public function validation()
