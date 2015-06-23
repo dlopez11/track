@@ -46,12 +46,6 @@ class StatisticWrapper
     {
         $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visittype.name FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount}");
         $this->visits = $query_visits->execute();
-        
-        $today = date("Y-m-d");
-        $first_day = strtotime("-29 days", $today);
-        $tomorrow = strtotime("Tomorrow");
-        $query_visits_line = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT * FROM Visit WHERE Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
-        $this->visits_line = $query_visits_line->execute();
     }
 
 
@@ -81,19 +75,8 @@ class StatisticWrapper
     
     private function modelLineData()
     {
-        $data = array();
         
-        foreach ($this->visits_line as $vl){
-            $data["visitas"] += 1;
-            $data["fecha"] = $vl->date;
-        }
-        
-        $total = array_sum($data);
-        foreach ($data as $key => $value) {
-            $array = array($names[$key], $total);
-            $this->modelData[] = $array;
-        }
-}
+    }
     
     public function getModelData()
     {
