@@ -36,7 +36,11 @@ class StatisticWrapper
             case "line":
                 $this->modelLineData();
                 break;
-
+            
+            case "column":
+                $this->modelColumndata();
+                break;
+            
             default:
                 break;
         }
@@ -98,7 +102,19 @@ class StatisticWrapper
         }
     }
     
-    public function getModelData()
+    public function modelColumnData()
+    {
+        $data = array();
+        
+        $today = date("Y-m-d");
+        
+        $first_day = strtotime("-29 days");
+        $date = date("Y-m-d" , $first_day);
+        
+        
+    }
+
+        public function getModelData()
     {
         return $this->modelData;
     }

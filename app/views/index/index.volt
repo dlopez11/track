@@ -22,6 +22,11 @@
                     data: data
                 });
             });
+            
+            createBarGraphic({
+                container: '#column',
+                title: 'Cantidad de visitas por Usuario',                
+            });
         });
     </script>
 
@@ -38,7 +43,7 @@
         </div>
         
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            
+            <div id="column" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
         </div>        
     </div>    
     
