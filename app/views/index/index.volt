@@ -23,10 +23,18 @@
                 });
             });
             
-            createBarGraphic({
-                container: '#column',
-                title: 'Cantidad de visitas por Usuario',                
+            
+            $.get("{{url('statistic/getdata')}}/column", function(response, status){
+                console.log(response[0].data);
+                createBarGraphic({
+                    container: '#column',
+                    title: 'Cantidad de visitas por Usuario',      
+                    categories: response[0].time,
+                    data: response[0].data
+                });
             });
+            
+            
         });
     </script>
 
@@ -43,7 +51,7 @@
         </div>
         
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <div id="column" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
+            <div id="column"></div>
         </div>        
     </div>    
     

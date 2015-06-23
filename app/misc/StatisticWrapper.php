@@ -38,7 +38,7 @@ class StatisticWrapper
                 break;
             
             case "column":
-                $this->modelColumndata();
+                $this->modelColumnData();
                 break;
             
             default:
@@ -48,14 +48,12 @@ class StatisticWrapper
     
     private function findVisits()
     {
-        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visittype.name FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount}");
-        $this->visits = $query_visits->execute();
-        
         $today = date("Y-m-d");
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
-        $query_visits_line = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT * FROM Visit WHERE Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
-        $this->visits_line = $query_visits_line->execute();
+        
+        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, Visittype.name FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
+        $this->visits = $query_visits->execute();
     }
 
 
@@ -87,7 +85,7 @@ class StatisticWrapper
     {
         $data = array();
         
-        foreach ($this->visits_line as $vl){
+        foreach ($this->visits as $vl){
             $data["visitas"] += 1;
             $data["fecha"] = $vl->date;
         }
@@ -97,21 +95,62 @@ class StatisticWrapper
             $array = array($names[$key], $total);
             $this->modelData[] = $array;
         }
-}
+    }
     
-    public function modelColumnData()
+    private function modelColumnData()
     {
-        $data = array();
+        $us = \User::findByIdAccount($this->account->idAccount);
         
-        $today = date("Y-m-d");
+        $time = array();
+        $visits = array(0, 0);
         
-        $first_day = strtotime("-29 days");
-        $date = date("Y-m-d" , $first_day);
+        $today = time();
+        $first_day = strtotime("-29 days", $today);
         
+        $time[] = $first_day;
+        $j = 0;
+        for ($i = 1; $i < 29; $i++) {
+            $visits[] = 0;
+            $time[] = strtotime("+1 days", $time[$j]);
+            $j++;
+        }
         
+        $time[] = $today;
+        
+        $users = array();
+        foreach ($us as $user) {
+            $obj = new \stdClass();
+            $obj->idUser = $user->idUser;
+            $obj->name = $user->name;
+            $obj->data = $visits;
+            $users[] = $obj;
+        }
+        
+        foreach ($this->visits as $visit){
+            foreach ($users as $user) {
+                if ($visit->idUser == $user->idUser) {
+                    foreach($time AS $key => $v) {
+                        if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
+                            $user->data[$key] += 1;
+                            $this->logger->log($user->data[$key]);
+                        }
+                    }
+                }
+            }
+        }
+        
+        $tm = array();
+        foreach ($time as $t) {
+            $tm[] = date("d/M/Y", $t);
+        }
+        
+        $this->modelData = array(
+            'time' => $tm,
+            'data' => $users
+        );
     }
 
-        public function getModelData()
+    public function getModelData()
     {
         return $this->modelData;
     }

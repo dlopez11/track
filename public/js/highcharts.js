@@ -71,18 +71,8 @@ function createBarGraphic(data) {
         title: {
             text: data.title
         },
-        subtitle: {
-            text: 'Sigma Móvil S.A.S'
-        },
         xAxis: {
-            categories: [
-                'Día 1',
-                'Día 2',
-                'Día 3',
-                'Día 4',
-                'Día 5',
-                'Día 6'                     
-            ],
+            categories: data.categories,
             crosshair: true
         },
         yAxis: {
@@ -105,13 +95,6 @@ function createBarGraphic(data) {
                 borderWidth: 0
             }
         },
-        series: [{
-            name: 'Adriana Lopez',
-            data: [49, 71, 106, 129, 144, 176]
-
-        }, {
-            name: 'Luz Adriana Lopez',
-            data: [83, 78, 98, 93, 106, 84]
-        }]
+        series: data.data
     });        
 }
