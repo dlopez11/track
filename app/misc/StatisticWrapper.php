@@ -48,11 +48,11 @@ class StatisticWrapper
     
     private function findVisits()
     {
-        $today = date("Y-m-d");
+        $today = time();
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
         
-        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, Visittype.name FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
+        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
         $this->visits = $query_visits->execute();
     }
 
@@ -82,19 +82,51 @@ class StatisticWrapper
     }
     
     private function modelLineData()
-    {
-        $data = array();
+    {        
+        $time = array();
+        $visits = array(0, 0);
         
-        foreach ($this->visits as $vl){
-            $data["visitas"] += 1;
-            $data["fecha"] = $vl->date;
+        $today = time();
+        $first_day = strtotime("-29 days", $today);
+        
+        $time[] = $first_day;
+        $j = 0;
+        for ($i = 1; $i < 29; $i++) {
+            $visits[] = 0;
+            $time[] = strtotime("+1 days", $time[$j]);
+            $j++;
         }
         
-        $total = array_sum($data);
-        foreach ($data as $key => $value) {
-            $array = array($names[$key], $total);
-            $this->modelData[] = $array;
+        $time[] = $today;
+        $total = array();
+        $vt = array();
+        foreach ($this->visits as $visit){
+            if (!in_array($visit->vname, $vt)) {
+                $obj = new \stdClass();
+                $obj->name = $visit->vname;
+                $obj->data = $visits;
+                $total[] = $obj;
+                $vt[] = $visit->vname;
+            }
+            
+            foreach ($total as $t) {
+                foreach($time AS $key => $v) {
+                    if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
+                        $t->data[$key] += 1;
+                    }
+                }
+            }
         }
+        
+        $tm = array();
+        foreach ($time as $t) {
+            $tm[] = date("d/M/Y", $t);
+        }
+        
+        $this->modelData = array(
+            'categories' => $tm,
+            'data' => $total
+        );
     }
     
     private function modelColumnData()
@@ -109,6 +141,7 @@ class StatisticWrapper
         
         $time[] = $first_day;
         $j = 0;
+        
         for ($i = 1; $i < 29; $i++) {
             $visits[] = 0;
             $time[] = strtotime("+1 days", $time[$j]);
@@ -132,7 +165,6 @@ class StatisticWrapper
                     foreach($time AS $key => $v) {
                         if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                             $user->data[$key] += 1;
-                            $this->logger->log($user->data[$key]);
                         }
                     }
                 }

@@ -9,7 +9,7 @@ class StatisticController extends ControllerBase
         $statistic->processData($type);
         $data = $statistic->getModelData();
         
-//        $this->logger->log("Data " . print_r($data, true));
+        $this->logger->log("Data " . print_r($data, true));
         
         return $this->set_json_response(array($data), 200);
     }

@@ -31,14 +31,13 @@ function createPie(data) {
 }
 
 function createLineGraphic(data) {
-    $('#container-line').highcharts({
+    $(data.container).highcharts({
         title: {
             text: data.title,
             x: -20 //center
         },
         xAxis: {
-            categories: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun',
-                'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
+            categories: data.categories
         },
         yAxis: {
             title: {
@@ -56,10 +55,7 @@ function createLineGraphic(data) {
             verticalAlign: 'middle',
             borderWidth: 0
         },
-        series: [{
-            name: 'Visitas totales',
-            data: [7.0, 6.9, 9.5, 14.5, 18.2, 21.5, 25.2, 26.5, 23.3, 18.3, 13.9, 9.6]
-        }]
+        series: data.data
     });
 }
 
@@ -78,7 +74,7 @@ function createBarGraphic(data) {
         yAxis: {
             min: 0,
             title: {
-                text: 'Rainfall (mm)'
+                text: data.yAxis
             }
         },
         tooltip: {

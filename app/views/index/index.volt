@@ -14,21 +14,23 @@
                 });
             });
             
-            $.get("{{url('statistic/getdata')}}/line", function(data, status){
+            $.get("{{url('statistic/getdata')}}/line", function(r, status){
+                console.log(r[0].data);
                 createLineGraphic({
                     container: '#container-line',
-                    title: 'Total de visitas diarias',
-                    serie: 'Visitas diarias',
-                    data: data
+                    title: 'Visitas diarias',
+                    serie: 'Visitas totales',
+                    categories: r[0].categories,
+                    data: r[0].data
                 });
             });
             
             
             $.get("{{url('statistic/getdata')}}/column", function(response, status){
-                console.log(response[0].data);
                 createBarGraphic({
                     container: '#column',
-                    title: 'Cantidad de visitas por Usuario',      
+                    title: 'Cantidad de visitas por Usuario',
+                    yAxis: 'Número de visitas',
                     categories: response[0].time,
                     data: response[0].data
                 });
@@ -42,14 +44,14 @@
 {% block content %}
     <div class="space"></div>
     <div class="row">
-        <div class="col-xs-12 col-sm-12 col-md-8 col-lg-8">
-            <div id="container-line" style="min-width: 310px; height: 400px; max-width: 800px; margin: 0 auto"></div>
-        </div>
-        
-        <div class="col-xs-12 col-sm-12 col-md-4 col-lg-4">
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div id="pie" style="min-width: 310px; height: 400px; max-width: 600px; margin: 0 auto"></div>
         </div>
         
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
+            <div id="container-line"></div>
+        </div>    
+            
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
             <div id="column"></div>
         </div>        
