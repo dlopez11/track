@@ -39,17 +39,17 @@ class PHPExcel
         $this->createExcelObject();
 
         $header = array(
-            array('key' => 'A3', 'name' => "FECHA"),
-            array('key' => 'B3', 'name' => "NOMBRE DE USUARIO"),
-            array('key' => 'C3', 'name' => "TIPO DE VISITA"),
-            array('key' => 'D3', 'name' => "CLIENTE"),
-            array('key' => 'E3', 'name' => "ESTADO DE BATERÍA"),
-            array('key' => 'F3', 'name' => "UBICACIÓN")
+            array('key' => 'A5', 'name' => "FECHA"),
+            array('key' => 'B5', 'name' => "NOMBRE DE USUARIO"),
+            array('key' => 'C5', 'name' => "TIPO DE VISITA"),
+            array('key' => 'D5', 'name' => "CLIENTE"),
+            array('key' => 'E5', 'name' => "ESTADO DE BATERÍA"),
+            array('key' => 'F5', 'name' => "UBICACIÓN")
         );
 
         $this->createExcelHeader($header);
 	
-        $row = 4;
+        $row = 6;
         foreach ($this->data as $data) {
             $array = array(
                 $data['date'],
@@ -65,21 +65,21 @@ class PHPExcel
             $row++;
         }
 
-        $this->styleExcelHeader('A3:F3');
+        $this->styleExcelHeader('A5:F5');
 
         $array = array(
-            array('key' => 'A', 'size' => 15),
+            array('key' => 'A', 'size' => 30),
             array('key' => 'B', 'size' => 30),
             array('key' => 'C', 'size' => 40),
             array('key' => 'D', 'size' => 40),
             array('key' => 'E', 'size' => 20),
-            array('key' => 'E', 'size' => 50),
+            array('key' => 'F', 'size' => 50),
         );
 
         $this->setColumnDimesion($array);
-        $this->createExcelFilter("B3:B{$row}");
-        $this->createExcelFilter("C3:C{$row}");
-        $this->createExcelFilter("D3:D{$row}");
+        $this->createExcelFilter("B5:B{$row}");
+        $this->createExcelFilter("C5:C{$row}");
+        $this->createExcelFilter("D5:D{$row}");
 
         $this->createExcelFile();
     }
@@ -95,6 +95,8 @@ class PHPExcel
                 ->setDescription("Reporte detallado de visitas registradas de usuarios")
                 ->setKeywords('visits sales report excel')
                 ->setCategory('Report');
+        
+        $this->addLogo();
     }
 
     private function createExcelHeader($array) {
@@ -109,13 +111,12 @@ class PHPExcel
         $this->phpExcelObj->getActiveSheet()->getStyle($fields)->getAlignment()->setWrapText(TRUE);
         $this->phpExcelObj->getActiveSheet()->getStyle($fields)->getFill()
                 ->setFillType(\PHPExcel_Style_Fill::FILL_SOLID)
-                ->getStartColor()->setARGB('AAAAAAAA');
+                ->getStartColor()->setARGB('474646');
 
         $styleArray = array(
             'borders' => array(
                 'outline' => array(
-                    'style' => \PHPExcel_Style_Border::BORDER_MEDIUM,
-                    'color' => array('argb' => '00000000'),
+                    'color' => array('argb' => '00bede'),
                 ),
             ),
         );
@@ -139,6 +140,22 @@ class PHPExcel
         $this->phpExcelObj->getActiveSheet()->setAutoFilter($fields);
     }
 
+    private function addLogo()
+    {
+        $objDrawing = new \PHPExcel_Worksheet_Drawing();
+        $objDrawing->setName('Logo');
+        $objDrawing->setDescription('Logo');
+        $logo = "{$this->path->path}public/images/excel/logo.png"; // Provide path to your logo file
+        $this->logger->log($logo);
+        $objDrawing->setPath($logo);
+        $objDrawing->setOffsetX(8);    // setOffsetX works properly
+        $objDrawing->setOffsetY(0);  //setOffsetY has no effect
+        $objDrawing->setCoordinates('A1');
+        $objDrawing->setHeight(75); // logo height
+        $objDrawing->setWorksheet($this->phpExcelObj->getActiveSheet()); 
+    }
+    
+    
     private function createExcelFile() {
         $this->phpExcelObj->setActiveSheetIndex(0);
         $objWriter = \PHPExcel_IOFactory::createWriter($this->phpExcelObj, 'Excel2007');
@@ -158,7 +175,6 @@ class PHPExcel
 
         $this->report = new \Tmpreport();
         $this->report->idAccount = $this->account->idAccount;
-        $this->report->idReport = $this->report->idReport;
         $this->report->name = $name;
         $this->report->created = time();
 
