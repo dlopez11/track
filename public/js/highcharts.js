@@ -78,7 +78,7 @@ function createBarGraphic(data) {
         yAxis: {
             min: 0,
             title: {
-                text: 'Rainfall (mm)'
+                text: data.yAxis
             }
         },
         tooltip: {

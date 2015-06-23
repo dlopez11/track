@@ -25,10 +25,10 @@
             
             
             $.get("{{url('statistic/getdata')}}/column", function(response, status){
-                console.log(response[0].data);
                 createBarGraphic({
                     container: '#column',
-                    title: 'Cantidad de visitas por Usuario',      
+                    title: 'Cantidad de visitas por Usuario',
+                    yAxis: 'Número de visitas',
                     categories: response[0].time,
                     data: response[0].data
                 });

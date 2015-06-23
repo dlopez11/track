@@ -109,6 +109,7 @@ class StatisticWrapper
         
         $time[] = $first_day;
         $j = 0;
+        
         for ($i = 1; $i < 29; $i++) {
             $visits[] = 0;
             $time[] = strtotime("+1 days", $time[$j]);
@@ -132,7 +133,6 @@ class StatisticWrapper
                     foreach($time AS $key => $v) {
                         if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                             $user->data[$key] += 1;
-                            $this->logger->log($user->data[$key]);
                         }
                     }
                 }
