@@ -7,21 +7,35 @@ class ReportController extends ControllerBase
         $data = $this->request->getPost('paginator');
         $reportCreator = new \Sigmamovil\Misc\ReportCreator();
         
-        $this->logger->log(print_r($data, true));
-        
         try {
             $reportCreator->setAccount($this->user->account);
             $reportCreator->setData($data);
             $reportCreator->process();
             $report = $reportCreator->getReport();
             
-            return $this->setJsonResponse(array($report->idTmpreport), 200);  
+            return $this->set_json_response(array($report->idTmpreport), 200);  
         } 
         catch (Exception $ex) {
             $this->logger->log($ex->getMessage());
             return $this->set_json_response('ha ocurrido un error, por favor contacte al administrador', 500);
         }
     }  
+    
+    public function createfullAction()
+    {
+        $reportCreator = new \Sigmamovil\Misc\ReportCreator();
+        try {
+            $reportCreator->setAccount($this->user->account);
+            $reportCreator->processFull();
+            $report = $reportCreator->getReport();
+            
+            return $this->set_json_response(array($report->idTmpreport), 200);  
+        } 
+        catch (Exception $ex) {
+            $this->logger->log($ex->getMessage());
+            return $this->set_json_response('ha ocurrido un error, por favor contacte al administrador', 500);
+        }
+    }
     
     public function downloadAction($idReport)
     {

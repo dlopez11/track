@@ -171,6 +171,7 @@ class Security extends Plugin
                 'statistic::index' => array('statistic' => array('read')),
                 'statistic::getdata' => array('statistic' => array('read')),
                 'report::create' => array('report' => array('download')),
+                'report::createfull' => array('report' => array('download')),
                 'report::download' => array('report' => array('download')),
             );
             
