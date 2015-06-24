@@ -12,10 +12,13 @@ class ReportCreator
     private $account;
     private $report;
     private $rows = array();
+    private $user = null;
+    private $path;
     
     public function __construct() 
     {
         $this->logger = \Phalcon\DI::getDefault()->get('logger');
+        $this->path = \Phalcon\DI::getDefault()->get('path');
     }
     
     public function setData($data)
@@ -26,6 +29,11 @@ class ReportCreator
     public function setAccount(\Account $account)
     {
         $this->account = $account;
+    }
+    
+    public function setUser(\User $user)
+    {
+        $this->user = $user;
     }
     
     public function process()
@@ -52,9 +60,13 @@ class ReportCreator
             $finder->setFilter($filter);
             $finder->load();
             $rows = $finder->getRows();
-
+            
             $PHPExcel = new \Sigmamovil\Misc\PHPExcel();
+            $PHPExcel->setLogoDir("{$this->path->path}public/images/excel/logo.png");
             $PHPExcel->setAccount($this->account);
+            if ($this->user != null) {
+                $PHPExcel->setUser($this->user);
+            }
             $PHPExcel->setData($rows['data']);
             $PHPExcel->create();
             $this->report = $PHPExcel->getReportData();
@@ -81,7 +93,9 @@ class ReportCreator
             $this->modelRows($result->fetchAll());
             
             $PHPExcel = new \Sigmamovil\Misc\PHPExcel();
+            $PHPExcel->setLogoDir("{$this->path->path}public/images/excel/logo.png");
             $PHPExcel->setAccount($this->account);
+            $PHPExcel->setUser($this->user);
             $PHPExcel->setData($this->rows);
             $PHPExcel->create();
             $this->report = $PHPExcel->getReportData();

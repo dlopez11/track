@@ -16,11 +16,18 @@ class PHPExcel
     private $data;
     private $report;
     private $phpExcelObj;
+    private $user = null;
+    private $logo;
     
     public function __construct() 
     {
         $this->logger = \Phalcon\DI::getDefault()->get('logger');
         $this->path = \Phalcon\DI::getDefault()->get('path');
+    }
+    
+    public function setUser(\User $user)
+    {
+        $this->user = $user;
     }
     
     public function setAccount(\Account $account) 
@@ -34,22 +41,53 @@ class PHPExcel
         $this->data = $data;
     }
     
+    public function setLogoDir($logo)
+    {
+        $this->logo = $logo;
+    }
     
     public function create() {
         $this->createExcelObject();
 
+        $preheader = new \stdClass();
+        $preheader->name = "Sigma Track";
+        $preheader->desc = "Sigma Track Engine 2015";
+        $preheader->logo = $this->logo;
+        $preheader->x = 8;
+        $preheader->y = 5;
+        $preheader->coordinates = "A1";
+        $preheader->height = 75;
+        
+        $this->addLogo($preheader);
+        
+        $firm = array(
+            array('key' => 'B2', 'name' => "Fecha: " . date('d/M/Y H:s')),
+            array('key' => 'B4', 'name' => "Cuenta: ". $this->account->name),
+        );
+        
+        $this->createExcelHeader($firm);
+        
+        if ($this->user != null) {
+            $firm = array(
+                array('key' => 'B3', 'name' => "Elaborado por: {$this->user->name} {$this->user->lastName}"),
+            );
+
+            $this->createExcelHeader($firm);
+        }
+        
         $header = array(
-            array('key' => 'A5', 'name' => "FECHA"),
-            array('key' => 'B5', 'name' => "NOMBRE DE USUARIO"),
-            array('key' => 'C5', 'name' => "TIPO DE VISITA"),
-            array('key' => 'D5', 'name' => "CLIENTE"),
-            array('key' => 'E5', 'name' => "ESTADO DE BATERÍA"),
-            array('key' => 'F5', 'name' => "UBICACIÓN")
+            array('key' => 'A6', 'name' => "FECHA"),
+            array('key' => 'B6', 'name' => "NOMBRE DE USUARIO"),
+            array('key' => 'C6', 'name' => "TIPO DE VISITA"),
+            array('key' => 'D6', 'name' => "CLIENTE"),
+            array('key' => 'E6', 'name' => "ESTADO DE BATERÍA"),
+            array('key' => 'F6', 'name' => "UBICACIÓN"),
+            array('key' => 'G6', 'name' => "MAPA")
         );
 
         $this->createExcelHeader($header);
 	
-        $row = 6;
+        $row = 7;
         foreach ($this->data as $data) {
             $array = array(
                 $data['date'],
@@ -58,6 +96,7 @@ class PHPExcel
                 $data['client'],
                 $data['battery'],
                 $data['location'],
+                "http://maps.google.com/maps?q={$data['latitude']},{$data['longitude']}&ll={$data['latitude']},-{$data['longitude']}&z=17"
             );
 
             $this->phpExcelObj->getActiveSheet()->fromArray($array, NULL, "A{$row}");
@@ -65,21 +104,22 @@ class PHPExcel
             $row++;
         }
 
-        $this->styleExcelHeader('A5:F5');
+        $this->styleExcelHeader('A6:G6');
 
         $array = array(
-            array('key' => 'A', 'size' => 30),
+            array('key' => 'A', 'size' => 24),
             array('key' => 'B', 'size' => 30),
             array('key' => 'C', 'size' => 40),
             array('key' => 'D', 'size' => 40),
             array('key' => 'E', 'size' => 20),
             array('key' => 'F', 'size' => 50),
+            array('key' => 'G', 'size' => 90),
         );
 
         $this->setColumnDimesion($array);
-        $this->createExcelFilter("B5:B{$row}");
-        $this->createExcelFilter("C5:C{$row}");
-        $this->createExcelFilter("D5:D{$row}");
+        $this->createExcelFilter("B7:B{$row}");
+        $this->createExcelFilter("C7:C{$row}");
+        $this->createExcelFilter("D6:D{$row}");
 
         $this->createExcelFile();
     }
@@ -95,8 +135,6 @@ class PHPExcel
                 ->setDescription("Reporte detallado de visitas registradas de usuarios")
                 ->setKeywords('visits sales report excel')
                 ->setCategory('Report');
-        
-        $this->addLogo();
     }
 
     private function createExcelHeader($array) {
@@ -140,18 +178,15 @@ class PHPExcel
         $this->phpExcelObj->getActiveSheet()->setAutoFilter($fields);
     }
 
-    private function addLogo()
+    private function addLogo($preheader)
     {
-        $objDrawing = new \PHPExcel_Worksheet_Drawing();
-        $objDrawing->setName('Logo');
-        $objDrawing->setDescription('Logo');
-        $logo = "{$this->path->path}public/images/excel/logo.png"; // Provide path to your logo file
-        $this->logger->log($logo);
-        $objDrawing->setPath($logo);
-        $objDrawing->setOffsetX(8);    // setOffsetX works properly
-        $objDrawing->setOffsetY(0);  //setOffsetY has no effect
-        $objDrawing->setCoordinates('A1');
-        $objDrawing->setHeight(75); // logo height
+        $objDrawing = new \PHPExcel_Worksheet_Drawing();$objDrawing->setName($preheader->name);
+        $objDrawing->setDescription($preheader->desc);
+        $objDrawing->setPath($preheader->logo);
+        $objDrawing->setOffsetX($preheader->x);    // setOffsetX works properly
+        $objDrawing->setOffsetY($preheader->y);  //setOffsetY has no effect
+        $objDrawing->setCoordinates($preheader->coordinates);
+        $objDrawing->setHeight($preheader->height); // logo height
         $objDrawing->setWorksheet($this->phpExcelObj->getActiveSheet()); 
     }
     
