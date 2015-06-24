@@ -8,7 +8,7 @@
             $.get("{{url('statistic/getdata')}}/pie", function(data, status){
                 createPie({
                     container: '#pie',
-                    title: 'Total de visitas',
+                    title: "<strong>Total de visitas</strong>",
                     serie: 'Visitas totales',
                     data: data
                 });
@@ -18,7 +18,7 @@
                 console.log(r[0].data);
                 createLineGraphic({
                     container: '#container-line',
-                    title: 'Visitas diarias',
+                    title: '<strong>Visitas diarias</strong>',
                     categories: r[0].categories,
                     data: r[0].data
                 });
@@ -28,7 +28,7 @@
             $.get("{{url('statistic/getdata')}}/column", function(response, status){
                 createBarGraphic({
                     container: '#column',
-                    title: 'Cantidad de visitas por Usuario',
+                    title: '<strong>Cantidad de visitas por Usuario</strong>',
                     yAxis: 'Número de visitas',
                     categories: response[0].time,
                     data: response[0].data
