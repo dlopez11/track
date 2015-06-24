@@ -9,6 +9,7 @@ class ReportController extends ControllerBase
         
         try {
             $reportCreator->setAccount($this->user->account);
+            $reportCreator->setUser($this->user);
             $reportCreator->setData($data);
             $reportCreator->process();
             $report = $reportCreator->getReport();
@@ -26,14 +27,15 @@ class ReportController extends ControllerBase
         $reportCreator = new \Sigmamovil\Misc\ReportCreator();
         try {
             $reportCreator->setAccount($this->user->account);
+            $reportCreator->setUser($this->user);
             $reportCreator->processFull();
             $report = $reportCreator->getReport();
             
             return $this->set_json_response(array($report->idTmpreport), 200);  
         } 
         catch (Exception $ex) {
-            $this->logger->log($ex->getMessage());
-            return $this->set_json_response('ha ocurrido un error, por favor contacte al administrador', 500);
+            $this->logger->log($ex->getTraceAsString());
+            return $this->set_json_response('Ha ocurrido un error, por favor contacte al administrador', 500);
         }
     }
     
