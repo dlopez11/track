@@ -96,28 +96,29 @@ function createBarGraphic(data) {
 }
 function createTimelineGraphic(data) {
     $(data.container).highcharts({
-        chart: {
-            type: 'line'
-        },
         title: {
-            text: data.title
+            text: data.title,
+            x: -20 //center
         },
         xAxis: {
             categories: data.categories
         },
         yAxis: {
             title: {
-                text: data.yAxis
-            }
+                text: data.subtitle
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
         },
-        plotOptions: {
-            line: {
-                dataLabels: {
-                    enabled: true
-                },
-                enableMouseTracking: false
-            }
+        legend: {
+            layout: 'horizontal',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
         },
         series: data.data
-    });  
+    });
 }

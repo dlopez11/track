@@ -220,7 +220,7 @@ class StatisticWrapper
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
-                    $obj->data[$key] = $horas / $vi[$key] ;
+                    $obj->data[$key] = round($horas / $vi[$key],1);
                 }
             }
         }

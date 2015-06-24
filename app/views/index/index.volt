@@ -39,7 +39,7 @@
                 createTimelineGraphic({
                     container: '#timeline',
                     title: 'Tiempo promedio de visitas',
-                    yAxis: 'Horas',
+                    subtitle: 'Horas',
                     categories: response[0].time,
                     data: response[0].data
                 });
