@@ -82,7 +82,9 @@ class StatisticWrapper
     }
     
     private function modelLineData()
-    {        
+    {
+        $vist = \Visittype::find();
+        
         $time = array();
         $visits = array(0, 0);
         $date = strtotime(date("Y-m-d"), time());
@@ -98,22 +100,26 @@ class StatisticWrapper
         }
         
         $time[] = $today;
-        $total = array();
-        $vt = array();
+        
+        $vists = array();
+        foreach ($vist as $vt) {
+            $obj = new \stdClass();
+            $obj->idVisittype = $vt->idVisittype;
+            $obj->name = $vt->name;
+            $obj->data = $visits;
+            $vists[] = $obj;
+        }
+        
         foreach ($this->visits as $visit){
-            if(!in_array($visit->vname, $vt)){
-                $obj = new \stdClass();
-                $obj->name = $visit->vname;
-                $obj->data = $visits;
-                $vt[] = $visit->vname;
-                $total[] = $obj;
-            }
-            foreach($time AS $key => $v) {
-                if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
-                    $obj->data[$key] += 1;
+            foreach ($vists as $vt) {
+                if ($visit->idVisittype == $vt->idVisittype) {
+                    foreach($time AS $key => $v) {
+                        if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
+                            $vt->data[$key] += 1;
+                        }
+                    }
                 }
             }
-            
         }
         
         $tm = array();
@@ -123,7 +129,7 @@ class StatisticWrapper
         
         $this->modelData = array(
             'categories' => $tm,
-            'data' => $total
+            'data' => $vists
         );
     }
     
