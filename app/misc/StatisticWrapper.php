@@ -52,7 +52,7 @@ class StatisticWrapper
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
         
-        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
+        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, User.lastName, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
         $this->visits = $query_visits->execute();
     }
 
@@ -63,20 +63,18 @@ class StatisticWrapper
         $names = array();
         
         foreach ($this->visits as $v) {
-            if (isset($data[$v->idVisittype])) {
-                $data[$v->idVisittype] += 1;
+            if (!isset($data[$v->idVisittype])) {
+                $data[$v->idVisittype] = 1;
             }
             else {
-                $data[$v->idVisittype] = 1;
+                $data[$v->idVisittype] += 1;
             }
             
             $names[$v->idVisittype] = $v->vname;
         }
         
-        $total = array_sum($data);
-        
         foreach ($data as $key => $value) {
-            $array = array($names[$key], $total);
+            $array = array($names[$key], $value);
             $this->modelData[] = $array;
         }
     }
@@ -159,7 +157,7 @@ class StatisticWrapper
         foreach ($us as $user) {
             $obj = new \stdClass();
             $obj->idUser = $user->idUser;
-            $obj->name = $user->name;
+            $obj->name = "{$user->name} {$user->lastName}";
             $obj->data = $visits;
             $users[] = $obj;
         }

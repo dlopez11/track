@@ -15,11 +15,11 @@ class SmartMenu extends \Phalcon\Mvc\User\Component implements \Iterator
             "icon" => "",
             "target" => ""
         ),
-        "Visitas" => array(
+        "Reportes" => array(
             "controller" => array("visit"),
             "class" => "",
             "url" => "visit",
-            "title" => "Visitas",
+            "title" => "Reportes",
             "icon" => "",
             "target" => ""
         ),

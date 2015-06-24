@@ -94,7 +94,7 @@ class PHPExcel
                 $data['name'],
                 $data['visit'],
                 $data['client'],
-                $data['battery'],
+                "{$data['battery']}%",
                 $data['location'],
                 "http://maps.google.com/maps?q={$data['latitude']},{$data['longitude']}&ll={$data['latitude']},-{$data['longitude']}&z=17"
             );
