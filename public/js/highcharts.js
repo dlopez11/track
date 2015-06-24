@@ -94,3 +94,30 @@ function createBarGraphic(data) {
         series: data.data
     });        
 }
+function createTimelineGraphic(data) {
+    $(data.container).highcharts({
+        chart: {
+            type: 'line'
+        },
+        title: {
+            text: data.title
+        },
+        xAxis: {
+            categories: data.categories
+        },
+        yAxis: {
+            title: {
+                text: data.yAxis
+            }
+        },
+        plotOptions: {
+            line: {
+                dataLabels: {
+                    enabled: true
+                },
+                enableMouseTracking: false
+            }
+        },
+        series: data.data
+    });  
+}

@@ -41,6 +41,10 @@ class StatisticWrapper
                 $this->modelColumnData();
                 break;
             
+            case "timeline":
+                $this->modelTimelineData();
+                break;
+            
             default:
                 break;
         }
@@ -170,6 +174,64 @@ class StatisticWrapper
                     foreach($time AS $key => $v) {
                         if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                             $user->data[$key] += 1;
+                        }
+                    }
+                }
+            }
+        }
+        
+        $tm = array();
+        foreach ($time as $t) {
+            $tm[] = date("d/M/Y", $t);
+        }
+        
+        $this->modelData = array(
+            'time' => $tm,
+            'data' => $users
+        );
+    }
+    
+    private function modelTimelineData()
+    {
+        $us = \User::findByIdAccount($this->account->idAccount);
+        
+        $time = array();
+        $visits = array(0, 0);
+        
+        $date = strtotime(date("Y-m-d"), time());
+        $today = strtotime("+1 days", $date);
+        $first_day = strtotime("-29 days", $today);
+        
+        $time[] = $first_day;
+        $j = 0;
+        
+        for ($i = 1; $i < 29; $i++) {
+            $visits[] = 0;
+            $time[] = strtotime("+1 days", $time[$j]);
+            $j++;
+        }
+        
+        $time[] = $today;
+        
+        $users = array();
+        $vi = array();
+        $horas = 9;
+        foreach ($us as $user) {
+            $obj = new \stdClass();
+            $obj->idUser = $user->idUser;
+            $obj->name = "Promedio";
+            $obj->data = $visits;
+            $users[] = $obj;
+        }
+        
+        foreach ($this->visits as $visit){
+            foreach ($users as $user) {
+                if ($visit->idUser == $user->idUser) {
+                    foreach($time AS $key => $v) {
+                        if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
+//                            $vi += $obj->data[$key] = 1;
+                            $vi[$key] += 1;
+                            $user->data[$key] = $horas / $vi[$key];
                         }
                     }
                 }
