@@ -15,6 +15,6 @@
         <input type="password" id="password" name="password" class="form-control" placeholder="Contraseña" required>
         <button class="btn btn-lg btn-primary btn-block" type="submit">Continuar</button>
         <br>
-        <a href="/track/session/recoverpass" style="text-decoration: underline;">Recuperar Contraseña</a>        
+        <a href="{{url('session/recoverpass')}}" style="text-decoration: underline;">Recuperar Contraseña</a>        
     </form>
 {% endblock %}
