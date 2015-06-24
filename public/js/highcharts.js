@@ -94,3 +94,31 @@ function createBarGraphic(data) {
         series: data.data
     });        
 }
+function createTimelineGraphic(data) {
+    $(data.container).highcharts({
+        title: {
+            text: data.title,
+            x: -20 //center
+        },
+        xAxis: {
+            categories: data.categories
+        },
+        yAxis: {
+            title: {
+                text: data.subtitle
+            },
+            plotLines: [{
+                value: 0,
+                width: 1,
+                color: '#808080'
+            }]
+        },
+        legend: {
+            layout: 'horizontal',
+            align: 'right',
+            verticalAlign: 'bottom',
+            borderWidth: 0
+        },
+        series: data.data
+    });
+}

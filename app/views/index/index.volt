@@ -15,7 +15,6 @@
             });
             
             $.get("{{url('statistic/getdata')}}/line", function(r, status){
-                console.log(r[0].data);
                 createLineGraphic({
                     container: '#container-line',
                     title: '<strong>Visitas diarias</strong>',
@@ -30,6 +29,17 @@
                     container: '#column',
                     title: '<strong>Cantidad de visitas por Usuario</strong>',
                     yAxis: 'Número de visitas',
+                    categories: response[0].time,
+                    data: response[0].data
+                });
+            });
+            
+            $.get("{{url('statistic/getdata')}}/timeline", function(response, status){
+                console.log(response[0].data);
+                createTimelineGraphic({
+                    container: '#timeline',
+                    title: 'Tiempo promedio de visitas',
+                    subtitle: 'Horas',
                     categories: response[0].time,
                     data: response[0].data
                 });
@@ -54,7 +64,11 @@
         
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 graphic-container">
             <div id="column"></div>
-        </div>        
+        </div>
+            
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 graphic-container">
+            <div id="timeline"></div>
+        </div>            
     </div>    
     
     
