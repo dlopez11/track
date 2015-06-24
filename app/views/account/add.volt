@@ -70,15 +70,6 @@
                         <h3>Usuario administrador</h3>
                         <hr />
                         <div class="form-group">
-                            {{userForm.render('userName')}}
-                        </div>
-                        <div class="form-group">
-                            {{userForm.render('pass')}}
-                        </div>
-                        <div class="form-group">
-                            {{userForm.render('pass2')}}
-                        </div>
-                        <div class="form-group">
                             {{userForm.render('email')}}
                         </div>
                         <div class="form-group">
@@ -89,15 +80,24 @@
                         </div>
                         <div class="form-group">
                             {{userForm.render('address_user')}}
-                        </div>
-                        <div class="form-group">
-                            {{userForm.render('state_user', {'class': 'form-control select2', 'id':'state_user'})}}
                         </div>   
                         <div class="form-group">
                             {{userForm.render('city_user', {'class': 'form-control select2', 'id':'city_user'})}}
                         </div>   
                         <div class="form-group">
                             {{userForm.render('phone_user')}}
+                        </div>
+                        <div class="form-group">
+                            {{userForm.render('userName')}}
+                        </div>
+                        <div class="form-group">
+                            {{userForm.render('pass')}}
+                        </div>
+                        <div class="form-group">
+                            {{userForm.render('pass2')}}
+                        </div>
+                        <div class="form-group">
+                            {{userForm.render('state_user', {'class': 'form-control select2', 'id':'state_user'})}}
                         </div>
                     </div>
                 </div>
