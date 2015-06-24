@@ -136,7 +136,7 @@ class StatisticWrapper
         $time = array();
         $visits = array(0, 0);
         
-        $today = time();
+        $today = strtotime("tomorrow");
         $first_day = strtotime("-29 days", $today);
         
         $time[] = $first_day;
