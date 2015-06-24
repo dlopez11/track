@@ -78,7 +78,6 @@ Paginator.prototype.getDataForReport = function(url) {
                 throw error.responseText;
             },
             success: function(data){
-                console.log(data);
                 self.report = data;
                 dfd.resolve();
             }
@@ -150,15 +149,23 @@ Paginator.prototype.catchAndSendData = function(page) {
 
 Paginator.prototype.catchAndSendDataForReport = function() {
     var self = this;
-    self.data.page = "all";
+    self.data.page = 1;
     self.data.limit = $('#limit').val();
     self.data.user = $('#user').val();
     self.data.visit = $('#visittype').val();
     self.data.client = $('#client').val();
 
     self.getDataForReport(self.urlReport + "/create").then(function() { 
-       console.log('now');
-       console.log(self.report);
+        $("#loading").hide('slow');
+        window.location = self.urlReport + '/download/' + self.report[0];
+    });
+};
+
+Paginator.prototype.catchAndSendDataForFullReport = function() {
+    var self = this;
+    self.getDataForReport(self.urlReport + "/createfull").then(function() { 
+        $("#loading").hide('slow');
+        window.location = self.urlReport + '/download/' + self.report[0];
     });
 };
 
@@ -195,6 +202,10 @@ Paginator.prototype.initialize = function() {
     
     $( "#filter-downloader" ).click(function() {
         self.catchAndSendDataForReport();
+    });
+    
+    $( "#downloader" ).click(function() {
+        self.catchAndSendDataForFullReport();
     });
 };
 

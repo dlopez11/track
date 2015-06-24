@@ -48,7 +48,7 @@ class StatisticWrapper
     
     private function findVisits()
     {
-        $today = time();
+        $today = date("Y-m-d");
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
         
@@ -86,7 +86,7 @@ class StatisticWrapper
         $time = array();
         $visits = array(0, 0);
         
-        $today = time();
+        $today = strtotime("tomorrow");
         $first_day = strtotime("-29 days", $today);
         
         $time[] = $first_day;
@@ -101,21 +101,19 @@ class StatisticWrapper
         $total = array();
         $vt = array();
         foreach ($this->visits as $visit){
-            if (!in_array($visit->vname, $vt)) {
+            if(!in_array($visit->vname, $vt)){
                 $obj = new \stdClass();
                 $obj->name = $visit->vname;
                 $obj->data = $visits;
-                $total[] = $obj;
                 $vt[] = $visit->vname;
+                $total[] = $obj;
             }
-            
-            foreach ($total as $t) {
-                foreach($time AS $key => $v) {
-                    if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
-                        $t->data[$key] += 1;
-                    }
+            foreach($time AS $key => $v) {
+                if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
+                    $obj->data[$key] += 1;
                 }
             }
+            
         }
         
         $tm = array();

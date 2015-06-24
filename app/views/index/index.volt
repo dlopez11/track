@@ -19,7 +19,6 @@
                 createLineGraphic({
                     container: '#container-line',
                     title: 'Visitas diarias',
-                    serie: 'Visitas totales',
                     categories: r[0].categories,
                     data: r[0].data
                 });
