@@ -50,9 +50,9 @@ function createLineGraphic(data) {
             }]
         },
         legend: {
-            layout: 'vertical',
+            layout: 'horizontal',
             align: 'right',
-            verticalAlign: 'middle',
+            verticalAlign: 'bottom',
             borderWidth: 0
         },
         series: data.data
