@@ -26,6 +26,8 @@
             paginator.setDOM(domManager);
             paginator.setContainerControls('pagination');
             paginator.load();
+            
+            $('[data-toggle="tooltip"]').tooltip();
         });
     </script>
 {% endblock %}
@@ -81,13 +83,13 @@
                     </select>    
                 </div>
                 <div class="form-group">
-                    <button class="btn btn-sm btn-primary" id="refresher"><span class="glyphicon glyphicon-refresh"></span></button>
+                    <button class="btn btn-sm btn-primary" id="refresher" data-toggle="tooltip" data-placement="top" title="Refrescar tabla"><span class="glyphicon glyphicon-refresh"></span></button>
                 </div>      
                 <div class="form-group">
-                    <button class="btn btn-sm btn-default" id="filter-downloader"><span class="glyphicon glyphicon-download-alt"></span></button>
+                    <button class="btn btn-sm btn-default" id="filter-downloader" data-toggle="tooltip" data-placement="top" title="Descargar contenido en pantalla"><span class="glyphicon glyphicon-download-alt"></span></button>
                 </div>    
                 <div class="form-group">
-                    <button class="btn btn-sm btn-default" id="downloader"><span class="glyphicon glyphicon-download"></span></button>
+                    <button class="btn btn-sm btn-default" id="downloader" data-toggle="tooltip" data-placement="top" title="Descargar desde el origen de los tiempos"><span class="glyphicon glyphicon-download"></span></button>
                 </div>      
             </div>
         </div>    
