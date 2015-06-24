@@ -70,7 +70,7 @@ class StatisticWrapper
                 $data[$v->idVisittype] = 1;
             }
             
-            $names[$v->idVisittype] = $v->name;
+            $names[$v->idVisittype] = $v->vname;
         }
         
         $total = array_sum($data);

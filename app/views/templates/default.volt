@@ -55,9 +55,10 @@
                 <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
                     {% block content %}<!-- custom content body code -->{% endblock %}
                 </div>    
-            </div>    
-
-            <footer class="footer">
+            </div>
+        </div>  
+                
+        <footer class="footer">
                 <p style="float: left;">&copy; Sigma Engine 2015, Todos los derechos reservados</p>
                 <div style="float: right;">
                     <a href="https://es-es.facebook.com/SigmaMovil" target="_blank" data-toggle="tooltip" data-placement="top" title="Síguenos en facebook">
@@ -76,7 +77,6 @@
                         <img src="/images/social/linkedin.png" />
                     </a>    
                 </div>    
-            </footer>   
-        </div>  
+            </footer>           
     </body>
 </html>
