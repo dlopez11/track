@@ -204,30 +204,12 @@ class StatisticWrapper
         
         $time[] = $first_day;
         $j = 0;
+        
         for ($i = 1; $i < 29; $i++) {
             $visits[] = 0;
             $time[] = strtotime("+1 days", $time[$j]);
             $j++;
         }
-        
-        
-        
-        
-//        $time_initial = \Visit::query()
-//            ->where("Visit.date >= :date_initial:")
-//            ->andWhere("Visit.date <= {$date_final}")
-//            ->bind(array("date_initial" => "{$date_initial}"))
-//            ->limit(1)
-//            ->order("Visit.date DESC")
-//            ->execute();
-//            
-//        $time_final = \Visit::query()
-//        ->where("Visit.date >= :date_initial:")
-//        ->andWhere("Visit.date <= {$date_final}")
-//        ->bind(array("date_initial" => "{$date_initial}"))
-//        ->limit(1)
-//        ->order("Visit.date ASC")
-//        ->execute();
         
         $time[] = $today;
         $total = array();
@@ -238,16 +220,23 @@ class StatisticWrapper
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
-        $date = date("Y-m-d", $visit->date);
-        $date_initial = strtotime($date." 00:00");
-        $date_final = strtotime($date." 23:59");
-        $q = "SELECT Visit.date FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} AND Visit.date <= {$date_final} ORDER BY Visit.date DESC LIMIT 1";
-        $this->logger->log($q);
-        $query_first = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($q);
-        $time_initial = $query_first->execute();
-        $query_end = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} AND Visit.date <= {$date_final} ORDER BY Visit.date ASC LIMIT 1");
-        $time_final = $query_end->execute();
-        $horas = $time_final - $time_initial / 3600;
+            
+            $date = date("Y-m-d", $visit->date);
+            $date_initial = strtotime($date." 00:00");
+            $date_final = strtotime($date." 23:59");
+            
+            $query_first = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date AS di FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} and Visit.date <= {$date_final} ORDER BY Visit.date DESC LIMIT 1");
+            $time_first = $query_first->execute();
+
+            $query_end = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date AS df FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} and Visit.date <= {$date_final} ORDER BY Visit.date ASC LIMIT 1");
+            $time_end = $query_end->execute();
+
+            $this->logger->log($time_end->df);
+            $this->logger->log($time_first->di);
+
+            $horas = $time_end->df - $time_first->di / 3600;
+            $this->logger->log($horas);
+            
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
@@ -265,6 +254,7 @@ class StatisticWrapper
             'time' => $tm,
             'data' => $total
         );
+        
 //        $us = \User::findByIdAccount($this->account->idAccount);
 //        
 //        $time = array();
@@ -319,6 +309,7 @@ class StatisticWrapper
 //            'time' => $tm,
 //            'data' => $users
 //        );
+        
     }
 
     public function getModelData()
