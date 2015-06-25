@@ -205,10 +205,31 @@ class StatisticWrapper
             $j++;
         }
         
+        $date = date("Y-m-d");
+        $date_initial = strtotime($date." 00:00");
+        $date_final = strtotime($date." 23:59");
+        
+        $time_initial = \Visit::query()
+            ->where("Visit.date >= :date_initial:")
+            ->andWhere("Visit.date <= {$date_final}")
+            ->bind(array("date_initial" => "{$date_initial}"))
+            ->limit(1)
+            ->order("Visit.date DESC")
+            ->execute();
+            
+        $time_final = \Visit::query()
+        ->where("Visit.date >= :date_initial:")
+        ->andWhere("Visit.date <= {$date_final}")
+        ->bind(array("date_initial" => "{$date_initial}"))
+        ->limit(1)
+        ->order("Visit.date ASC")
+        ->execute();
+        
+        $timet = $time_final - $time_initial / 3600;
+        
         $time[] = $today;
         $total = array();
         $vi = array();
-        $horas = 9;
         $obj = new \stdClass();
         $obj->name = "Promedio";
         $obj->data = $visits;
@@ -218,7 +239,7 @@ class StatisticWrapper
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
-                    $obj->data[$key] = round($horas / $vi[$key],1);
+                    $obj->data[$key] = round($timet / $vi[$key],1);
                 }
             }
         }
