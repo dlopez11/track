@@ -26,27 +26,32 @@ class StatisticWrapper
     
     public function processData($type)
     {
-        $this->findVisits();
-        
-        switch ($type) {
-            case "pie":
-                $this->modelPieData();
-                break;
-            
-            case "line":
-                $this->modelLineData();
-                break;
-            
-            case "column":
-                $this->modelColumnData();
-                break;
-            
-            case "timeline":
-                $this->modelTimelineData();
-                break;
-            
-            default:
-                break;
+        try{
+            $this->findVisits();
+
+            switch ($type) {
+                case "pie":
+                    $this->modelPieData();
+                    break;
+
+                case "line":
+                    $this->modelLineData();
+                    break;
+
+                case "column":
+                    $this->modelColumnData();
+                    break;
+
+                case "timeline":
+                    $this->modelTimelineData();
+                    break;
+
+                default:
+                    break;
+            }
+        }
+        catch (\Exception $e) {
+            $this->logger->log($e->getMessage());
         }
     }
     
@@ -205,15 +210,8 @@ class StatisticWrapper
             $j++;
         }
         
-        $date = date("Y-m-d");
-        $date_initial = strtotime($date." 00:00");
-        $date_final = strtotime($date." 23:59");
         
-        $query_first = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} AND Visit.date <= {$date_final} ORDER BY Visit.date DESC LIMIT 1");
-        $time_initial = $query_first->execute();
         
-        $query_end = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} AND Visit.date <= {$date_final} ORDER BY Visit.date ASC LIMIT 1");
-        $time_final = $query_end->execute();
         
 //        $time_initial = \Visit::query()
 //            ->where("Visit.date >= :date_initial:")
@@ -231,8 +229,6 @@ class StatisticWrapper
 //        ->order("Visit.date ASC")
 //        ->execute();
         
-        $horas = $time_final - $time_initial / 3600;
-        
         $time[] = $today;
         $total = array();
         $vi = array();
@@ -242,6 +238,16 @@ class StatisticWrapper
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
+        $date = date("Y-m-d", $visit->date);
+        $date_initial = strtotime($date." 00:00");
+        $date_final = strtotime($date." 23:59");
+        $q = "SELECT Visit.date FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} AND Visit.date <= {$date_final} ORDER BY Visit.date DESC LIMIT 1";
+        $this->logger->log($q);
+        $query_first = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($q);
+        $time_initial = $query_first->execute();
+        $query_end = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} AND Visit.date <= {$date_final} ORDER BY Visit.date ASC LIMIT 1");
+        $time_final = $query_end->execute();
+        $horas = $time_final - $time_initial / 3600;
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
