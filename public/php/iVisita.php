@@ -1,7 +1,8 @@
 <?php
+
 $conexion = mysql_connect("localhost", "sigmatrack_user", "S1gm4134ck100");
 mysql_select_db("sigmamovil_track", $conexion);
- 
+
 $idUser = $_POST['idUser'];
 $idVisitType = $_POST['idVisitType'];
 $idClient = $_POST['idClient'];
@@ -26,26 +27,56 @@ if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 	if(isset($_POST['idUser']) && isset($_POST['idVisitType']) && isset($_POST['idClient']) && isset($_POST['date']) && isset($_POST['latitude']) && isset($_POST['longitude']) && isset($_POST['battery'])  && isset($_POST['location'])){ 
 	  $queTareas = "INSERT INTO visit (idUser,idVisittype,idClient,date,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",".$idClient.",".$date.",".$latitude.",".$longitude.",".$battery.",'".$location."')";
 	  mysql_query($queTareas, $conexion) or die(mysql_error());
-	 
-	  echo "La visita se registro correctamente";
+	  
+	  echo '[{"0": "1","id": "1","1": "ok","respuesta": "ok"}]';
+	  //echo "La visita se registro correctamente";
 	} 
 }
 else if ($name != "" && isset($_POST['nombreOtroCliente'])) {
-	$description = "Cliente nuevo";
-	$nit = "11111111";
-	$address = "Av 4 N 6-67";
-	$phone = "6618330";
-	$city = "Cali";
-	$state = "Activo";
+	$description = "No Disponible";
+	$nit = "No Disponible";
+	$address = "No Disponible";
+	$phone = "No Disponible";
+	$city = "No Disponible";
+	$state = "No Disponible";
 	
-	$queryCliente = "INSERT INTO client (idAccount,created,updated,name,description,nit,address,phone,city,state) VALUES (".$idAccount.",".$date.",".$date.",'".$name."','".$description."','".$nit."','".$address."','".$phone."','".$city."','".$state."')";
-	mysql_query($queryCliente, $conexion) or die(mysql_error());
+	// primero validamos si el nombre del nuevo cliente ya existe
 	
-	
-	 $queryVisita = "INSERT INTO visit (idUser,idVisittype,idClient,date,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",". mysql_insert_id() .",".$date.",".$latitude.",".$longitude.",".$battery.",'".$location."')";
-	  mysql_query($queryVisita, $conexion) or die(mysql_error());
+	$queTareas = "SELECT  count(*) AS Total, LOWER(client.name)
+				FROM user 
+				JOIN account USING (idAccount)
+				JOIN client USING (idAccount)
+				WHERE idUser = " . $idUsuario ." 
+				AND client.name = " . strtolower($name) ."
+				LIMIT 1";
+	$resTareas = mysql_query($queTareas, $conexion) or die(mysql_error());
+	$totTareas= mysql_num_rows($resTareas);
 	 
-	  echo "La visita al nuevo cliente se registro correctamente";
+	$arry = array();
+	$totalReg = 0;
+	
+	if ($totTareas > 0) {
+	   while ($rowTareas = mysql_fetch_array($resTareas)) {
+		  $arry[] = $rowTareas;
+		  $totalReg = $rowTareas["Total"];
+	   }
+	}
+	
+	if ($totalReg > 0) {{
+	    //indica que el clienet existe
+		echo '[{"0": "1","id": "1","1": "existe","respuesta": "existe"}]';
+	}
+	else {
+		//si el nombre de cliente no existe lo guardamos
+		$queryCliente = "INSERT INTO client (idAccount,created,updated,name,description,nit,address,phone,city,state) VALUES (".$idAccount.",".$date.",".$date.",'".$name."','".$description."','".$nit."','".$address."','".$phone."','".$city."','".$state."')";
+		mysql_query($queryCliente, $conexion) or die(mysql_error());
+	
+	
+	   $queryVisita = "INSERT INTO visit (idUser,idVisittype,idClient,date,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",". mysql_insert_id() .",".$date.",".$latitude.",".$longitude.",".$battery.",'".$location."')";
+	   mysql_query($queryVisita, $conexion) or die(mysql_error());
+	   echo '[{"0": "1","id": "1","1": "ok","respuesta": "ok"}]';
+	}
+	
 }
  
 ?>
