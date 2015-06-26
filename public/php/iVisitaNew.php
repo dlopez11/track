@@ -23,7 +23,7 @@ $name = $_POST['nombreOtroCliente'];
 $idAccount = $_POST['idCuenta'];
 
 $name = trim($name);
-$idUser = 3;
+
 // si no hay nombre de cliente registramos solamente la visita
 if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 	if(isset($_POST['idUser']) && isset($_POST['idVisitType']) && isset($_POST['idClient']) && isset($_POST['date']) && isset($_POST['latitude']) && isset($_POST['longitude']) && isset($_POST['battery'])  && isset($_POST['location'])){ 
