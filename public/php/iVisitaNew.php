@@ -1,10 +1,8 @@
 <?php
-/*
+
 $conexion = mysql_connect("localhost", "sigmatrack_user", "S1gm4134ck100");
 mysql_select_db("sigmamovil_track", $conexion);
-*/
-$conexion = mysql_connect("localhost", "maxireto_pruebas", "Moihoi9765687)(hgf**");
-mysql_select_db("maxireto_pruebas", $conexion);
+
 	
 $idUser = $_POST['idUser'];
 $idVisitType = $_POST['idVisitType'];
