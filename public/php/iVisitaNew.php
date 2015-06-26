@@ -1,8 +1,11 @@
 <?php
-
+/*
 $conexion = mysql_connect("localhost", "sigmatrack_user", "S1gm4134ck100");
 mysql_select_db("sigmamovil_track", $conexion);
-
+*/
+$conexion = mysql_connect("localhost", "maxireto_pruebas", "Moihoi9765687)(hgf**");
+mysql_select_db("maxireto_pruebas", $conexion);
+	
 $idUser = $_POST['idUser'];
 $idVisitType = $_POST['idVisitType'];
 $idClient = $_POST['idClient'];
@@ -21,7 +24,8 @@ $location = $_POST['location'];
 $name = $_POST['nombreOtroCliente'];
 $idAccount = $_POST['idCuenta'];
 
-
+$name = trim($name);
+$idUser = 3;
 // si no hay nombre de cliente registramos solamente la visita
 if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 	if(isset($_POST['idUser']) && isset($_POST['idVisitType']) && isset($_POST['idClient']) && isset($_POST['date']) && isset($_POST['latitude']) && isset($_POST['longitude']) && isset($_POST['battery'])  && isset($_POST['location'])){ 
@@ -39,22 +43,22 @@ else if ($name != "" && isset($_POST['nombreOtroCliente'])) {
 	$phone = "No Disponible";
 	$city = "No Disponible";
 	$state = "No Disponible";
-	
-	// primero validamos si el nombre del nuevo cliente ya existe
-	
-	$queTareas = "SELECT  count(*) AS Total, LOWER(client.name)
-				FROM user 
-				JOIN account USING (idAccount)
-				JOIN client USING (idAccount)
-				WHERE idUser = " . $idUsuario ." 
-				AND client.name = " . strtolower($name) ."
-				LIMIT 1";
-	$resTareas = mysql_query($queTareas, $conexion) or die(mysql_error());
-	$totTareas= mysql_num_rows($resTareas);
-	 
 	$arry = array();
 	$totalReg = 0;
 	
+	// primero validamos si el nombre del nuevo cliente ya existe
+	
+	$queTareas = "SELECT  LOWER(client.name), count(*) AS Total
+				FROM account
+				JOIN client USING (idAccount)
+				WHERE  client.name = '" . strtolower($name) ."'
+				AND idAccount = '" . $idAccount ."'
+				GROUP BY 1
+				LIMIT 1";
+	
+	$resTareas = mysql_query($queTareas, $conexion) or die(mysql_error());
+	$totTareas= mysql_num_rows($resTareas);
+
 	if ($totTareas > 0) {
 	   while ($rowTareas = mysql_fetch_array($resTareas)) {
 		  $arry[] = $rowTareas;
@@ -62,13 +66,14 @@ else if ($name != "" && isset($_POST['nombreOtroCliente'])) {
 	   }
 	}
 	
-	if ($totalReg > 0) {{
+	if ($totalReg > 0) {
 	    //indica que el clienet existe
 		echo '[{"0": "1","id": "1","1": "existe","respuesta": "existe"}]';
 	}
 	else {
 		//si el nombre de cliente no existe lo guardamos
 		$queryCliente = "INSERT INTO client (idAccount,created,updated,name,description,nit,address,phone,city,state) VALUES (".$idAccount.",".$date.",".$date.",'".$name."','".$description."','".$nit."','".$address."','".$phone."','".$city."','".$state."')";
+		
 		mysql_query($queryCliente, $conexion) or die(mysql_error());
 	
 	
