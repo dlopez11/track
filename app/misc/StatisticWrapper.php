@@ -215,13 +215,11 @@ class StatisticWrapper
         
         $time[] = $today;
         $total = array();
-        $vists = array();
         $vi = array();
         $obj = new \stdClass();
         $obj->name = "Promedio";
         $obj->data = $visits;
         $obj->idUser = $visits->idUser;
-        $vists[] = $obj;
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
