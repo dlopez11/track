@@ -45,7 +45,8 @@ class ReportCreator
         $filter->user = $this->data['user'];
         $filter->visitType = $this->data['visit'];
         $filter->client = $this->data['client'];
-        $filter->date = $this->data['date'];
+        $filter->start = $this->data['start'];
+        $filter->end = $this->data['end'];
         
         $pager = new \Sigmamovil\Misc\PaginationDecorator();
         

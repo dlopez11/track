@@ -55,8 +55,9 @@ class VisitFinder
             $this->client_filter = " AND c.idClient = {$this->filter->client} ";
         }
         
-        if ($this->filter->date != 0&& !empty($this->filter->date)) {
-            $this->date_filter = " AND v.date = {$this->filter->date} ";
+        if (($this->filter->start != 0 && !empty($this->filter->start)) && ($this->filter->end != 0 && !empty($this->filter->end))) {
+            $this->filter->end = strtotime('+1 day', $this->filter->end);
+            $this->date_filter = " AND v.date >= {$this->filter->start} AND v.date < {$this->filter->end}";
         }
     }
     
@@ -91,7 +92,7 @@ class VisitFinder
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.date DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
-//        $this->logger->log($sql_rows);
+        $this->logger->log($sql_rows);
                     
 //        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
 //        $rows = $modelsManager->executeQuery($sql_rows);

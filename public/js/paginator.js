@@ -12,7 +12,8 @@ function Paginator() {
         user: 0,
         visit: 0,
         client: 0,
-        date: 0
+        end: 0,
+        start: 0
     };
     this.dom;
     this.control = null;
@@ -96,7 +97,8 @@ Paginator.prototype.refreshData = function(data) {
         user: data.pagination.user,
         visit: data.pagination.visit,
         client: data.pagination.client,
-        date: data.pagination.date
+        start: data.pagination.start,
+        end: data.pagination.end,
     };
 };
 
@@ -138,6 +140,15 @@ Paginator.prototype.catchAndSendData = function(page) {
     self.data.user = $('#user').val();
     self.data.visit = $('#visittype').val();
     self.data.client = $('#client').val();
+    
+    var s = $('#start').val();
+    var start = s.split("/");
+    
+    var e = $('#end').val();
+    var end = e.split("/");
+    
+    self.data.start = moment(start[2] + '-' + start[1] + '-' + start[0] + ' 00:00:00').unix();
+    self.data.end = moment(end[2] + '-' + end[1] + '-' + end[0] + ' 00:00:00').unix();
 
     self.getData().then(function() { 
         self.dom.setRows(self.rows);
@@ -154,6 +165,15 @@ Paginator.prototype.catchAndSendDataForReport = function() {
     self.data.user = $('#user').val();
     self.data.visit = $('#visittype').val();
     self.data.client = $('#client').val();
+   
+    var s = $('#start').val();
+    var start = s.split("/");
+    
+    var e = $('#end').val();
+    var end = e.split("/");
+    
+    self.data.start = moment(start[2] + '-' + start[1] + '-' + start[0] + ' 00:00:00').unix();
+    self.data.end = moment(end[2] + '-' + end[1] + '-' + end[0] + ' 00:00:00').unix();
 
     self.getDataForReport(self.urlReport + "/create").then(function() { 
         $("#loading").hide('slow');
