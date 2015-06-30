@@ -200,8 +200,8 @@ class StatisticWrapper
         $time = array();
         $visits = array(0, 0);
         
-        $date = strtotime(date("Y-m-d", time()));
-        $today = strtotime("+1 days", $date);
+        $d = strtotime(date("Y-m-d", time()));
+        $today = strtotime("+1 days", $d);
         $first_day = strtotime("-29 days", $today);
         
         $time[] = $first_day;
