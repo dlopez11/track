@@ -31,7 +31,7 @@ if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 		
 		$result = mysql_query($lastVisit, $conexion) or die(mysql_error());
 
-		$lastTime = "No Disponible"
+		$lastTime = "No Disponible";
 		if (mysql_num_rows($result) > 0) {
 		   while ($rr = mysql_fetch_array($result)) {
 			  $x = $rr["date"];
