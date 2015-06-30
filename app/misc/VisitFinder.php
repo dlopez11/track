@@ -92,7 +92,7 @@ class VisitFinder
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.date DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
-        $this->logger->log($sql_rows);
+//        $this->logger->log($sql_rows);
                     
 //        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
 //        $rows = $modelsManager->executeQuery($sql_rows);

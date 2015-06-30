@@ -26,7 +26,7 @@ class VisitController extends ControllerBase
     public function getrowsAction()
     {
         $post = $this->request->getPost('paginator');
-        $this->logger->log(print_r($post, true));
+//        $this->logger->log(print_r($post, true));
         
         $limit = $post['limit'];
         $page = $post['page'];
