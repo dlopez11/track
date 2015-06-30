@@ -34,7 +34,7 @@
                 });
             });
             
-    {#
+    
             $.get("{{url('statistic/getdata')}}/timeline", function(response, status){
                 console.log(response[0].data);
                 createTimelineGraphic({
@@ -44,8 +44,7 @@
                     categories: response[0].time,
                     data: response[0].data
                 });
-            });
-    #}        
+            });  
             
         });
     </script>
@@ -66,11 +65,10 @@
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 graphic-container">
             <div id="column"></div>
         </div>
-{#            
+       
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 graphic-container">
             <div id="timeline"></div>
         </div>            
-#}
     </div>    
     
     
