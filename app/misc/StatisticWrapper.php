@@ -61,7 +61,7 @@ class StatisticWrapper
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
         
-        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, User.lastName, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
+        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, User.lastName, User.idUser, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
         $this->visits = $query_visits->execute();
     }
 
@@ -195,7 +195,8 @@ class StatisticWrapper
     }
     
     private function modelTimelineData()
-    {        
+    {
+        
         $time = array();
         $visits = array(0, 0);
         
@@ -217,10 +218,11 @@ class StatisticWrapper
         $obj = new \stdClass();
         $obj->name = "Promedio";
         $obj->data = $visits;
+        $obj->idUser = $visits->idUser;
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
-            
+            $this->logger->log(print_r($visit->idUser), true);
             $date = date("Y-m-d", $visit->date);
             $date_initial = strtotime($date." 00:00");
             $date_final = strtotime($date." 23:59");
@@ -255,6 +257,11 @@ class StatisticWrapper
 
             foreach ($time_final as $tf){
                 $timef = $tf["date"];
+            }
+            
+            foreach ($us as $user) {
+                $obj = new \stdClass();
+                $obj->idUser = $user->idUser;
             }
 
             $h = (int)$timef - (int)$timei;
