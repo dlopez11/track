@@ -215,11 +215,13 @@ class StatisticWrapper
         
         $time[] = $today;
         $total = array();
+        $vists = array();
         $vi = array();
         $obj = new \stdClass();
         $obj->name = "Promedio";
         $obj->data = $visits;
         $obj->idUser = $visits->idUser;
+        $vists[] = $obj;
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
@@ -259,13 +261,14 @@ class StatisticWrapper
                 $timef = $tf["date"];
             }
 
-            $h = (int)$timef - (int)$timei;
-            $horas = (int)$h / 3600;
+            $h = $timef - $timei;
+            $horas = $h / 3600;
             
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
-                    $obj->data[$key] = round($vi[$key] / $horas, 2);
+                    $r = round($horas / $vi[$key], 2);
+                    $obj->data[$key] = $r;
                 }
             }
         }
