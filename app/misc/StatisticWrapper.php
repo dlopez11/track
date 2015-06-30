@@ -61,7 +61,7 @@ class StatisticWrapper
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
         
-        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, User.lastName, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
+        $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.idVisit, Visit.idVisittype, Visit.idUser, Visit.date, User.name, User.lastName, User.idUser, Visittype.name AS vname FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$first_day} and Visit.date < {$tomorrow}");
         $this->visits = $query_visits->execute();
     }
 
@@ -195,11 +195,13 @@ class StatisticWrapper
     }
     
     private function modelTimelineData()
-    {        
+    {
+        
         $time = array();
         $visits = array(0, 0);
         
-        $today = strtotime("+1 days", time());
+        $d = strtotime(date("Y-m-d", time()));
+        $today = strtotime("+1 days", $d);
         $first_day = strtotime("-29 days", $today);
         
         $time[] = $first_day;
@@ -217,30 +219,54 @@ class StatisticWrapper
         $obj = new \stdClass();
         $obj->name = "Promedio";
         $obj->data = $visits;
+        $obj->idUser = $visits->idUser;
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
-            
             $date = date("Y-m-d", $visit->date);
             $date_initial = strtotime($date." 00:00");
             $date_final = strtotime($date." 23:59");
-            
-            $query_first = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date AS di FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} and Visit.date <= {$date_final} ORDER BY Visit.date DESC LIMIT 1");
-            $time_first = $query_first->execute();
 
-            $query_end = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery("SELECT Visit.date AS df FROM Visit JOIN Visittype WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.date >= {$date_initial} and Visit.date <= {$date_final} ORDER BY Visit.date ASC LIMIT 1");
-            $time_end = $query_end->execute();
+            $q1 = "SELECT v.date AS date 
+                   FROM visit AS v
+                       JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) 
+                   WHERE vt.idAccount = {$this->account->idAccount} 
+                       AND v.date >= {$date_initial} 
+                       AND v.date <= {$date_final} 
+                   ORDER BY v.date ASC LIMIT 1";
 
-            $this->logger->log($time_end->df);
-            $this->logger->log($time_first->di);
+            $q2 = "SELECT v.date AS date 
+                    FROM visit AS v
+                        JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) 
+                    WHERE vt.idAccount = {$this->account->idAccount} 
+                        AND v.date >= {$date_initial} 
+                        AND v.date <= {$date_final} 
+                    ORDER BY v.date DESC LIMIT 1";
 
-            $horas = $time_end->df - $time_first->di / 3600;
-            $this->logger->log($horas);
+            $db1 = \Phalcon\DI::getDefault()->get('db');
+            $rq1 = $db1->query($q1);
+            $time_first = $rq1->fetchAll();
+
+            $db2 = \Phalcon\DI::getDefault()->get('db');
+            $rq2 = $db2->query($q2);
+            $time_final = $rq2->fetchAll();
+
+            foreach ($time_first as $ti){
+                $timei = $ti["date"];
+            }
+
+            foreach ($time_final as $tf){
+                $timef = $tf["date"];
+            }
+
+            $h = $timef - $timei;
+            $horas = $h / 3600;
             
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
-                    $obj->data[$key] = round($horas / $vi[$key],1);
+                    $r = round($horas / $vi[$key], 2);
+                    $obj->data[$key] = $r;
                 }
             }
         }
