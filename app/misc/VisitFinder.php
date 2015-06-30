@@ -82,7 +82,7 @@ class VisitFinder
     
     private function selectRows()
     {
-        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
