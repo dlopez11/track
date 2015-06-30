@@ -81,8 +81,9 @@ class PHPExcel
             array('key' => 'C6', 'name' => "TIPO DE VISITA"),
             array('key' => 'D6', 'name' => "CLIENTE"),
             array('key' => 'E6', 'name' => "ESTADO DE BATERÍA"),
-            array('key' => 'F6', 'name' => "UBICACIÓN"),
-            array('key' => 'G6', 'name' => "MAPA")
+            array('key' => 'F6', 'name' => "ÚLTIMA VISITA"),
+            array('key' => 'G6', 'name' => "UBICACIÓN"),
+            array('key' => 'H6', 'name' => "MAPA")
         );
 
         $this->createExcelHeader($header);
@@ -95,6 +96,7 @@ class PHPExcel
                 $data['visit'],
                 $data['client'],
                 "{$data['battery']}%",
+                $data['lastVisit'],
                 $data['location'],
                 "http://maps.google.com/maps?q={$data['latitude']},{$data['longitude']}&ll={$data['latitude']},-{$data['longitude']}&z=17"
             );
@@ -104,7 +106,7 @@ class PHPExcel
             $row++;
         }
 
-        $this->styleExcelHeader('A6:G6');
+        $this->styleExcelHeader('A6:H6');
 
         $array = array(
             array('key' => 'A', 'size' => 24),
@@ -112,8 +114,9 @@ class PHPExcel
             array('key' => 'C', 'size' => 40),
             array('key' => 'D', 'size' => 40),
             array('key' => 'E', 'size' => 20),
-            array('key' => 'F', 'size' => 50),
-            array('key' => 'G', 'size' => 90),
+            array('key' => 'F', 'size' => 30),
+            array('key' => 'G', 'size' => 50),
+            array('key' => 'H', 'size' => 90),
         );
 
         $this->setColumnDimesion($array);
