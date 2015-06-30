@@ -119,6 +119,7 @@ class VisitFinder
                 $array['latitude'] = $row['latitude'];
                 $array['longitude'] = $row['longitude'];
                 $array['location'] = $row['location'];
+                $array['lastVisit'] = $row['lastVisit'];
                 
                 $this->rows[] = $array;
             }
