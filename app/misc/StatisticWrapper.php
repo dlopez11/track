@@ -223,7 +223,6 @@ class StatisticWrapper
         $total[] = $obj;
         
         foreach ($this->visits as $visit){
-            $this->logger->log(print_r($visit->idUser), true);
             $date = date("Y-m-d", $visit->date);
             $date_initial = strtotime($date." 00:00");
             $date_final = strtotime($date." 23:59");
@@ -266,9 +265,7 @@ class StatisticWrapper
             foreach($time AS $key => $v) {
                 if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
                     $vi[$key] += 1;
-                    $us[$key] += 1;
-                    $pro = $vi[$key] / $us[$key];
-                    $obj->data[$key] = round($pro / $horas, 2);
+                    $obj->data[$key] = round($vi[$key] / $horas, 2);
                 }
             }
         }
