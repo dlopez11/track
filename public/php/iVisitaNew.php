@@ -44,7 +44,7 @@ if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 		   $time2 = date_create($date2);
 		   
 		   $interval = date_diff($time1, $time2);
-		   $lastTime = $interval->format("%a día(s) %H:%i%");
+		   $lastTime = $interval->format("%a día(s) %H:%I%");
 		}
 		
 		
