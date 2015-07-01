@@ -45,6 +45,10 @@ class StatisticWrapper
                 case "timeline":
                     $this->modelTimelineData();
                     break;
+                
+                case "timelineuser":
+                    $this->modelTimelineuserData();
+                    break;
 
                 default:
                     break;
@@ -195,8 +199,7 @@ class StatisticWrapper
     }
     
     private function modelTimelineData()
-    {
-        
+    {        
         $time = array();
         $visits = array(0, 0);
         
@@ -279,63 +282,112 @@ class StatisticWrapper
         $this->modelData = array(
             'time' => $tm,
             'data' => $total
-        );
+        );                
+    }
+    
+    private function modelTimelineuserData()
+    {
+        $us = \User::findByIdAccount($this->account->idAccount);
         
-//        $us = \User::findByIdAccount($this->account->idAccount);
-//        
-//        $time = array();
-//        $visits = array(0, 0);
-//        
-//        $date = strtotime(date("Y-m-d"), time());
-//        $today = strtotime("+1 days", $date);
-//        $first_day = strtotime("-29 days", $today);
-//        
-//        $time[] = $first_day;
-//        $j = 0;
-//        
-//        for ($i = 1; $i < 29; $i++) {
-//            $visits[] = 0;
-//            $time[] = strtotime("+1 days", $time[$j]);
-//            $j++;
-//        }
-//        
-//        $time[] = $today;
-//        
-//        $users = array();
-//        $vi = array();
-//        $horas = 9;
-//        foreach ($us as $user) {
-//            $obj = new \stdClass();
-//            $obj->idUser = $user->idUser;
-//            $obj->name = "Promedio";
-//            $obj->data = $visits;
-//            $users[] = $obj;
-//        }
-//        
-//        foreach ($this->visits as $visit){
-//            foreach ($users as $user) {
-//                if ($visit->idUser == $user->idUser) {
-//                    foreach($time AS $key => $v) {
-//                        if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
-////                            $vi += $obj->data[$key] = 1;
-//                            $vi[$key] += 1;
-//                            $user->data[$key] = $horas / $vi[$key] ;
-//                        }
-//                    }
-//                }
-//            }
-//        }
-//        
-//        $tm = array();
-//        foreach ($time as $t) {
-//            $tm[] = date("d/M/Y", $t);
-//        }
-//        
-//        $this->modelData = array(
-//            'time' => $tm,
-//            'data' => $users
-//        );
+        $time = array();
+        $visits = array(0, 0);
         
+        $d = strtotime(date("Y-m-d", time()));
+        $today = strtotime("+1 days", $d);
+        $first_day = strtotime("-29 days", $today);
+        
+        $time[] = $first_day;
+        $j = 0;
+        
+        for ($i = 1; $i < 29; $i++) {
+            $visits[] = 0;
+            $time[] = strtotime("+1 days", $time[$j]);
+            $j++;
+        }
+        
+        $time[] = $today;
+        
+        $users = array();
+        
+        foreach ($us as $user) {
+            $obj = new \stdClass();
+            $obj->idUser = $user->idUser;
+//            $obj->idUser = $visits->idUser;
+            $obj->name = "{$user->name} {$user->lastName}";
+            $obj->data = $visits;
+            $users[] = $obj;
+        }
+        
+//        $total = array();
+        $vi = array();
+        
+//        $total[] = $obj;
+        
+        foreach ($this->visits as $visit){
+            $date = date("Y-m-d", $visit->date);
+            $date_initial = strtotime($date." 00:00");
+            $date_final = strtotime($date." 23:59");
+
+            $q1 = "SELECT v.date AS date 
+                   FROM visit AS v
+                       JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) 
+                   WHERE vt.idAccount = {$this->account->idAccount} 
+                       AND v.date >= {$date_initial} 
+                       AND v.date <= {$date_final} 
+                   ORDER BY v.date ASC LIMIT 1";
+
+            $q2 = "SELECT v.date AS date 
+                    FROM visit AS v
+                        JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) 
+                    WHERE vt.idAccount = {$this->account->idAccount} 
+                        AND v.date >= {$date_initial} 
+                        AND v.date <= {$date_final} 
+                    ORDER BY v.date DESC LIMIT 1";
+
+            $db1 = \Phalcon\DI::getDefault()->get('db');
+            $rq1 = $db1->query($q1);
+            $time_first = $rq1->fetchAll();
+
+            $db2 = \Phalcon\DI::getDefault()->get('db');
+            $rq2 = $db2->query($q2);
+            $time_final = $rq2->fetchAll();
+
+            foreach ($time_first as $ti){
+                $timei = $ti["date"];
+            }
+
+            foreach ($time_final as $tf){
+                $timef = $tf["date"];
+            }
+
+            $h = $timef - $timei;
+            $horas = $h / 3600;
+            
+            foreach ($this->visits as $visit) {
+                foreach ($users as $user) {
+                    if ($visit->idUser == $user->idUser) {
+                        foreach($time AS $key => $v) {
+                            if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
+                                $vi[$key] += 1;
+                                $r = round($horas / $vi[$key], 2);
+                                $obj->data[$key] = $r;
+                                $user->data[$key] += 1;
+                            }
+                        }
+                    }
+                }
+            }
+        }
+        
+        $tm = array();
+        foreach ($time as $t) {
+            $tm[] = date("d/M/Y", $t);
+        }
+        
+        $this->modelData = array(
+            'time' => $tm,
+            'data' => $users
+        ); 
     }
 
     public function getModelData()

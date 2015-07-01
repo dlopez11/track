@@ -46,6 +46,17 @@
                 });
             });  
             
+            $.get("{{url('statistic/getdata')}}/timelineuser", function(response, status){
+                console.log(response[0].data);
+                createTimelineGraphic({
+                    container: '#timelineuser',
+                    title: 'Tiempo promedio de visitas por usuario',
+                    subtitle: 'Horas',
+                    categories: response[0].time,
+                    data: response[0].data
+                });
+            });  
+            
         });
     </script>
 
@@ -68,8 +79,11 @@
        
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 graphic-container">
             <div id="timeline"></div>
-        </div>            
+        </div>
+            
+        <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 graphic-container">
+            <div id="timelineuser"></div>
+        </div>
     </div>    
-    
-    
+       
 {% endblock %}
