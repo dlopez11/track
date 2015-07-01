@@ -35,7 +35,8 @@ class VisitController extends ControllerBase
         $filter->user = $post['user'];
         $filter->visitType = $post['visit'];
         $filter->client = $post['client'];
-        $filter->date = $post['date'];
+        $filter->start = $post['start'];
+        $filter->end = $post['end'];
         
         $pager = new \Sigmamovil\Misc\PaginationDecorator();
         

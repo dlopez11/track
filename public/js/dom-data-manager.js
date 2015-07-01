@@ -43,8 +43,9 @@ DomManager.prototype.refreshTable = function() {
     this.content.find('#content').empty(); 
     if (this.rows.length > 0) {
         for (var i = 0; i < this.rows.length; i++) {
+            var visit = (this.rows[i].lastVisit == null || this.rows[i].lastVisit === 'null' ? 'No Disponible' : this.rows[i].lastVisit);
             var row = $('<tr>\n\
-                            <td>' + this.rows[i].date + ' <br /><em>Última visita: ' + this.rows[i].lastVisit + '</em></td>\n\
+                            <td>' + this.rows[i].date + ' <br /><em>Última visita: ' + visit + '</em></td>\n\
                             <td><strong>' + this.rows[i].name + '</strong></td>\n\
                             <td>' + this.rows[i].visit + '</td>\n\
                             <td>' + this.rows[i].client + '</td>\n\

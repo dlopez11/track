@@ -55,8 +55,9 @@ class VisitFinder
             $this->client_filter = " AND c.idClient = {$this->filter->client} ";
         }
         
-        if ($this->filter->date != 0&& !empty($this->filter->date)) {
-            $this->date_filter = " AND v.date = {$this->filter->date} ";
+        if (($this->filter->start != 0 && !empty($this->filter->start)) && ($this->filter->end != 0 && !empty($this->filter->end))) {
+            $this->filter->end = strtotime('+1 day', $this->filter->end);
+            $this->date_filter = " AND v.date >= {$this->filter->start} AND v.date < {$this->filter->end}";
         }
     }
     

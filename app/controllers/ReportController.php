@@ -5,6 +5,9 @@ class ReportController extends ControllerBase
     public function createAction()
     {
         $data = $this->request->getPost('paginator');
+        
+//        $this->logger->log(print_r($data, true));
+        
         $reportCreator = new \Sigmamovil\Misc\ReportCreator();
         
         try {
