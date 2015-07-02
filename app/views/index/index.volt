@@ -36,7 +36,6 @@
             
     
             $.get("{{url('statistic/getdata')}}/timeline", function(response, status){
-                console.log(response[0].data);
                 createTimelineGraphic({
                     container: '#timeline',
                     title: 'Tiempo promedio de visitas',
@@ -47,7 +46,6 @@
             });  
             
             $.get("{{url('statistic/getdata')}}/timelineuser", function(response, status){
-                console.log(response[0].data);
                 createTimelineGraphic({
                     container: '#timelineuser',
                     title: 'Tiempo promedio de visitas por usuario',
