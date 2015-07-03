@@ -389,6 +389,16 @@ class StatisticWrapper
             }
         }
         
+        $timeVisits = array();
+        
+        foreach ($users as $us) {
+            foreach ($us->times as $key => $time) {
+                $timeVisits = $us->times[$key+1]->times;
+                
+                $this->logger->log(print_r($timeVisits, true));
+            }
+        }
+        
 //        $this->logger->log("Users: " . print_r($users, true));
         
         $tm = array();
