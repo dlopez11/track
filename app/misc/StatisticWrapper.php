@@ -285,13 +285,13 @@ class StatisticWrapper
         $total = array();
         
         $obj = new \stdClass();
-        $obj->idAccount = $this->account->idAccount;
+        $obj->idUser = $visits->idUser;
         $obj->name = "Promedio";
         $obj->data = $visits;
-        $obj->times = $times;
+        $obj->times = $times;        
         $total[] = $obj;
         
-//        $this->logger->log(print_r($total, true));
+        $this->logger->log(print_r($total, true));
         
         foreach ($this->visits as $visit){
             foreach ($total as $t) {
