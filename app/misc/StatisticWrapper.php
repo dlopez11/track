@@ -69,6 +69,66 @@ class StatisticWrapper
         $this->visits = $query_visits->execute();
     }
 
+    private function modelDateTimes()
+    {
+        $time = array();
+        
+        $d = strtotime(date("Y-m-d", time()));
+        
+        $today = strtotime("+1 days", $d);
+        $thirty_days_ago = strtotime("-29 days", $today);
+        
+        $obj = new \stdClass();
+        $obj->date = $thirty_days_ago;
+        $obj->times = array();
+        
+        $time[] = $obj;
+        $j = 0;
+        
+        for ($i = 1; $i < 29; $i++) {
+            $obj = new \stdClass();
+            $obj->date = strtotime("+1 days", $time[$j]->date);
+            $obj->times = array();
+            $time[] = $obj;
+            $j++;
+        }
+        
+        $obj = new \stdClass();
+        $obj->date = $thirty_days_ago;
+        $obj->times = array();
+        
+        $time[] = $obj;
+        
+        return $time;
+    }
+    
+    private function modelVisits()
+    {
+        $visits = array(0, 0);
+        for ($i = 1; $i < 29; $i++) {
+            $visits[] = 0;
+        }
+        
+        return $visits;
+    }
+    
+    private function modelUsers($visits, $times)
+    {
+        $us = \User::findByIdAccount($this->account->idAccount);
+        
+        $users = array();
+        
+        foreach ($us as $user) {
+            $obj = new \stdClass();
+            $obj->idUser = $user->idUser;
+            $obj->name = "{$user->name} {$user->lastName}";
+            $obj->data = $visits;
+            $obj->times = $times;
+            $users[] = $obj;
+        }
+        
+        return $users;
+    }
 
     private function modelPieData()
     {
@@ -199,31 +259,56 @@ class StatisticWrapper
     }
     
     private function modelTimelineData()
-    {        
-        $time = array();
-        $visits = array(0, 0);
+    {     
+        $vt = \Visittype::findByIdAccount($this->account->idAccount);
         
-        $d = strtotime(date("Y-m-d", time()));
-        $today = strtotime("+1 days", $d);
-        $first_day = strtotime("-29 days", $today);
+        $times = $this->modelDateTimes();
+        $visits = $this->modelVisits();
+//        $time = array();
+//        $visits = array(0, 0);
+//        
+//        $d = strtotime(date("Y-m-d", time()));
+//        $today = strtotime("+1 days", $d);
+//        $first_day = strtotime("-29 days", $today);
+//        
+//        $time[] = $first_day;
+//        $j = 0;
+//        
+//        for ($i = 1; $i < 29; $i++) {
+//            $visits[] = 0;
+//            $time[] = strtotime("+1 days", $time[$j]);
+//            $j++;
+//        }
+//        
+//        $time[] = $today;
         
-        $time[] = $first_day;
-        $j = 0;
-        
-        for ($i = 1; $i < 29; $i++) {
-            $visits[] = 0;
-            $time[] = strtotime("+1 days", $time[$j]);
-            $j++;
-        }
-        
-        $time[] = $today;
         $total = array();
-        $vi = array();
+        
         $obj = new \stdClass();
+        $obj->idAccount = $this->account->idAccount;
         $obj->name = "Promedio";
         $obj->data = $visits;
-//        $obj->idUser = $visits->idUser;
+        $obj->times = $times;
         $total[] = $obj;
+        
+//        $this->logger->log(print_r($total, true));
+        
+        foreach ($this->visits as $visit){
+            foreach ($total as $t) {
+                if($vt->idAccount == $t->idAccount){
+                    $totals = count($total->times);
+                    foreach ($total->times as $key => $time) {
+                        $next = ($key+1 > $totals-1 ? strtotime("+1 day", $time->date) : $t->times[$key+1]->date);
+
+                        if ($visit->date >= $time->date && $visit->date < $next) {
+                            $time->times[] = $visit->date;
+                        }
+                    }
+
+                    break;
+                }
+            }            
+        }
         
 //        foreach ($this->visits as $visit){
 //            $date = date("Y-m-d", $visit->date);
@@ -285,87 +370,6 @@ class StatisticWrapper
         );                
     }
     
-    
-    private function modelDateTimes()
-    {
-        $time = array();
-        
-        $d = strtotime(date("Y-m-d", time()));
-        
-        $today = strtotime("+1 days", $d);
-        $thirty_days_ago = strtotime("-29 days", $today);
-        
-        $obj = new \stdClass();
-        $obj->date = $thirty_days_ago;
-        $obj->times = array();
-        
-        $time[] = $obj;
-        $j = 0;
-        
-        for ($i = 1; $i < 29; $i++) {
-            $obj = new \stdClass();
-            $obj->date = strtotime("+1 days", $time[$j]->date);
-            $obj->times = array();
-            $time[] = $obj;
-            $j++;
-        }
-        
-        $obj = new \stdClass();
-        $obj->date = $thirty_days_ago;
-        $obj->times = array();
-        
-        $time[] = $obj;
-        
-        return $time;
-    }
-    
-    private function modelVisits()
-    {
-        $visits = array(0, 0);
-        for ($i = 1; $i < 29; $i++) {
-            $visits[] = 0;
-        }
-        
-        return $visits;
-    }
-    
-    private function modelUsers($visits, $times)
-    {
-        $us = \User::findByIdAccount($this->account->idAccount);
-        
-        $users = array();
-        
-        foreach ($us as $user) {
-            $obj = new \stdClass();
-            $obj->idUser = $user->idUser;
-            $obj->name = "{$user->name} {$user->lastName}";
-            $obj->data = $visits;
-            $obj->times = $times;
-            $users[] = $obj;
-        }
-        
-        return $users;
-    } 
-    
-//    private function modelDates()
-//    {
-//        $d = strtotime(date("Y-m-d", time()));
-//        $today = strtotime("+1 days", $d);
-//        $first_day = strtotime("-29 days", $today);
-//        
-//        $time[] = $first_day;
-//        $j = 0;
-//        
-//        for ($i = 1; $i < 29; $i++) {
-//            $time[] = strtotime("+1 days", $time[$j]);
-//            $j++;
-//        }
-//        
-//        $time[] = $today;
-//        
-//        return $time;
-//    }
-    
     private function modelTimelineuserData()
     {
         $times = $this->modelDateTimes();
@@ -389,17 +393,24 @@ class StatisticWrapper
             }
         }
         
-        $timeVisits = array();
-        
         foreach ($users as $us) {
-            foreach ($us->times as $key => $time) {
-                $timeVisits = $us->times[$key+1]->times;
-                
-                $this->logger->log(print_r($timeVisits, true));
+            foreach ($us->times as $key => $ts) {
+                $visits = count($ts->times);
+                if ($visits > 1) {
+                    $first = array_shift($ts->times);
+                    $last = array_pop($ts->times);
+                    
+                    $pprom = ($last-$first);
+                    $prom = round((($pprom/$visits)/3600), 2);
+                    
+                    $us->data[$key] = $prom;
+                }
             }
         }
         
-//        $this->logger->log("Users: " . print_r($users, true));
+        foreach ($users as $us) {
+            unset($us->times);
+        }
         
         $tm = array();
         foreach ($times as $t) {
