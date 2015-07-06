@@ -129,7 +129,27 @@ class StatisticWrapper
         
         return $users;
     }
-
+    
+    private function modelTotalVisits($visits,$times)
+    {
+        
+        $t = \User::findByIdAccount($this->account->idAccount);
+        
+        $total = array();
+        
+        foreach ($t as $tt) {
+            $total = array();
+            $obj = new \stdClass();
+            $obj->idUser = $tt->idUser;
+            $obj->name = "Promedio";
+            $obj->data = $visits;
+            $obj->times = $times;
+            $total[] = $obj;
+        }
+        
+        return $total;
+    }
+    
     private function modelPieData()
     {
         $data = array();
@@ -259,116 +279,57 @@ class StatisticWrapper
     }
     
     private function modelTimelineData()
-    {     
-        $vt = \Visittype::findByIdAccount($this->account->idAccount);
-        
+    {            
         $times = $this->modelDateTimes();
         $visits = $this->modelVisits();
-//        $time = array();
-//        $visits = array(0, 0);
-//        
-//        $d = strtotime(date("Y-m-d", time()));
-//        $today = strtotime("+1 days", $d);
-//        $first_day = strtotime("-29 days", $today);
-//        
-//        $time[] = $first_day;
-//        $j = 0;
-//        
-//        for ($i = 1; $i < 29; $i++) {
-//            $visits[] = 0;
-//            $time[] = strtotime("+1 days", $time[$j]);
-//            $j++;
-//        }
-//        
-//        $time[] = $today;
-        
-        $total = array();
-        
-        $obj = new \stdClass();
-        $obj->idUser = $visits->idUser;
-        $obj->name = "Promedio";
-        $obj->data = $visits;
-        $obj->times = $times;        
-        $total[] = $obj;
-        
-        $this->logger->log(print_r($total, true));
+        $totall = $this->modelTotalVisits($visits, $times);
         
         foreach ($this->visits as $visit){
-            foreach ($total as $t) {
-                if($vt->idAccount == $t->idAccount){
-                    $totals = count($total->times);
-                    foreach ($total->times as $key => $time) {
-                        $next = ($key+1 > $totals-1 ? strtotime("+1 day", $time->date) : $t->times[$key+1]->date);
+            foreach ($totall as $tt) {
+                $total = count($tt->times);
+                foreach ($tt->times as $key => $time) {
+                    $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->date) : $tt->times[$key+1]->date);
 
-                        if ($visit->date >= $time->date && $visit->date < $next) {
-                            $time->times[] = $visit->date;
-                        }
+                    if ($visit->date >= $time->date && $visit->date < $next) {
+                        $time->times[] = $visit->date;
                     }
-
-                    break;
                 }
-            }            
+
+                break;
+            }
         }
         
-//        foreach ($this->visits as $visit){
-//            $date = date("Y-m-d", $visit->date);
-//            $date_initial = strtotime($date." 00:00");
-//            $date_final = strtotime($date." 23:59");
-//
-//            $q1 = "SELECT v.date AS date 
-//                   FROM visit AS v
-//                       JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) 
-//                   WHERE vt.idAccount = {$this->account->idAccount} 
-//                       AND v.date >= {$date_initial} 
-//                       AND v.date <= {$date_final} 
-//                   ORDER BY v.date ASC LIMIT 1";
-//
-//            $q2 = "SELECT v.date AS date 
-//                    FROM visit AS v
-//                        JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) 
-//                    WHERE vt.idAccount = {$this->account->idAccount} 
-//                        AND v.date >= {$date_initial} 
-//                        AND v.date <= {$date_final} 
-//                    ORDER BY v.date DESC LIMIT 1";
-//
-//            $db1 = \Phalcon\DI::getDefault()->get('db');
-//            $rq1 = $db1->query($q1);
-//            $time_first = $rq1->fetchAll();
-//
-//            $db2 = \Phalcon\DI::getDefault()->get('db');
-//            $rq2 = $db2->query($q2);
-//            $time_final = $rq2->fetchAll();
-//
-//            foreach ($time_first as $ti){
-//                $timei = $ti["date"];
-//            }
-//
-//            foreach ($time_final as $tf){
-//                $timef = $tf["date"];
-//            }
-//
-//            $h = $timef - $timei;
-//            $horas = $h / 3600;
-//            
-//            foreach($time AS $key => $v) {
-//                if ($visit->date >= $v AND $visit->date < $time[$key+1]) {
-//                    $vi[$key] += 1;
-//                    $r = round($horas / $vi[$key], 2);
-//                    $obj->data[$key] = $r;
-//                }
-//            }
-//        }
+        foreach ($totall as $t) {
+            foreach ($t->times as $key => $ts) {
+                $visits = count($ts->times);
+                if ($visits > 1) {
+                    
+                    $first = array_shift($ts->times);
+                    $last = array_pop($ts->times);
+                    
+                    $pprom = ($last-$first);
+                    $prom = round((($pprom/$visits)/3600), 2);
+                    
+                    $t->data[$key] = $prom;
+                }
+            }
+        }
+        
+        foreach ($totall as $t) {
+            unset($t->times);
+        }
         
         $tm = array();
-        foreach ($time as $t) {
-            $tm[] = date("d/M/Y", $t);
+        foreach ($times as $t) {
+            $tm[] = date("d/M/Y", $t->date);
         }
         
         $this->modelData = array(
             'time' => $tm,
-            'data' => $total
-        );                
+            'data' => $totall
+        ); 
     }
+
     
     private function modelTimelineuserData()
     {
