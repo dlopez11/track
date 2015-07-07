@@ -368,9 +368,9 @@ class StatisticWrapper
             }
         }
         
-//        foreach ($users as $us) {
-//            unset($us->times);
-//        }
+        foreach ($users as $us) {
+            unset($us->times);
+        }
         
         $tm = array();
         foreach ($times as $t) {
