@@ -85,7 +85,7 @@ class StatisticWrapper
         $time[] = $obj;
         $j = 0;
         
-        for ($i = 1; $i < 29; $i++) {
+        for ($i = 1; $i <= 29; $i++) {
             $obj = new \stdClass();
             $obj->date = strtotime("+1 days", $time[$j]->date);
             $obj->times = array();
@@ -347,10 +347,9 @@ class StatisticWrapper
                         if ($visit->date >= $time->date && $visit->date < $next) {
                             $time->times[] = $visit->date;
                         }
-                    }
-                    
+                    }                    
                     break;
-                }
+                }                
             }
         }
         
@@ -369,9 +368,9 @@ class StatisticWrapper
             }
         }
         
-        foreach ($users as $us) {
-            unset($us->times);
-        }
+//        foreach ($users as $us) {
+//            unset($us->times);
+//        }
         
         $tm = array();
         foreach ($times as $t) {
