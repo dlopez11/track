@@ -174,7 +174,7 @@ class StatisticWrapper
     
     private function modelLineData()
     {
-        $vist = \Visittype::find();
+        $vist = \Visittype::findByIdAccount($this->account->idAccount);
         
         $time = array();
         $visits = array(0, 0);
