@@ -22,8 +22,7 @@ class StatisticWrapper
     {
         $this->account = $account;
     }
-    
-    
+        
     public function processData($type)
     {
         try{
@@ -69,7 +68,7 @@ class StatisticWrapper
         $this->visits = $query_visits->execute();
     }
 
-    private function modelDateTimes()
+    private function &modelDateTimes()
     {
         $time = array();
         
@@ -112,42 +111,44 @@ class StatisticWrapper
         return $visits;
     }
     
-    private function modelUsers($visits, $times)
+    private function modelUsers($visits)
     {
         $us = \User::findByIdAccount($this->account->idAccount);
         
         $users = array();
         
         foreach ($us as $user) {
+//            $t = $times;
             $obj = new \stdClass();
             $obj->idUser = $user->idUser;
             $obj->name = "{$user->name} {$user->lastName}";
             $obj->data = $visits;
-            $obj->times = $times;
+            $obj->times = $this->modelDateTimes();
+//            $obj->times = &$t;
             $users[] = $obj;
+//            unset($t);
         }
         
         return $users;
     }
     
-    private function modelTotalVisits($visits,$times)
-    {
-        
+    private function modelTotalVisits($visits, $times)
+    {        
         $t = \User::findByIdAccount($this->account->idAccount);
         
-        $total = array();
+        $totall = array();
         
         foreach ($t as $tt) {
-            $total = array();
+            $totall = array();
             $obj = new \stdClass();
             $obj->idUser = $tt->idUser;
             $obj->name = "Promedio";
             $obj->data = $visits;
             $obj->times = $times;
-            $total[] = $obj;
+            $totall[] = $obj;
         }
         
-        return $total;
+        return $totall;
     }
     
     private function modelPieData()
@@ -294,7 +295,6 @@ class StatisticWrapper
                         $time->times[] = $visit->date;
                     }
                 }
-
                 break;
             }
         }
@@ -329,23 +329,22 @@ class StatisticWrapper
             'data' => $totall
         ); 
     }
-
     
     private function modelTimelineuserData()
     {
         $times = $this->modelDateTimes();
         $visits = $this->modelVisits();
-        $users = $this->modelUsers($visits, $times);
+        $users = $this->modelUsers($visits);
         
         foreach ($this->visits as $visit){
-            foreach ($users as $user) {
+            foreach ($users as $key1 => $user) {
                 if ($visit->idUser == $user->idUser) {
                     $total = count($user->times);
                     foreach ($user->times as $key => $time) {
-                        $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->date) : $user->times[$key+1]->date);
+                        $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->date) : $user->times[$key+1]->date);
                         
                         if ($visit->date >= $time->date && $visit->date < $next) {
-                            $time->times[] = $visit->date;
+                            $users[$key1]->times[$key]->times[] = $visit->date;
                         }
                     }                    
                     break;
