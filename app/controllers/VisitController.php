@@ -131,7 +131,7 @@ class VisitController extends ControllerBase
     public function getmapAction($idUser)
     {
         
-        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype FROM Visit WHERE Visit.idUser = ?0';
+        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype,Visit.date FROM Visit WHERE Visit.idUser = ?0';
         $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         $objects = array();
         foreach ($visits as $visit) {
@@ -147,6 +147,8 @@ class VisitController extends ControllerBase
                 $clientData .= "<strong><span style='font-size: 17px;'>".$client['name']."</span></strong>";
                 $clientData .= "<br />";
                 $clientData .= "<strong>Dirección</strong>: ".$client['address'];
+                $clientData .= "<br />";
+                $clientData .= "<strong>Fecha de visita</strong>: ". date('d-m-Y H:i',$visit['date']);
                 $clientData .= "<br />";
             }
             $objects[] = array(
