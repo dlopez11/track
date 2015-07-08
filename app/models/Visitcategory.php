@@ -1,11 +1,11 @@
 <?php
 
-use Phalcon\Mvc\Model\Validator\PresenceOf;
+use Phalcon\Mvc\Model\Validator\Uniqueness;
 
 class Visitcategory extends \Phalcon\Mvc\Model
 {
     public $idAccount; 
-    public $idVisittype; 
+    public $idVisitcategory; 
 
     public function initialize()
     {
@@ -15,14 +15,9 @@ class Visitcategory extends \Phalcon\Mvc\Model
     
     public function validation()
     {
-        $this->validate(new PresenceOf(array(
+        $this->validate(new Uniqueness(array(
             'field' => 'name',
-            'message' => 'El nombre de la categoria es obligatorio, por favor valide la información'
-        )));
-        
-        $this->validate(new SpaceValidator(array(
-            'field' => 'name',
-            'message' => 'El campo nombre esta vacío, por favor valide la información'
+            'message' => 'Ya existe una categoría con este nombre, por favor valide la información'
         )));
         
         if ($this->validationHasFailed() == true) {
