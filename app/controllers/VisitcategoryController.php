@@ -91,7 +91,7 @@ class VisitcategoryController extends ControllerBase
                 
                 $this->flashSession->notice("Se ha editado la categoria: <strong>{$vcat->name}</strong>,  exitosmante");
                 return $this->response->redirect('visitcategory');
-            } 
+            }
             catch (Exception $ex) {
                 $this->flashSession->error($ex->getMessage());
             }
