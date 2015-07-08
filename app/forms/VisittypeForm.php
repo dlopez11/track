@@ -3,6 +3,7 @@
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
+use Phalcon\Forms\Element\Select;
 
 class VisittypeForm extends Form
 {
@@ -18,6 +19,10 @@ class VisittypeForm extends Form
         $this->add(new TextArea("description", array(                        
             'placeholder' => '*Descripción',
             'class' => 'form-control',
+            'required' => 'required',
+        )));
+        
+        $this->add(new Select('category', array(
             'required' => 'required',
         )));
     }

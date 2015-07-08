@@ -23,6 +23,13 @@
                 <div class="form-group">
                     {{form.render('description')}}
                 </div>
+                <div class="form-group">
+                    <select id="category" name="category" class="form-control select2">
+                        {% for vc in vcat %}
+                            <option value="{{vc.idVisitcategory}}">{{vc.name}}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <div class="form-group text-right">
                     <a href="{{url('visittype')}}" class="btn btn-sm btn-default">Cancelar</a>
                     <button class="btn btn-sm btn-success">Guardar</button>

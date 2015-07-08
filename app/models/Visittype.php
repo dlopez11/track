@@ -1,7 +1,6 @@
 <?php
 
 use Phalcon\Mvc\Model\Validator\Uniqueness;
-use Phalcon\Mvc\Model\Validator\PresenceOf;
 
 class Visittype extends \Phalcon\Mvc\Model
 {
@@ -16,24 +15,9 @@ class Visittype extends \Phalcon\Mvc\Model
     
     public function validation()
     {
-        $this->validate(new PresenceOf(array(
+        $this->validate(new Uniqueness(array(
             'field' => 'name',
-            'message' => 'El nombre del cliente es obligatorio, por favor valide la información'
-        )));
-        
-        $this->validate(new SpaceValidator(array(
-            'field' => 'name',
-            'message' => 'El campo nombre esta vacío, por favor valide la información'
-        )));
-        
-        $this->validate(new PresenceOf(array(
-            'field' => 'description',
-            'message' => 'La descripción del Cliente es obligatoria, por favor valide la información'
-        )));
-        
-        $this->validate(new SpaceValidator(array(
-            'field' => 'description',
-            'message' => 'El campo descripción esta vacío, por favor valide la información'
+            'message' => 'Ya existe un tipo de visita con este nombre, por favor valide la información'
         )));
         
         if ($this->validationHasFailed() == true) {

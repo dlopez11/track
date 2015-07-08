@@ -22,6 +22,9 @@ class VisittypeController extends ControllerBase
     
     public function addAction()
     {
+        $vcat = Visitcategory::find();
+        $this->view->setVar("vcat", $vcat);
+        
         $vtype = new Visittype();
         $form = new VisittypeForm($vtype);
         $this->view->setVar('form', $form);
@@ -29,6 +32,7 @@ class VisittypeController extends ControllerBase
         if ($this->request->isPost()) {
             try {
                 $form->bind($this->request->getPost(), $vtype);
+                $vtype->idVisitcategory = $this->request->getPost("category");
                 $vtype->created = time();
                 $vtype->updated = time();
                 $vtype->idAccount = $this->user->idAccount;
@@ -50,10 +54,18 @@ class VisittypeController extends ControllerBase
     
     public function editAction($idVisittype)
     {
+        
         $vtype = Visittype::findFirst(array(
             'conditions' => 'idVisittype = ?1',
             'bind' => array(1 => $idVisittype),
         ));
+        
+        $vcat = Visitcategory::findFirst(array(
+            'conditions' => 'idVisitcategory = ?1',
+            'bind' => array(1 => $vtype->idVisitcategory),
+        ));
+        
+        $this->view->setVar("vcat", $vcat);
         
         if (!$vtype) {
             $this->flashSession->error("No se encontró el tipo de visita, por favor valide la información");
