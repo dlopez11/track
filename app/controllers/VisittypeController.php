@@ -53,7 +53,7 @@ class VisittypeController extends ControllerBase
     }
     
     public function editAction($idVisittype)
-    {
+    {        
         
         $vtype = Visittype::findFirst(array(
             'conditions' => 'idVisittype = ?1',
@@ -67,6 +67,7 @@ class VisittypeController extends ControllerBase
             'conditions' => 'idVisitcategory = ?1',
             'bind' => array(1 => $vtype->idVisitcategory),
         ));
+        
         $this->view->setVar("vcat", $vcat);
         
         if (!$vtype) {

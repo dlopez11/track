@@ -26,7 +26,7 @@
                 <div class="form-group">
                     <select id="category" name="category" class="form-control select2">
                         {% for c in cat %}
-                            <option value="{{c.idVisitcategory}}" >{{c.name}}</option>
+                            <option value="{{c.idVisitcategory}}" {% if c.idVisitcategory == vcat.idVisitcategory %}selected{% endif %}>{{c.name}}</option>
                         {% endfor %}
                     </select>
                 </div>
