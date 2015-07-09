@@ -60,11 +60,13 @@ class VisittypeController extends ControllerBase
             'bind' => array(1 => $idVisittype),
         ));
         
+        $cat = Visitcategory::find();
+        $this->view->setVar("cat", $cat);
+        
         $vcat = Visitcategory::findFirst(array(
             'conditions' => 'idVisitcategory = ?1',
             'bind' => array(1 => $vtype->idVisitcategory),
         ));
-        
         $this->view->setVar("vcat", $vcat);
         
         if (!$vtype) {
@@ -80,6 +82,7 @@ class VisittypeController extends ControllerBase
             try {
                 $form->bind($this->request->getPost(), $vtype);
                 $client->updated = time();
+                $vtype->idVisitcategory = $this->request->getPost("category");
                 
                 if (!$vtype->save()) {
                     foreach ($vtype->getMessages() as $msg) {

@@ -25,7 +25,9 @@
                 </div>
                 <div class="form-group">
                     <select id="category" name="category" class="form-control select2">
-                        <option value="{{vtype.idVisitcategory}}">{{vcat.name}}</option>
+                        {% for c in cat %}
+                            <option value="{{c.idVisitcategory}}" >{{c.name}}</option>
+                        {% endfor %}
                     </select>
                 </div>
                 <div class="form-group text-right">
