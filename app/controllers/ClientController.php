@@ -119,14 +119,16 @@ class ClientController extends ControllerBase
             $handle = fopen($csv,'r');
             $text = "";
 
-            while ($data = fgetcsv($handle,1000,",","'")){
+            while ($data = fgetcsv($handle,1000,";","'")){
 
                 if ($data[0]) { 
 
                     $text .= ("'.$data[0]]','.$data[1]','.$data[2]','.$data[3]','.$data[4]','.$data[5]'");
                 }
             }
-
+            
+            $this->logger->log($text);
+            
             mysql_query("INSERT INTO client (id_prod, nomb_prod, tipo_prod, precio_unit, precio_dist, fecha_reg) VALUES {$text}");
 
             echo 'OK';

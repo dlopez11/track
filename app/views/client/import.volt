@@ -1,7 +1,7 @@
 {% extends "templates/default.volt" %}
 {% block header %}
-    {{ javascript_include('public/js/importclient.js') }}
-    {{ javascript_include('public/library/jquety/jquery-1.11.3.min.js') }}
+    {{ javascript_include('library/jquery/jquery-1.11.3.min.js') }}
+    {{ javascript_include('js/importclient.js') }}
 {% endblock %}
 {% block content %}
     <div class="space"></div>

@@ -6,7 +6,7 @@ $(function(){
         if(comprobar > 0){
             var formulario = $('#subida');
             var archivos = new FormData();	
-            var url = '../php/importarCSV.php';
+            var url = "{{url('client/import')}}";
 
             for (var i = 0; i < (formulario.find('input[type=file]').length); i++) { 
                 archivos.append((formulario.find('input[type="file"]:eq('+i+')').attr("name")),((formulario.find('input[type="file"]:eq('+i+')')[0]).files[0]));
@@ -21,7 +21,7 @@ $(function(){
                 processData:false,
                 beforeSend : function (){
 
-                    $('#respuesta').html('<center><img src="../recursos/cargando.gif" width="50" heigh="50"></center>');	
+                    $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
 
                 },
                 success: function(data){
@@ -42,7 +42,7 @@ $(function(){
         }        
         else         
         {            
-            alert('Selecciona un archivo CSV para importar');
+            alert('Selecciona un archivo CSV para importar.');
             return false;
         }
     });
