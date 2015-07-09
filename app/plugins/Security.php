@@ -40,6 +40,7 @@ class Security extends Plugin
                 'account' => array('create', 'read', 'update', 'change-status'),
                 'user' => array('create', 'read', 'update', 'delete', 'sudo'),
                 'visittype' => array('create', 'read', 'update', 'delete'),
+                'visitcategory' => array('create', 'read', 'update', 'delete'),
                 'client' => array('create', 'read', 'update', 'delete'),
                 'visit' => array('read'),
                 'statistic' => array('read'),
@@ -65,6 +66,10 @@ class Security extends Plugin
             $acl->allow("sudo", "visittype", "read");
             $acl->allow("sudo", "visittype", "update");
             $acl->allow("sudo", "visittype", "delete");
+            $acl->allow("sudo", "visitcategory", "create");
+            $acl->allow("sudo", "visitcategory", "read");
+            $acl->allow("sudo", "visitcategory", "update");
+            $acl->allow("sudo", "visitcategory", "delete");
             $acl->allow("sudo", "client", "create");
             $acl->allow("sudo", "client", "read");
             $acl->allow("sudo", "client", "update");
@@ -83,6 +88,10 @@ class Security extends Plugin
             $acl->allow("admin", "visittype", "read");
             $acl->allow("admin", "visittype", "update");
             $acl->allow("admin", "visittype", "delete");
+            $acl->allow("admin", "visitcategory", "create");
+            $acl->allow("admin", "visitcategory", "read");
+            $acl->allow("admin", "visitcategory", "update");
+            $acl->allow("admin", "visitcategory", "delete");
             $acl->allow("admin", "client", "create");
             $acl->allow("admin", "client", "read");
             $acl->allow("admin", "client", "update");
@@ -160,6 +169,11 @@ class Security extends Plugin
                 'visittype::add' => array('visittype' => array('create','read')),
                 'visittype::edit' => array('visittype' => array('update','read')),
                 'visittype::remove' => array('visittype' => array('delete')),
+                /* Visittype */
+                'visitcategory::index' => array('visitcategory' => array('read')),
+                'visitcategory::add' => array('visitcategory' => array('create','read')),
+                'visitcategory::edit' => array('visitcategory' => array('update','read')),
+                'visitcategory::remove' => array('visitcategory' => array('delete')),
                 /* Visit */
                 'visit::index' => array('visit' => array('read')),
                 'visit::map' => array('visit' => array('read')),

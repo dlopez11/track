@@ -5,14 +5,14 @@
     <div class="space"></div>
     <div class="row">
         <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12">
-            <h1>Tipos de visitas</h1>
+            <h1>Categorias Tipos de visitas</h1>
             <hr />
             <div class="text-right">
-                <a href="{{url('visitcategory')}}" class="btn btn-primary">
-                    Categorías
+                <a href="{{url('visittype/index')}}" class="btn btn-primary">
+                    Volver a tipos de visita
                 </a>
-                <a href="{{url('visittype/add')}}" class="btn btn-success">
-                    Agregar nuevo tipo de visita
+                <a href="{{url('visitcategory/add')}}" class="btn btn-success">
+                    Crear nueva categoria
                 </a>
             </div>
         </div>        
@@ -23,19 +23,19 @@
     
     {{flashSession.output()}}
     
-    {% if page.items|length == 0 %}        
+    {% if page.items|length == 0 or page.items is null %}        
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
                 <div class="alert alert-warning" role="alert">
                     <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
-                    No hay datos de tipos de visitas registrados, para agregar una haga <a href="{{url('visittype/add')}}">clic aquí</a>
+                    No hay datos de tipos de visitas registrados, para agregar una haga <a href="{{url('visitcategory/add')}}">clic aquí</a>
                 </div>
             </div>    
         </div>    
     {% else %}
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
-                {{ partial('partials/pagination_static_partial', ['pagination_url': 'visittype/index']) }}
+                {{ partial('partials/pagination_static_partial', ['pagination_url': 'visitcategory/index']) }}
             </div>
         </div>
         <div class="row">
@@ -58,10 +58,10 @@
                                 </td>
                                 <td>{{item.description}}</td>
                                 <td class="text-right">
-                                    <a href="{{url('visittype/edit')}}/{{item.idVisittype}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar este tipo de visita">
+                                    <a href="{{url('visitcategory/edit')}}/{{item.idVisitcategory}}" class="btn btn-primary btn-xs" data-toggle="tooltip" data-placement="top" title="Editar este categoria">
                                         <span class="glyphicon glyphicon-pencil"></span>
                                     </a>
-                                    <a class="show-dialog btn btn-danger btn-xs" data-toggle="modal"  href="#modal-simple" data-id="{{url('visittype/remove')}}/{{item.idVisittype}}">
+                                    <a class="show-dialog btn btn-danger btn-xs" data-toggle="modal"  href="#modal-simple" data-id="{{url('visitcategory/remove')}}/{{item.idVisitcategory}}">
                                         <span class="glyphicon glyphicon-trash"></span>
                                     </a>
                                 </td>
@@ -73,7 +73,7 @@
         </div>
         <div class="row">
             <div class="col-xs-12 col-sm-12 col-md-12 col-lg-12 wrap">
-                {{ partial('partials/pagination_static_partial', ['pagination_url': 'visittype/index']) }}
+                {{ partial('partials/pagination_static_partial', ['pagination_url': 'visitcategory/index']) }}
             </div>
         </div>
     {% endif %} 
@@ -83,10 +83,10 @@
             <div class="modal-content">
                 <div class="modal-header">
                   <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
-                  <h2>Eliminar tipo de visita</h2>
+                  <h2>Eliminar Categoría</h2>
                 </div>
                 <div class="modal-body">
-                    ¿Está seguro que desea eliminar este tipo de visita?
+                    ¿Está seguro que desea eliminar esta categoría?
                 </div>
                 <div class="modal-footer">
                   <a href="" class="btn btn-sm btn-default" data-dismiss="modal">Cancelar</a>
