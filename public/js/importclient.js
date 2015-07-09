@@ -6,7 +6,7 @@ $(function(){
         if(comprobar > 0){
             var formulario = $('#subida');
             var archivos = new FormData();	
-            var url = "{{url('client/import')}}";
+            var url = csv;
 
             for (var i = 0; i < (formulario.find('input[type=file]').length); i++) { 
                 archivos.append((formulario.find('input[type="file"]:eq('+i+')').attr("name")),((formulario.find('input[type="file"]:eq('+i+')')[0]).files[0]));
