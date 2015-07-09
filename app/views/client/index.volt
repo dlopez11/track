@@ -8,6 +8,9 @@
             <h1>Clientes</h1>
             <hr />
             <div class="text-right">
+                <a href="{{url('client/import')}}" class="btn btn-success">
+                    Importar clientes
+                </a>
                 <a href="{{url('client/add')}}" class="btn btn-success">
                     Agregar nuevo cliente
                 </a>

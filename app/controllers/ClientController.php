@@ -110,5 +110,28 @@ class ClientController extends ControllerBase
         
         return $this->response->redirect('client');
     }
+    
+    public function importAction()
+    {
+        if ($_FILES['csv']['size'] > 0) {
+
+            $csv = $_FILES['csv']['tmp_name'];
+            $handle = fopen($csv,'r');
+            $text = "";
+
+            while ($data = fgetcsv($handle,1000,",","'")){
+
+                if ($data[0]) { 
+
+                    $text .= ("'.$data[0]]','.$data[1]','.$data[2]','.$data[3]','.$data[4]','.$data[5]'");
+                }
+            }
+
+            mysql_query("INSERT INTO client (id_prod, nomb_prod, tipo_prod, precio_unit, precio_dist, fecha_reg) VALUES {$text}");
+
+            echo 'OK';
+
+        }
+    }
 }
 

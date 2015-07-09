@@ -152,6 +152,7 @@ class Security extends Plugin
                 /* Client */
                 'client::index' => array('client' => array('read')),
                 'client::add' => array('client' => array('create','read')),
+                'client::import' => array('client' => array('create','read')),
                 'client::edit' => array('client' => array('update','read')),
                 'client::remove' => array('client' => array('delete')),
                 /* Visittype */
