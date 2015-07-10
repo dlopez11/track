@@ -28,7 +28,7 @@
                 <img src="{{url('images/import/formato.png')}}">
             </p>
             <p>
-                Al guardar el documento, seleccione tipo de archivo: (*.csv) que significa: delimitado por comas.
+                Al guardar el documento, seleccione tipo de archivo: <strong>(*.csv)</strong> que significa: delimitado por comas.
             </p>
             <p>
                 Importe máximo hasta 100.000 clientes.
