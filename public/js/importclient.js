@@ -13,7 +13,6 @@ $(function(){
             }
 
             $.ajax({
-
                 url: url,
                 type: 'POST',
                 contentType: false, 
@@ -25,8 +24,8 @@ $(function(){
 
                 },
                 success: function(data){
-
-                    if(data == 'OK'){
+            $.getJSON('http://localhost/track/client/data', function(data){
+                    if(data === "OK"){
                         $('#respuesta').html('<label style="padding-top:10px; color:green;">Importacion de CSV exitosa</label>');	
                         return false;	
                     }
@@ -35,11 +34,12 @@ $(function(){
                         $('#respuesta').html('<label style="padding-top:10px; color:red;">Error en la importacion del CSV</label>');
                         return false;
                     }
-                }
             });
             
             return false;
-        }        
+        }
+    });    
+        }
         else         
         {            
             alert('Selecciona un archivo CSV para importar.');
