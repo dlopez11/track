@@ -12,19 +12,21 @@ $(function(){
                 archivos.append((formulario.find('input[type="file"]:eq('+i+')').attr("name")),((formulario.find('input[type="file"]:eq('+i+')')[0]).files[0]));
             }
 
-            $.ajax({
+            $.ajax({                
                 url: url,
                 type: 'POST',
                 contentType: false, 
                 data: archivos,
-                processData:false,
+                processData:false,                
                 beforeSend : function (){
 
                     $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
 
                 },
+                        
+                dataType: "json",
                 success: function(data){
-            $.getJSON('http://localhost/track/client/data', function(data){
+                $.getJSON('http://localhost/track/client/data', function(data){
                     if(data === "OK"){
                         $('#respuesta').html('<label style="padding-top:10px; color:green;">Importacion de CSV exitosa</label>');	
                         return false;	
