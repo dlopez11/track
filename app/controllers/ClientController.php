@@ -113,27 +113,30 @@ class ClientController extends ControllerBase
     
     public function importAction()
     {
-        if ($_FILES['csv']['size'] > 0) {
+        try {
+            if ($_FILES['csv']['size'] > 0) {
 
-            $csv = $_FILES['csv']['tmp_name'];
-            $handle = fopen($csv,'r');
-            $text = "";
+                $csv = $_FILES['csv']['tmp_name'];
+                $handle = fopen($csv,'r');
+                
+                $values = array();
+                
+                while ($data = fgetcsv($handle,1000,";","'")){
 
-            while ($data = fgetcsv($handle,1000,";","'")){
-
-                if ($data[0]) { 
-
-                    $text .= "($data[0],$data[1],$data[2],$data[3],'$data[4]','$data[5]',$data[6],'$data[7]',$data[8],'$data[9]','$data[10]')";
+                    if ($data[0]) { 
+                        $values[] = "(null,{$this->user->idAccount}," . time() . "," . time() . ",'$data[0]','$data[1]',$data[2],'$data[3]',$data[4],'$data[5]','$data[6]')";
+                    }
                 }
+                //$this->logger->log("values " . print_r($values, true));                
+                $text = implode(", ", $values);
+                //$this->logger->log("Variable text: " . $text);
+                $sql = "INSERT INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";                
+                //$this->logger->log("SQL: " . $sql);                
+                $result = $this->db->execute($sql);
             }
-            
-            $this->logger->log("Variable text: " . $text);
-            
-            $sql = "INSERT INTO Client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";
-            $result = $this->modelsManager->executeQuery($sql);
-            
-            echo 'OK';
-
+        }
+        catch(Exception $e) {
+            $this->logger->log("Exception {$e->getMessage()}");
         }
     }
 }
