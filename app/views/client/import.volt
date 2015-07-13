@@ -43,7 +43,7 @@
                 <input type="file" id="csv" name="csv" />
                 <br />
                 <a href="{{url('client/index')}}" class="btn btn-default">Cancelar</a>
-                <input type="submit" value="Importar" class="btn btn-success"/>                
+                <a id="up" class="btn btn-success">Importar</a>
                 <div id="respuesta"></div>
             </form>
         </div>

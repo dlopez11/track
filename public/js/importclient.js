@@ -1,34 +1,29 @@
 $(function(){
-    $('#subida').submit(function(){
+    $('#up').click(function(){
 
         var comprobar = $('#csv').val().length;
 
         if(comprobar > 0){
             var formulario = $('#subida');
-            var archivos = new FormData();	
+            var archivos = new FormData();
             var url = csv;
 
             for (var i = 0; i < (formulario.find('input[type=file]').length); i++) { 
                 archivos.append((formulario.find('input[type="file"]:eq('+i+')').attr("name")),((formulario.find('input[type="file"]:eq('+i+')')[0]).files[0]));
             }
-
             $.ajax({                
                 url: url,
                 type: 'POST',
                 contentType: false, 
                 data: archivos,
-                processData:false,                
+                processData:false,
                 beforeSend : function (){
-
                     $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
-
                 },
-                        
-                dataType: "json",
                 success: function(data){
-                $.getJSON('http://localhost/track/client/data', function(data){
-                    if(data === "OK"){
+                    if(data.length > 0){
                         $('#respuesta').html('<label style="padding-top:10px; color:green;">Importacion de CSV exitosa</label>');	
+                        $('#subida')[0].reset();
                         return false;	
                     }
                     else
@@ -36,7 +31,6 @@ $(function(){
                         $('#respuesta').html('<label style="padding-top:10px; color:red;">Error en la importacion del CSV</label>');
                         return false;
                     }
-            });
             
             return false;
         }
@@ -48,4 +42,6 @@ $(function(){
             return false;
         }
     });
+    
+    return false;
 });

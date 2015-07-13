@@ -133,17 +133,11 @@ class ClientController extends ControllerBase
                 $sql = "INSERT INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";                
                 //$this->logger->log("SQL: " . $sql);                
                 $result = $this->db->execute($sql);
-                
             }
         }
         catch(Exception $e) {
             $this->logger->log("Exception {$e->getMessage()}");
         }
-    }
-    
-    public function dataAction()
-    {
-        echo "OK";
     }
 }
 
