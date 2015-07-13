@@ -32,6 +32,11 @@ class VisittypeController extends ControllerBase
         if ($this->request->isPost()) {
             try {
                 $form->bind($this->request->getPost(), $vtype);
+                $name = trim($this->request->getPost("name"));
+                if($name == ""){
+                    $msg = "El nombre no puede estar vacio, por favor valide la información";
+                    throw new Exception($msg);
+                }
                 $vtype->idVisitcategory = $this->request->getPost("category");
                 $vtype->created = time();
                 $vtype->updated = time();
@@ -82,6 +87,11 @@ class VisittypeController extends ControllerBase
         if ($this->request->isPost()) {
             try {
                 $form->bind($this->request->getPost(), $vtype);
+                $name = trim($this->request->getPost("name"));
+                if($name == ""){
+                    $msg = "El nombre no puede estar vacio, por favor valide la información";
+                    throw new Exception($msg);
+                }
                 $client->updated = time();
                 $vtype->idVisitcategory = $this->request->getPost("category");
                 
