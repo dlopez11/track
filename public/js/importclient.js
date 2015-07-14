@@ -18,7 +18,7 @@ $(function(){
                 data: archivos,
                 processData:false,
                 beforeSend : function (){
-                    $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando</label>');
+                    $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
                 },
                 success: function(data){
                     if(data.length > 0){
