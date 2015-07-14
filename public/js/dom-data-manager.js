@@ -28,6 +28,7 @@ DomManager.prototype.createTable = function() {
                             <th class="col-md-2">Nombre</th>\n\
                             <th class="col-md-2">Tipo de visita</th>\n\
                             <th class="col-md-2">Cliente</th>\n\
+                            <th class="col-md-1">Entrada/Salida</th>\n\
                             <th class="col-md-1">Estado de batería</th>\n\
                             <th class="col-md-2">Observaciones</th>\n\
                             <th class="col-md-3">Ubicación</th>\n\
@@ -49,7 +50,8 @@ DomManager.prototype.refreshTable = function() {
                             <td>' + this.rows[i].date + ' <br /><em>Última visita: ' + visit + '</em></td>\n\
                             <td><strong>' + this.rows[i].name + '</strong></td>\n\
                             <td>' + this.rows[i].visit + '</td>\n\
-                            <td>' + this.rows[i].client + '</td>\n\
+                            <td>' + this.rows[i].client + '</td>\n\\n\
+                            <td>Entrada: ' + this.rows[i].in + '<br />Salida:' + this.rows[i].out + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
                             <td>' + this.rows[i].observation + '</td>\n\
                             <td>\n\
