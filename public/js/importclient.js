@@ -18,11 +18,11 @@ $(function(){
                 data: archivos,
                 processData:false,
                 beforeSend : function (){
-                    $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
+                    $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando</label>');
                 },
                 success: function(data){
                     if(data.length > 0){
-                        $('#respuesta').html('<label style="padding-top:10px; color:green;">Importacion de CSV exitosa</label>');	
+                        $('#respuesta').html('<label style="padding-top:10px; color:green;">Importacion de CSV exitosa <a href='+client+' style="color:green;">- ver clientes</a></label>');	
                         $('#subida')[0].reset();
                         return false;	
                     }
@@ -30,10 +30,14 @@ $(function(){
                     {
                         $('#respuesta').html('<label style="padding-top:10px; color:red;">Error en la importacion del CSV</label>');
                         return false;
-                    }
+                    }                
             
-            return false;
-        }
+                    return false;
+                },
+                error: function (data) {
+                    $('#respuesta').html('<label style="padding-top:10px; color:red;">Por favor seleccione un archivo de tipo CSV</label>');
+                    return false;
+                }
     });    
         }
         else         

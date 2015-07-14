@@ -2,6 +2,7 @@
 {% block header %}
     <script type="text/javascript">
         var csv = "{{url('client/import')}}";
+        var client = "{{url('client/index')}}";
     </script>
     {{ javascript_include('library/jquery/jquery-1.11.3.min.js') }}
     {{ javascript_include('js/importclient.js') }}

@@ -116,6 +116,13 @@ class ClientController extends ControllerBase
         try {
             if ($_FILES['csv']['size'] > 0) {
 
+                $fileinfo = pathinfo($_FILES['csv']['name']);
+                
+                if(strtolower(trim($fileinfo["extension"])) != "csv")
+                {
+                    return $this->set_json_response(array('Por favor seleccione un archivo de tipo CSV'), 403);
+                }
+                   
                 $csv = $_FILES['csv']['tmp_name'];
                 $handle = fopen($csv,'r');
                 
