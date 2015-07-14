@@ -64,13 +64,13 @@ class StatisticWrapper
         $today = strtotime($date_today);
         $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
-        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.start ";
+        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.end ";
 //        $this->logger->log($query);
         $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($query);
         $this->visits = $query_visits->execute();
     }
 
-    private function &modelDateTimes()
+    private function modelDateTimes()
     {
         $time = array();
         
