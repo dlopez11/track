@@ -83,13 +83,13 @@ class VisitFinder
     
     private function selectRows()
     {
-        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.in AS in, v.out AS out, v.battery AS battery, v.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
+        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.iin AS iin, v.oout AS oout, v.battery AS battery, v.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
-                    . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.in DESC"
+                    . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.iin DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
 //        $this->logger->log($sql_rows);
@@ -100,6 +100,7 @@ class VisitFinder
         $db = \Phalcon\DI::getDefault()->get('db'); 
         $result  = $db->query($sql_rows);
         $rows = $result->fetchAll();
+        $this->logger->log(print_r($rows));
         return $rows;
     }
     
@@ -115,8 +116,8 @@ class VisitFinder
                 $array['name'] = "{$row['name']} {$row['lastname']}";
                 $array['visit'] = $row['visit'];
                 $array['client'] = $row['client'];
-                $array['iin'] = date('d/M/Y h:i:s A', $row['in']);
-                $array['out'] = date('d/M/Y h:i:s A', $row['out']);
+                $array['iin'] = date('d/M/Y h:i:s A', $row['iin']);
+                $array['oout'] = date('d/M/Y h:i:s A', $row['oout']);
                 $array['battery'] = $row['battery'];
                 $array['observation'] = $row['observation'];
                 $array['latitude'] = $row['latitude'];

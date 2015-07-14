@@ -50,7 +50,7 @@ DomManager.prototype.refreshTable = function() {
                             <td><strong>' + this.rows[i].name + '</strong></td>\n\
                             <td>' + this.rows[i].visit + '</td>\n\
                             <td>' + this.rows[i].client + '</td>\n\\n\
-                            <td>Entrada: ' + this.rows[i].iin + '<br />Salida:' + this.rows[i].out + '</td>\n\
+                            <td><strong>Entrada</strong>:<br />' + this.rows[i].iin + '<br /><strong>Salida</strong>:<br />' + this.rows[i].oout + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
                             <td>' + this.rows[i].observation + '</td>\n\
                             <td>\n\
