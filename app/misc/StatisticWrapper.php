@@ -342,9 +342,10 @@ class StatisticWrapper
                 if ($visit->idUser == $user->idUser) {
                     $total = count($user->times);
                     foreach ($user->times as $key => $time) {
-                        $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->end) : $user->times[$key+1]->end);
+                        $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->date) : $user->times[$key+1]->date);
                         
-                        if ($visit->end >= $time->end && $visit->end < $next) {
+                        if ($visit->start >= $time->date && $visit->end < $next) {
+                            $users[$key1]->times[$key]->times[] = $visit->start;
                             $users[$key1]->times[$key]->times[] = $visit->end;
                         }
                     }                    
@@ -360,8 +361,12 @@ class StatisticWrapper
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
                     
+                    $this->logger->log("Inicio: ".$first);
+                    $this->logger->log("Final: ".$last);
+                    $this->logger->log("Visitas?: ".$visits);
+                    
                     $pprom = ($last-$first);
-                    $prom = round((($pprom/$visits)/3600), 2);
+                    $prom = round((($pprom/($visits/2))/3600), 2);
                     
                     $us->data[$key] = $prom;
                 }
