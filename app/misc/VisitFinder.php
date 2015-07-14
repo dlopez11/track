@@ -116,6 +116,8 @@ class VisitFinder
                 $array['name'] = "{$row['name']} {$row['lastname']}";
                 $array['visit'] = $row['visit'];
                 $array['client'] = $row['client'];
+                $array['in'] = date('d/M/Y h:i:s A', $row['in']);
+                $array['out'] = date('d/M/Y h:i:s A', $row['out']);
                 $array['battery'] = $row['battery'];
                 $array['observation'] = $row['observation'];
                 $array['latitude'] = $row['latitude'];
