@@ -100,7 +100,6 @@ class VisitFinder
         $db = \Phalcon\DI::getDefault()->get('db'); 
         $result  = $db->query($sql_rows);
         $rows = $result->fetchAll();
-        $this->logger->log(print_r($rows));
         return $rows;
     }
     

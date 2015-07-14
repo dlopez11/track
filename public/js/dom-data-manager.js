@@ -66,7 +66,7 @@ DomManager.prototype.refreshTable = function() {
         this.content.find('#content').show('slow');
     }
     else {
-        var row = $('<tr class="text-center"><td colspan="6">Sin registros</td></tr>');
+        var row = $('<tr class="text-center"><td colspan="7">No hay registros para mostrar.</td></tr>');
         this.content.find('#content').append(row);
         this.content.find('#content').show('slow');
     }
