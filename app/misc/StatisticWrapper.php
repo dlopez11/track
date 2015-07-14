@@ -60,11 +60,10 @@ class StatisticWrapper
     
     private function findVisits()
     {
-        $date_today = date("Y-m-d");
-        $today = strtotime($date_today);
-        $first_day = strtotime("-29 days", $today);
+
+        $first_day = strtotime("-29 days", time());
         $tomorrow = strtotime("Tomorrow");
-        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.end ";
+        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.start, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.end ";
 //        $this->logger->log($query);
         $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($query);
         $this->visits = $query_visits->execute();
@@ -74,13 +73,13 @@ class StatisticWrapper
     {
         $time = array();
         
-        $d = strtotime(date("Y-m-d", time()));
+        $d = strtotime(date("Y-m-d"));
         
         $today = strtotime("+1 days", $d);
         $thirty_days_ago = strtotime("-29 days", $today);
         
         $obj = new \stdClass();
-        $obj->end = $thirty_days_ago;
+        $obj->date = $thirty_days_ago;
         $obj->times = array();
         
         $time[] = $obj;
@@ -88,14 +87,14 @@ class StatisticWrapper
         
         for ($i = 1; $i <= 29; $i++) {
             $obj = new \stdClass();
-            $obj->end = strtotime("+1 days", $time[$j]->end);
+            $obj->date = strtotime("+1 days", $time[$j]->date);
             $obj->times = array();
             $time[] = $obj;
             $j++;
         }
         
         $obj = new \stdClass();
-        $obj->end = $thirty_days_ago;
+        $obj->date = $thirty_days_ago;
         $obj->times = array();
         
         $time[] = $obj;
@@ -282,18 +281,18 @@ class StatisticWrapper
     }
     
     private function modelTimelineData()
-    {            
+    {
         $times = $this->modelDateTimes();
         $visits = $this->modelVisits();
         $totall = $this->modelTotalVisits($visits, $times);
-        
         foreach ($this->visits as $visit){
             foreach ($totall as $tt) {
                 $total = count($tt->times);
                 foreach ($tt->times as $key => $time) {
-                    $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->end) : $tt->times[$key+1]->end);
+                    $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->date) : $tt->times[$key+1]->date);
 
-                    if ($visit->end >= $time->end && $visit->end < $next) {
+                    if ($visit->start >= $time->date && $visit->end < $next) {
+                        $time->times[] = $visit->start;
                         $time->times[] = $visit->end;
                     }
                 }
@@ -310,7 +309,7 @@ class StatisticWrapper
                     $last = array_pop($ts->times);
                     
                     $pprom = ($last-$first);
-                    $prom = round((($pprom/$visits)/3600), 2);
+                    $prom = round((($pprom/($visits/2))/3600), 2);
                     
                     $t->data[$key] = $prom;
                 }
@@ -323,7 +322,7 @@ class StatisticWrapper
         
         $tm = array();
         foreach ($times as $t) {
-            $tm[] = date("d/M/Y", $t->end);
+            $tm[] = date("d/M/Y", $t->date);
         }
         
         $this->modelData = array(
@@ -375,7 +374,7 @@ class StatisticWrapper
         
         $tm = array();
         foreach ($times as $t) {
-            $tm[] = date("d/M/Y", $t->end);
+            $tm[] = date("d/M/Y", $t->date);
         }
         
         $this->modelData = array(
