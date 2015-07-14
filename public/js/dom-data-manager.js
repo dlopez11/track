@@ -50,7 +50,7 @@ DomManager.prototype.refreshTable = function() {
                             <td><strong>' + this.rows[i].name + '</strong></td>\n\
                             <td>' + this.rows[i].visit + '</td>\n\
                             <td>' + this.rows[i].client + '</td>\n\\n\
-                            <td>Entrada: ' + this.rows[i].in + '<br />Salida:' + this.rows[i].out + '</td>\n\
+                            <td>Entrada: ' + this.rows[i].iin + '<br />Salida:' + this.rows[i].out + '</td>\n\
                             <td>' + this.rows[i].battery + '%</td>\n\
                             <td>' + this.rows[i].observation + '</td>\n\
                             <td>\n\
@@ -66,7 +66,7 @@ DomManager.prototype.refreshTable = function() {
         this.content.find('#content').show('slow');
     }
     else {
-        var row = $('<tr class="text-center"><td colspan="6">Nothing here</td></tr>');
+        var row = $('<tr class="text-center"><td colspan="6">Sin registros</td></tr>');
         this.content.find('#content').append(row);
         this.content.find('#content').show('slow');
     }

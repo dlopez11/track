@@ -83,13 +83,13 @@ class VisitFinder
     
     private function selectRows()
     {
-        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.in AS in, v.out AS out, v.battery AS battery, v.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
+        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.in AS in, v.out AS out, v.battery AS battery, v.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
-                    . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.date DESC"
+                    . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.in DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
 //        $this->logger->log($sql_rows);
@@ -112,11 +112,10 @@ class VisitFinder
                 $array = array();
                 $array['idVisit'] = $row['idVisit'];
                 $array['idUser'] = $row['idUser'];
-                $array['date'] = date('d/M/Y h:i:s A', $row['date']);
                 $array['name'] = "{$row['name']} {$row['lastname']}";
                 $array['visit'] = $row['visit'];
                 $array['client'] = $row['client'];
-                $array['in'] = date('d/M/Y h:i:s A', $row['in']);
+                $array['iin'] = date('d/M/Y h:i:s A', $row['in']);
                 $array['out'] = date('d/M/Y h:i:s A', $row['out']);
                 $array['battery'] = $row['battery'];
                 $array['observation'] = $row['observation'];

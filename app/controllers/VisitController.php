@@ -57,7 +57,7 @@ class VisitController extends ControllerBase
         } 
         catch (Exception $ex) {
             $this->logger->log($ex->getMessage());
-            return $this->set_json_response('ha ocurrido un error, por favor contacte al administrador', 500);
+            return $this->set_json_response('Ha ocurrido un error, por favor contacte al administrador', 500);
         }
     }
     
