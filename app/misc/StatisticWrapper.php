@@ -60,9 +60,11 @@ class StatisticWrapper
     
     private function findVisits()
     {
-        $first_day = strtotime("-29 days");
+        $date_today = date("Y-m-d");
+        $today = strtotime($date_today);
+        $first_day = strtotime("-29 days", $today);
         $tomorrow = strtotime("Tomorrow");
-        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.start, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.start ";
+        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.start ";
 //        $this->logger->log($query);
         $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($query);
         $this->visits = $query_visits->execute();
@@ -78,7 +80,7 @@ class StatisticWrapper
         $thirty_days_ago = strtotime("-29 days", $today);
         
         $obj = new \stdClass();
-        $obj->start = $thirty_days_ago;
+        $obj->end = $thirty_days_ago;
         $obj->times = array();
         
         $time[] = $obj;
@@ -86,14 +88,14 @@ class StatisticWrapper
         
         for ($i = 1; $i <= 29; $i++) {
             $obj = new \stdClass();
-            $obj->start = strtotime("+1 days", $time[$j]->start);
+            $obj->end = strtotime("+1 days", $time[$j]->end);
             $obj->times = array();
             $time[] = $obj;
             $j++;
         }
         
         $obj = new \stdClass();
-        $obj->start = $thirty_days_ago;
+        $obj->end = $thirty_days_ago;
         $obj->times = array();
         
         $time[] = $obj;
@@ -206,7 +208,7 @@ class StatisticWrapper
             foreach ($vists as $vt) {
                 if ($visit->idVisittype == $vt->idVisittype) {
                     foreach($time AS $key => $v) {
-                        if ($visit->start >= $v AND $visit->start < $time[$key+1]) {
+                        if ($visit->end >= $v AND $visit->end < $time[$key+1]) {
                             $vt->data[$key] += 1;
                         }
                     }
@@ -260,7 +262,7 @@ class StatisticWrapper
             foreach ($users as $user) {
                 if ($visit->idUser == $user->idUser) {
                     foreach($time AS $key => $v) {
-                        if ($visit->start >= $v AND $visit->start < $time[$key+1]) {
+                        if ($visit->end >= $v AND $visit->end < $time[$key+1]) {
                             $user->data[$key] += 1;
                         }
                     }
@@ -289,10 +291,10 @@ class StatisticWrapper
             foreach ($totall as $tt) {
                 $total = count($tt->times);
                 foreach ($tt->times as $key => $time) {
-                    $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->start) : $tt->times[$key+1]->start);
+                    $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->end) : $tt->times[$key+1]->end);
 
-                    if ($visit->start >= $time->start && $visit->start < $next) {
-                        $time->times[] = $visit->start;
+                    if ($visit->end >= $time->end && $visit->end < $next) {
+                        $time->times[] = $visit->end;
                     }
                 }
                 break;
@@ -321,7 +323,7 @@ class StatisticWrapper
         
         $tm = array();
         foreach ($times as $t) {
-            $tm[] = date("d/M/Y", $t->start);
+            $tm[] = date("d/M/Y", $t->end);
         }
         
         $this->modelData = array(
@@ -341,10 +343,10 @@ class StatisticWrapper
                 if ($visit->idUser == $user->idUser) {
                     $total = count($user->times);
                     foreach ($user->times as $key => $time) {
-                        $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->start) : $user->times[$key+1]->start);
+                        $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->end) : $user->times[$key+1]->end);
                         
-                        if ($visit->start >= $time->start && $visit->start < $next) {
-                            $users[$key1]->times[$key]->times[] = $visit->start;
+                        if ($visit->end >= $time->end && $visit->end < $next) {
+                            $users[$key1]->times[$key]->times[] = $visit->end;
                         }
                     }                    
                     break;
@@ -373,7 +375,7 @@ class StatisticWrapper
         
         $tm = array();
         foreach ($times as $t) {
-            $tm[] = date("d/M/Y", $t->start);
+            $tm[] = date("d/M/Y", $t->end);
         }
         
         $this->modelData = array(
