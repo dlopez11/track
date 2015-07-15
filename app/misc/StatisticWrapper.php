@@ -80,6 +80,7 @@ class StatisticWrapper
         
         $obj = new \stdClass();
         $obj->date = $thirty_days_ago;
+        $obj->visits = 0;
         $obj->times = array();
         
         $time[] = $obj;
@@ -88,6 +89,7 @@ class StatisticWrapper
         for ($i = 1; $i <= 29; $i++) {
             $obj = new \stdClass();
             $obj->date = strtotime("+1 days", $time[$j]->date);
+            $obj->visits = 0;
             $obj->times = array();
             $time[] = $obj;
             $j++;
@@ -95,6 +97,7 @@ class StatisticWrapper
         
         $obj = new \stdClass();
         $obj->date = $thirty_days_ago;
+        $obj->visits = 0;
         $obj->times = array();
         
         $time[] = $obj;
@@ -285,6 +288,7 @@ class StatisticWrapper
         $times = $this->modelDateTimes();
         $visits = $this->modelVisits();
         $totall = $this->modelTotalVisits($visits, $times);
+        
         foreach ($this->visits as $visit){
             foreach ($totall as $tt) {
                 $total = count($tt->times);
@@ -292,6 +296,7 @@ class StatisticWrapper
                     $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->date) : $tt->times[$key+1]->date);
                     
                     if ($visit->start >= $time->date && $visit->end < $next) {
+                            $time->visits += 1;
                             $time->times[] = $visit->start;
                             $time->times[] = $visit->end;
                     }
@@ -300,14 +305,15 @@ class StatisticWrapper
             }
         }
         
+        $this->logger->log("Array " . print_r($totall, true));
+        
         foreach ($totall as $t) {
             foreach ($t->times as $key => $ts) {
-                $visits = count($ts->times)/2;
-                if ($visits > 1) {
+                if ($ts->visits > 1) {
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
                     $pprom = ($last-$first);
-                    $prom = round((($pprom/$visits)/3600), 2);
+                    $prom = round((($pprom/$ts->visits)/3600), 2);
                     
                     $t->data[$key] = $prom;
                 }
@@ -342,6 +348,7 @@ class StatisticWrapper
                     foreach ($user->times as $key => $time) {
                         $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->date) : $user->times[$key+1]->date);
                         if ($visit->start >= $time->date && $visit->end < $next) {
+                            $time->visits += 1;
                             $users[$key1]->times[$key]->times[] = $visit->start;
                             $users[$key1]->times[$key]->times[] = $visit->end;
                         }
@@ -353,12 +360,11 @@ class StatisticWrapper
         
         foreach ($users as $us) {
             foreach ($us->times as $key => $ts) {
-                $visits = count($ts->times)/2;
                 if ($visits > 1) {
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
                     $pprom = ($last-$first);
-                    $prom = round((($pprom/$visits)/3600), 2);
+                    $prom = round((($pprom/$ts->visits)/3600), 2);
                     
                     $us->data[$key] = $prom;
                 }
