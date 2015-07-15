@@ -302,12 +302,12 @@ class StatisticWrapper
         
         foreach ($totall as $t) {
             foreach ($t->times as $key => $ts) {
-                $visits = count($ts->times);
+                $visits = count($ts->times)/2;
                 if ($visits > 1) {
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
                     $pprom = ($last-$first);
-                    $prom = round((($pprom/($visits/2))/3600), 2);
+                    $prom = round((($pprom/$visits)/3600), 2);
                     
                     $t->data[$key] = $prom;
                 }
@@ -353,12 +353,12 @@ class StatisticWrapper
         
         foreach ($users as $us) {
             foreach ($us->times as $key => $ts) {
-                $visits = count($ts->times);
+                $visits = count($ts->times)/2;
                 if ($visits > 1) {
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
                     $pprom = ($last-$first);
-                    $prom = round((($pprom/($visits/2))/3600), 2);
+                    $prom = round((($pprom/$visits)/3600), 2);
                     
                     $us->data[$key] = $prom;
                 }
