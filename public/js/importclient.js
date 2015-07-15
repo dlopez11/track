@@ -17,6 +17,7 @@ $(function(){
                 contentType: false, 
                 data: archivos,
                 processData:false,
+                dataType: "json",
                 beforeSend : function (){
                     $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
                 },
@@ -26,16 +27,10 @@ $(function(){
                         $('#subida')[0].reset();
                         return false;	
                     }
-                    else
-                    {
-                        $('#respuesta').html('<label style="padding-top:10px; color:red;">Error en la importacion del CSV</label>');
-                        return false;
-                    }                
-            
-                    return false;
                 },
                 error: function (data) {
-                    $('#respuesta').html('<label style="padding-top:10px; color:red;">Por favor seleccione un archivo de tipo CSV</label>');
+                    var status = JSON.parse(data.responseText);
+                    $('#respuesta').html('<label style="padding-top:10px; color:red;">'+ status +'</label>');
                     return false;
                 }
     });    

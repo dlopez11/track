@@ -114,6 +114,10 @@ class ClientController extends ControllerBase
     public function importAction()
     {
         try {
+            if ($_FILES['csv']['size'] > 1048576){
+                return $this->set_json_response(array('El archivo CSV no puede ser mayor a 1 MB de peso'), 403);
+            }
+            
             if ($_FILES['csv']['size'] > 0) {
 
                 $fileinfo = pathinfo($_FILES['csv']['name']);
@@ -143,7 +147,7 @@ class ClientController extends ControllerBase
             }
         }
         catch(Exception $e) {
-            $this->logger->log("Exception {$e->getMessage()}");
+            return $this->set_json_response(array($e->getMessage()), 403);            
         }
     }
 }

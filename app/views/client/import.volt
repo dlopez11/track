@@ -32,7 +32,7 @@
                 Al guardar el documento, seleccione tipo de archivo: <strong>(*.csv)</strong> que significa: delimitado por comas.
             </p>
             <p>
-                Importe máximo hasta 100.000 clientes.
+                El tamaño del archivo no debe superar 1 MB.
             </p>
             <br />
         </div>
