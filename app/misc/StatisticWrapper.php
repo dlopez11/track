@@ -63,7 +63,7 @@ class StatisticWrapper
 
         $first_day = strtotime("-29 days", time());
         $tomorrow = strtotime("Tomorrow");
-        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.start, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} ORDER BY v.end ";
+        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.start, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} AND v.end <> 0 ORDER BY v.end ";
 //        $this->logger->log($query);
         $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($query);
         $this->visits = $query_visits->execute();
@@ -133,7 +133,7 @@ class StatisticWrapper
         return $users;
     }
     
-    private function modelTotalVisits($visits, $times)
+    private function modelTotalVisits($visits, $time)
     {        
         $t = \User::findByIdAccount($this->account->idAccount);
         
@@ -145,7 +145,7 @@ class StatisticWrapper
             $obj->idUser = $tt->idUser;
             $obj->name = "Promedio";
             $obj->data = $visits;
-            $obj->times = $times;
+            $obj->times = $time;
             $totall[] = $obj;
         }
         
@@ -207,7 +207,7 @@ class StatisticWrapper
             foreach ($vists as $vt) {
                 if ($visit->idVisittype == $vt->idVisittype) {
                     foreach($time AS $key => $v) {
-                        if ($visit->end >= $v AND $visit->end < $time[$key+1]) {
+                        if ($visit->start >= $v AND $visit->end < $time[$key+1]) {
                             $vt->data[$key] += 1;
                         }
                     }
@@ -290,10 +290,10 @@ class StatisticWrapper
                 $total = count($tt->times);
                 foreach ($tt->times as $key => $time) {
                     $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->date) : $tt->times[$key+1]->date);
-
+                    
                     if ($visit->start >= $time->date && $visit->end < $next) {
-                        $time->times[] = $visit->start;
-                        $time->times[] = $visit->end;
+                            $time->times[] = $visit->start;
+                            $time->times[] = $visit->end;
                     }
                 }
                 break;
@@ -304,10 +304,8 @@ class StatisticWrapper
             foreach ($t->times as $key => $ts) {
                 $visits = count($ts->times);
                 if ($visits > 1) {
-                    
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
-                    
                     $pprom = ($last-$first);
                     $prom = round((($pprom/($visits/2))/3600), 2);
                     
@@ -343,7 +341,6 @@ class StatisticWrapper
                     $total = count($user->times);
                     foreach ($user->times as $key => $time) {
                         $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->date) : $user->times[$key+1]->date);
-                        
                         if ($visit->start >= $time->date && $visit->end < $next) {
                             $users[$key1]->times[$key]->times[] = $visit->start;
                             $users[$key1]->times[$key]->times[] = $visit->end;
@@ -360,11 +357,6 @@ class StatisticWrapper
                 if ($visits > 1) {
                     $first = array_shift($ts->times);
                     $last = array_pop($ts->times);
-                    
-                    $this->logger->log("Inicio: ".$first);
-                    $this->logger->log("Final: ".$last);
-                    $this->logger->log("Visitas?: ".$visits);
-                    
                     $pprom = ($last-$first);
                     $prom = round((($pprom/($visits/2))/3600), 2);
                     
