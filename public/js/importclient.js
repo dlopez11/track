@@ -17,18 +17,17 @@ $(function(){
                 contentType: false, 
                 data: archivos,
                 processData:false,
-                dataType: "json",
                 beforeSend : function (){
                     $('#respuesta').html('<label style="padding-top:10px; color:blue;">Cargando...</label>');
                 },
-                success: function(data){
+                success: function(data){                   
                     if(data.length > 0){
-                        $('#respuesta').html('<label style="padding-top:10px; color:green;">Importacion de CSV exitosa <a href='+client+' style="color:green;">- ver clientes</a></label>');	
+                        $('#respuesta').html('<label style="padding-top:10px; color:green;">'+ data +' <a href='+client+' style="color:green;">- ver clientes</a></label>');	
                         $('#subida')[0].reset();
-                        return false;	
+                        return false;
                     }
                 },
-                error: function (data) {
+                error: function (data) {                    
                     var status = JSON.parse(data.responseText);
                     $('#respuesta').html('<label style="padding-top:10px; color:red;">'+ status +'</label>');
                     return false;
