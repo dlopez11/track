@@ -52,10 +52,10 @@ class MailSender
     
     public function sendMessage()
     {
-        $transport = Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
-        $swift = Swift_Mailer::newInstance($transport);
+        $transport = \Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
+        $swift = \Swift_Mailer::newInstance($transport);
 
-        $message = new Swift_Message($this->msg->subject);
+        $message = new \Swift_Message($this->msg->subject);
 
         /*Cabeceras de configuración para evitar que Green Arrow agregue enlaces de tracking*/
         $headers = $message->getHeaders();
@@ -72,10 +72,10 @@ class MailSender
             $recipients = $swift->send($message, $failures);
 
             if ($recipients){
-                Phalcon\DI::getDefault()->get('logger')->log('Recover Password Message successfully sent!');
+                \Phalcon\DI::getDefault()->get('logger')->log('Recover Password Message successfully sent!');
             }
             else {
-                throw new Exception('Error while sending message: ' . $failures);
+                throw new \Exception('Error while sending message: ' . $failures);
             }
         }
     }
