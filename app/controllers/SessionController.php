@@ -135,7 +135,7 @@ class SessionController extends ControllerBase
                     $mailSender->setData($data);
                     $mailSender->setHtml($html);
                     $mailSender->setPlainText($plainText);
-                    $mailSender->sendBasicMail();
+                    $mailSender->sendMessage();
                         
                     $this->trace("success", "Se han enviado instrucciones para recuperar contraseña al usuario {$user->idUser}/{$user->username} con email {$email} ");
                 }
