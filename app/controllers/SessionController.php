@@ -120,8 +120,8 @@ class SessionController extends ControllerBase
                     }                                        
                     else {
                         $data = new stdClass();
-                        $data->fromName = "soporte@sigmamovil.com";
-                        $data->fromEmail = "Soporte Sigma Móvil";
+                        $data->fromEmail = "soporte@sigmamovil.com";
+                        $data->fromName = "Soporte Sigma Móvil";
                         $data->subject = "Instrucciones para recuperar la contraseña de Sigma Track";
                         $data->target = array($user->email);
                         
