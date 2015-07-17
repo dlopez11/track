@@ -61,6 +61,12 @@ class MailSender
         $headers = $message->getHeaders();
         $headers->addTextHeader('X-GreenArrow-MailClass', 'SIGMA_NEWEMKTG_DEVEL');
         
+        $this->logger->log("Subject: " . $this->data->subject);
+        $this->logger->log("Set from: " . print_r(array($this->data->fromEmail => $this->data->fromName), true));
+        $this->logger->log("html: " . $this->html);
+        $this->logger->log("Plaintext: " . $this->plainText);
+        
+        
         $message->setSubject($this->data->subject);
         $message->setFrom(array($this->data->fromEmail => $this->data->fromName));
         $message->setBody($this->html, 'text/html');
