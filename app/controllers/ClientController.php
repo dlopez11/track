@@ -130,32 +130,40 @@ class ClientController extends ControllerBase
                 $csv = $_FILES['csv']['tmp_name'];
                 $handle = fopen($csv,'r');
                 
-                $values = array();
+                $values = array();                                
+                $valor = array();
                 
-                $sql_rows = "SELECT name FROM client WHERE idAccount = {$this->user->idAccount}";
-                $db = \Phalcon\DI::getDefault()->get('db'); 
-                $r  = $db->query($sql_rows);
-                $rows = $r->fetchAll();
+//                $sql_rows = "SELECT name FROM client WHERE idAccount = {$this->user->idAccount}";
+//                $db = \Phalcon\DI::getDefault()->get('db');
+//                $r  = $db->query($sql_rows);
+//                $rows = $r->fetchAll();
                 
-                $data = fgetcsv($handle,1000,";","'");
+                while($data = fgetcsv($handle,1000,";","'")){
                     if($data[0]){
                         $values[] = "(null,{$this->user->idAccount}," . time() . "," . time() . ",'$data[0]','$data[1]',$data[2],'$data[3]',$data[4],'$data[5]','$data[6]')";
-                    }
-                
-                //$this->logger->log("values " . print_r($values, true));                
-                $text = implode(", ", $values);
-                //$this->logger->log("Variable text: " . $text);
-                $sql = "INSERT INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";                
-                //$this->logger->log("SQL: " . $sql);                
-                $result = $this->db->execute($sql);
-                
-                for($i = 0; $i < count($rows); $i++){
-                    $this->logger->log($rows[$i]["name"]);
-                    if($data[0] == $rows[$i]["name"]){
-                        $delete = "DELETE FROM client WHERE name = '".$rows[$i]['name']."'";              
-                        $del = $this->db->execute($delete);
+                        $valor[] = $data[0];
                     }
                 }
+                
+                foreach ($valor as $v) {
+                    $this->logger->log(print_r('Nombre: ' . $v, true));
+                }
+                
+                foreach ($values as $value) {
+                    $this->logger->log(print_r('Valor: ' . $value, true));
+                }
+                
+                $text = implode(", ", $values);               
+                $sql = "INSERT INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";
+                $result = $this->db->execute($sql);
+                
+//                for($i = 0; $i < count($rows); $i++){
+//                    $this->logger->log($rows[$i]["name"]);
+//                    if($data[0] == $rows[$i]["name"]){
+//                        $delete = "DELETE FROM client WHERE name = '".$rows[$i]['name']."'";              
+//                        $del = $this->db->execute($delete);
+//                    }
+//                }
                 
                 return $this->set_json_response(array('El archivo se importo exitosamente'), 200);
             }
