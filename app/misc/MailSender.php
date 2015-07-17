@@ -1,8 +1,9 @@
 <?php
-$path =  \Phalcon\DI\FactoryDefault::getDefault()->get('path');
-require_once "{$path->path}app/library/swiftmailer/lib/swift_required.php";
 
 namespace Sigmamovil\Misc;
+
+$path =  \Phalcon\DI\FactoryDefault::getDefault()->get('path');
+require_once "{$path->path}app/library/swiftmailer/lib/swift_required.php";
 
 class MailSender
 {
