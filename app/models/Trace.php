@@ -22,6 +22,7 @@ class Trace extends \Phalcon\Mvc\Model
             $trace->result = $status;
             $trace->operation = $operation;
             $trace->description = $msg;
+            $trace->location = 'Empty';
             $trace->date = $date;
             $trace->ip = ip2long($ip);
 
