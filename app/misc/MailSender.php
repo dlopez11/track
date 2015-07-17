@@ -52,8 +52,9 @@ class MailSender
     
     public function sendMessage()
     {
+        
         $transport = \Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
-        $swift = \Swift_Mailer::newInstance($transport);
+        $swift = \Swift_Mailer::newInstance();
 
         $message = new \Swift_Message($this->msg->subject);
 
@@ -61,10 +62,8 @@ class MailSender
         $headers = $message->getHeaders();
         $headers->addTextHeader('X-GreenArrow-MailClass', 'SIGMA_NEWEMKTG_DEVEL');
         
-        $this->logger->log("Subject: " . $this->data->subject);
-        $this->logger->log("Set from: " . print_r(array($this->data->fromEmail => $this->data->fromName), true));
-        $this->logger->log("html: " . $this->html);
-        $this->logger->log("Plaintext: " . $this->plainText);
+        $this->logger->log("Address: " . $this->mta->address);
+        $this->logger->log("Mta: " . $this->mta->port);
         
         
         $message->setSubject($this->data->subject);
