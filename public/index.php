@@ -117,9 +117,6 @@ try {
     $di->set('modelsManager', function(){
         return new \Phalcon\Mvc\Model\Manager();
     });
-    
-    
-   
             
     $di->set('flashSession', function(){
         $flash = new \Phalcon\Flash\Session(array(
@@ -147,6 +144,15 @@ try {
     $system->ipaddresses = $config->system->ipaddresses;
     $di->set('system', $system);
 	
+    /*
+    * MTA
+    */
+    $mta = new \stdClass;
+    $mta->address = $config->mta->address;
+    $mta->mailclass = $config->mta->mailclass;
+    $mta->port = $config->mta->port;
+    $di->set('mta', $mta);
+    
     /**
      * Se encarga de monitorear los accesos a los controladores y acciones, y asi mismo pasarle los parametros
      * de seguridad a security 
