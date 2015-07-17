@@ -54,9 +54,9 @@ class MailSender
     {
         
         $transport = \Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
-        $swift = \Swift_Mailer::newInstance();
+        $swift = \Swift_Mailer::newInstance($transport);
 
-        $message = new \Swift_Message($this->msg->subject);
+        $message = new \Swift_Message();
 
         /*Cabeceras de configuración para evitar que Green Arrow agregue enlaces de tracking*/
         $headers = $message->getHeaders();
