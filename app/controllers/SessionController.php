@@ -148,7 +148,8 @@ class SessionController extends ControllerBase
             } 
             catch (Exception $ex) {
                 $this->trace("fail", "No se logro recuperar la contraseña del usuario [{$user->idUser}], [{$email}]");
-                $this->flashSession->error($ex->getMessage());
+                $this->logger->log("Exception while recovering password: {$ex->getMessage()}");
+                $this->flashSession->error("Ha ocurrido un error, por favor contacta al administrador");
             }
         }        
     }
