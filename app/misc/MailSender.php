@@ -12,11 +12,13 @@ class MailSender
     public $data;
     public $html;
     public $plainText;
+    public $mta;
     
     public function __construct() 
     {
         $this->session = \Phalcon\DI::getDefault()->get('session');
         $this->logger = \Phalcon\DI::getDefault()->get('logger');
+        $this->mta = \Phalcon\DI::getDefault()->get('mta');
     }
     
     public function setData($data)
