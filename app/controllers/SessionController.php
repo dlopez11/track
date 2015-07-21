@@ -94,11 +94,17 @@ class SessionController extends ControllerBase
     {
         if($this->request->isPost()){
             $email = $this->request->getPost('email');
-                
-            $user = User::findFirst(array(
-                'condition' => 'email = ?1',
-                'bind' => array(1 => $email)                
-            ));
+            
+            $query = "SELECT * FROM User WHERE User.email = '{$email}'";
+            $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
+            $rows = $modelsManager->executeQuery($query);
+            
+//            $user = User::findFirst(array(
+//                'condition' => 'email = ?1',
+//                'bind' => array(1 => $email)                
+//            ));
+            
+            $this->logger->log(print_r($rows, true));
             
             try {
                 if($user){
