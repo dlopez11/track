@@ -4,6 +4,9 @@ require_once "{$path->path}app/library/swiftmailer/lib/swift_required.php";
 
 namespace Sigmamovil\Misc;
 
+$path =  \Phalcon\DI\FactoryDefault::getDefault()->get('path');
+require_once "{$path->path}app/library/swiftmailer/lib/swift_required.php";
+
 class MailSender
 {
     public $session;
@@ -11,6 +14,7 @@ class MailSender
     public $data;
     public $html;
     public $plainText;
+    public $mta;
     
     public function __construct() 
     {
@@ -52,15 +56,31 @@ class MailSender
     
     public function sendMessage()
     {
+<<<<<<< HEAD
         $transport = Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
         $swift = Swift_Mailer::newInstance($transport);
 
         $message = new Swift_Message($this->msg->subject);
+=======
+        
+        $transport = \Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
+        $swift = \Swift_Mailer::newInstance($transport);
+
+        $message = new \Swift_Message();
+>>>>>>> bug/recoverpass
 
         /*Cabeceras de configuración para evitar que Green Arrow agregue enlaces de tracking*/
         $headers = $message->getHeaders();
         $headers->addTextHeader('X-GreenArrow-MailClass', 'SIGMA_NEWEMKTG_DEVEL');
         
+<<<<<<< HEAD
+=======
+        $this->logger->log("Address: " . $this->mta->address);
+        $this->logger->log("Mta: " . $this->mta->port);
+        $this->logger->log("Email: " . $this->data->target);
+        
+        
+>>>>>>> bug/recoverpass
         $message->setSubject($this->data->subject);
         $message->setFrom(array($this->data->fromEmail => $this->data->fromName));
         $message->setBody($this->html, 'text/html');
@@ -72,10 +92,17 @@ class MailSender
             $recipients = $swift->send($message, $failures);
 
             if ($recipients){
+<<<<<<< HEAD
                 Phalcon\DI::getDefault()->get('logger')->log('Recover Password Message successfully sent!');
             }
             else {
                 throw new Exception('Error while sending message: ' . $failures);
+=======
+                \Phalcon\DI::getDefault()->get('logger')->log('Recover Password Message successfully sent!');
+            }
+            else {
+                throw new \Exception('Error while sending message: ' . $failures);
+>>>>>>> bug/recoverpass
             }
         }
     }

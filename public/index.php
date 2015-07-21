@@ -117,9 +117,6 @@ try {
     $di->set('modelsManager', function(){
         return new \Phalcon\Mvc\Model\Manager();
     });
-    
-    
-   
             
     $di->set('flashSession', function(){
         $flash = new \Phalcon\Flash\Session(array(
@@ -147,7 +144,10 @@ try {
     $system->ipaddresses = $config->system->ipaddresses;
     $di->set('system', $system);
 	
+<<<<<<< HEAD
     
+=======
+>>>>>>> bug/recoverpass
     /*
     * MTA
     */
