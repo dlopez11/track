@@ -66,6 +66,7 @@ class MailSender
         
         $this->logger->log("Address: " . $this->mta->address);
         $this->logger->log("Mta: " . $this->mta->port);
+        $this->logger->log("Email: " . $this->data->target);
         
         
         $message->setSubject($this->data->subject);
