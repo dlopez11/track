@@ -144,10 +144,6 @@ try {
     $system->ipaddresses = $config->system->ipaddresses;
     $di->set('system', $system);
 	
-<<<<<<< HEAD
-    
-=======
->>>>>>> bug/recoverpass
     /*
     * MTA
     */
