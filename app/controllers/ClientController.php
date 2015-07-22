@@ -130,21 +130,34 @@ class ClientController extends ControllerBase
                 $csv = $_FILES['csv']['tmp_name'];
                 $handle = fopen($csv,'r');
                 
-                $values = array();                                
-                $valor = array();
+                $values = array();
+                $objects = array();
+                $client = Client::findByIdAccount($this->user->idAccount);
+                
+                foreach($client as $c){
+                    $objects[] = $c->name;
+                }
                 
                 while($data = fgetcsv($handle,1000,";","'")){
                     if($data[0]){
-                        $values[] = "(null,{$this->user->idAccount}," . time() . "," . time() . ",'$data[0]','$data[1]',$data[2],'$data[3]',$data[4],'$data[5]','$data[6]')";
-                        $valor[] = "'$data[0]'";
-                    }
+                        if (!in_array($data[0], $objects)) {
+                            $values[] = "(null,{$this->user->idAccount}," . time() . "," . time() . ",'$data[0]','$data[1]',$data[2],'$data[3]',$data[4],'$data[5]','$data[6]')";
+                        }
+                    }                    
+                }
+                                
+                $this->logger->log(print_r($objects, true));
+                $this->logger->log(print_r($values, true));
+                
+                if (count($values) > 0) {
+                    $text = implode(", ", $values); 
+                    $sql = "INSERT INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";
+                    $result = $this->db->execute($sql); 
+                    
+                    return $this->set_json_response(array('El archivo se importo exitosamente'), 200);
                 }
                 
-                $text = implode(", ", $values); 
-                $sql = "INSERT IGNORE INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";
-                $result = $this->db->execute($sql);
-                
-                return $this->set_json_response(array('El archivo se importo exitosamente'), 200);
+                return $this->set_json_response(array('Los clientes que intenta importar ya existen en la plataforma'), 403);
             }
         }
         catch(Exception $e) {
