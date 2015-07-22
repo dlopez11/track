@@ -100,9 +100,6 @@ class SessionController extends ControllerBase
                 'bind' => array(1 => $user_email)
             ));
             
-            $this->logger->log('Email: ' . $user->email);
-            $this->logger->log('ID: ' . $user->idUser);
-            
             try {
                 if($user){
                     $cod = uniqid();
@@ -115,9 +112,6 @@ class SessionController extends ControllerBase
                     $recoverObj->idUser = $user->idUser;
                     $recoverObj->url = $url;
                     $recoverObj->date = time();
-                    
-//                    $this->logger->log(print_r('ID recover: ' . $recoverObj->idTmprecoverpass, true));
-//                    $this->logger->log(print_r('ID user: ' . $recoverObj->idUser, true));
 
                     if(!$recoverObj->save()){
                         foreach ($recoverObj->getMessages() as $msg){
@@ -186,7 +180,7 @@ class SessionController extends ControllerBase
             $uniq = $this->request->getPost("uniq");
             
             $url = Tmprecoverpass::findFirst(array(
-                'confitions' => "idTmprecoverpass = ?1",
+                'conditions' => "idTmprecoverpass = ?1",
                 'bind' => array(1 => $uniq)
             ));
             
