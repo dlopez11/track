@@ -96,8 +96,8 @@ class SessionController extends ControllerBase
             $user_email = $this->request->getPost('email');
             
             $user = User::findFirst(array(
-                'condition' => 'idUser = ?1',
-                'bind' => array(1 => 3)
+                'conditions' => 'email = ?1',
+                'bind' => array(1 => $user_email)
             ));
             
             $this->logger->log('Email: ' . $user->email);
