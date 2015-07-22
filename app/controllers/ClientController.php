@@ -145,9 +145,6 @@ class ClientController extends ControllerBase
                         }
                     }                    
                 }
-                                
-                $this->logger->log(print_r($objects, true));
-                $this->logger->log(print_r($values, true));
                 
                 if (count($values) > 0) {
                     $text = implode(", ", $values); 
@@ -157,7 +154,7 @@ class ClientController extends ControllerBase
                     return $this->set_json_response(array('El archivo se importo exitosamente'), 200);
                 }
                 
-                return $this->set_json_response(array('Los clientes que intenta importar ya existen en la plataforma'), 403);
+                return $this->set_json_response(array('Los clientes que intenta importar ya existen en la plataforma'), 202);
             }
         }
         catch(Exception $e) {
