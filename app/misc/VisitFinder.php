@@ -83,16 +83,17 @@ class VisitFinder
     
     private function selectRows()
     {
-        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.start AS start, v.end AS end, v.battery AS battery, v.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
+        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.start AS start, v.end AS end, v.battery AS battery, o.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
+                    . " JOIN observation AS o ON (o.idVisit = v.idVisit) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.end DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
-//        $this->logger->log($sql_rows);
+        $this->logger->log($sql_rows);
                     
 //        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
 //        $rows = $modelsManager->executeQuery($sql_rows);
