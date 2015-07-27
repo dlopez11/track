@@ -3,27 +3,21 @@
 use Phalcon\Forms\Form;
 use Phalcon\Forms\Element\Text;
 use Phalcon\Forms\Element\TextArea;
-use Phalcon\Forms\Element\Select;
 
-class VisittypeForm extends Form
+class VisitcategoryForm extends Form
 {
     public function initialize()
     {
         $this->add(new Text("name", array(                        
-            'placeholder' => '*Nombre del tipo de visita',
+            'placeholder' => '*Nombre de la categoria',
             'autofocus' => 'autofocus',
             'class' => 'form-control',
             'required' => 'required',
         )));
         
         $this->add(new TextArea("description", array(                        
-            'placeholder' => '*Descripción',
+            'placeholder' => 'Descripción',
             'class' => 'form-control',
-            'required' => 'required',
-        )));
-        
-        $this->add(new Select('category', array(
-            'required' => 'required',
         )));
     }
 }

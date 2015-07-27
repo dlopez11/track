@@ -8,6 +8,9 @@
             <h1>Tipos de visitas</h1>
             <hr />
             <div class="text-right">
+                <a href="{{url('visitcategory')}}" class="btn btn-primary">
+                    Categorías
+                </a>
                 <a href="{{url('visittype/add')}}" class="btn btn-success">
                     Agregar nuevo tipo de visita
                 </a>

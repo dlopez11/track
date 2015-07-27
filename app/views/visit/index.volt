@@ -79,13 +79,13 @@
                         <option value="20">20</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
-                    </select>    
+                    </select>
                 </div>
                 <div class="form-group">
                     <label for="user">Usuario</label>
                     <select id="user" class="form-control select2">
                         <option value="0">Todos los usuarios</option>
-                        {% for user in users%}
+                        {% for user in users %}
                              <option value="{{user.idUser}}">{{user.name}} {{user.lastName}}</option>
                         {% endfor %}
                     </select>    

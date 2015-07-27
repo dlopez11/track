@@ -110,5 +110,56 @@ class ClientController extends ControllerBase
         
         return $this->response->redirect('client');
     }
+    
+    public function importAction()
+    {
+        try {
+            if ($_FILES['csv']['size'] > 1048576){
+                return $this->set_json_response(array('El archivo CSV no puede ser mayor a 1 MB de peso'), 403);
+            }
+            
+            if ($_FILES['csv']['size'] > 0) {
+
+                $fileinfo = pathinfo($_FILES['csv']['name']);
+                
+                if(strtolower(trim($fileinfo["extension"])) != "csv")
+                {
+                    return $this->set_json_response(array('Por favor seleccione un archivo de tipo CSV'), 403);
+                }
+                   
+                $csv = $_FILES['csv']['tmp_name'];
+                $handle = fopen($csv,'r');
+                
+                $values = array();
+                $objects = array();
+                $client = Client::findByIdAccount($this->user->idAccount);
+                
+                foreach($client as $c){
+                    $objects[] = $c->name;
+                }
+                
+                while($data = fgetcsv($handle,1000,";","'")){
+                    if($data[0]){
+                        if (!in_array($data[0], $objects)) {
+                            $values[] = "(null,{$this->user->idAccount}," . time() . "," . time() . ",'$data[0]','$data[1]',$data[2],'$data[3]',$data[4],'$data[5]','$data[6]')";
+                        }
+                    }                    
+                }
+                
+                if (count($values) > 0) {
+                    $text = implode(", ", $values); 
+                    $sql = "INSERT INTO client (idClient, idAccount, created, updated, name, description, nit, address, phone, city, state) VALUES {$text}";
+                    $result = $this->db->execute($sql); 
+                    
+                    return $this->set_json_response(array('El archivo se importo exitosamente'), 200);
+                }
+                
+                return $this->set_json_response(array('Los clientes que intenta importar ya existen en la plataforma'), 202);
+            }
+        }
+        catch(Exception $e) {
+            return $this->set_json_response(array($e->getMessage()), 403);            
+        }
+    }
 }
 

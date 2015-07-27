@@ -57,7 +57,7 @@ class VisitController extends ControllerBase
         } 
         catch (Exception $ex) {
             $this->logger->log($ex->getMessage());
-            return $this->set_json_response('ha ocurrido un error, por favor contacte al administrador', 500);
+            return $this->set_json_response('Ha ocurrido un error, por favor contacte al administrador', 500);
         }
     }
     
@@ -107,7 +107,7 @@ class VisitController extends ControllerBase
         }
         
         try {
-            $sql_rows = "SELECT v.idVisit AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
                     . "FROM Visit AS v "
                     . " JOIN User AS u ON (u.idUser = v.idUser) "
                     . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
@@ -131,7 +131,7 @@ class VisitController extends ControllerBase
     public function getmapAction($idUser)
     {
         
-        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype FROM Visit WHERE Visit.idUser = ?0';
+        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype,Visit.start FROM Visit WHERE Visit.idUser = ?0';
         $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         $objects = array();
         foreach ($visits as $visit) {
@@ -147,6 +147,8 @@ class VisitController extends ControllerBase
                 $clientData .= "<strong><span style='font-size: 17px;'>".$client['name']."</span></strong>";
                 $clientData .= "<br />";
                 $clientData .= "<strong>Dirección</strong>: ".$client['address'];
+                $clientData .= "<br />";
+                $clientData .= "<strong>Fecha de visita</strong>: ". date('d-m-Y H:i',$visit['start']);
                 $clientData .= "<br />";
             }
             $objects[] = array(

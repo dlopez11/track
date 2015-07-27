@@ -22,6 +22,9 @@ class VisittypeController extends ControllerBase
     
     public function addAction()
     {
+        $vcat = Visitcategory::find();
+        $this->view->setVar("vcat", $vcat);
+        
         $vtype = new Visittype();
         $form = new VisittypeForm($vtype);
         $this->view->setVar('form', $form);
@@ -29,6 +32,12 @@ class VisittypeController extends ControllerBase
         if ($this->request->isPost()) {
             try {
                 $form->bind($this->request->getPost(), $vtype);
+                $name = trim($this->request->getPost("name"));
+                if($name == ""){
+                    $msg = "El nombre no puede estar vacio, por favor valide la información";
+                    throw new Exception($msg);
+                }
+                $vtype->idVisitcategory = $this->request->getPost("category");
                 $vtype->created = time();
                 $vtype->updated = time();
                 $vtype->idAccount = $this->user->idAccount;
@@ -49,11 +58,22 @@ class VisittypeController extends ControllerBase
     }
     
     public function editAction($idVisittype)
-    {
+    {        
+        
         $vtype = Visittype::findFirst(array(
             'conditions' => 'idVisittype = ?1',
             'bind' => array(1 => $idVisittype),
         ));
+        
+        $cat = Visitcategory::find();
+        $this->view->setVar("cat", $cat);
+        
+        $vcat = Visitcategory::findFirst(array(
+            'conditions' => 'idVisitcategory = ?1',
+            'bind' => array(1 => $vtype->idVisitcategory),
+        ));
+        
+        $this->view->setVar("vcat", $vcat);
         
         if (!$vtype) {
             $this->flashSession->error("No se encontró el tipo de visita, por favor valide la información");
@@ -67,7 +87,13 @@ class VisittypeController extends ControllerBase
         if ($this->request->isPost()) {
             try {
                 $form->bind($this->request->getPost(), $vtype);
+                $name = trim($this->request->getPost("name"));
+                if($name == ""){
+                    $msg = "El nombre no puede estar vacio, por favor valide la información";
+                    throw new Exception($msg);
+                }
                 $client->updated = time();
+                $vtype->idVisitcategory = $this->request->getPost("category");
                 
                 if (!$vtype->save()) {
                     foreach ($vtype->getMessages() as $msg) {
