@@ -5,12 +5,12 @@ use Phalcon\Mvc\Model\Validator\Uniqueness;
 class Visittype extends \Phalcon\Mvc\Model
 {
     public $idAccount; 
-    public $idVisittype; 
+    public $idVisitcategory; 
 
     public function initialize()
     {
         $this->belongsTo("idAccount", "Account", "idAccount");
-        $this->hasMany("idVisittype", "Visit", "idVisittype");
+        $this->belongsTo("idVisitcategory", "Visitcategory", "idVisitcategory");
     }
     
     public function validation()

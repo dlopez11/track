@@ -7,7 +7,8 @@ class VisittypeController extends ControllerBase
         $currentPage = $this->request->getQuery('page', null, 1);
         $builder = $this->modelsManager->createBuilder()
             ->from('Visittype')
-            ->where("idAccount = {$this->user->idAccount}")
+            ->leftJoin('Visitcategory')    
+            ->where("Visittype.idAccount = {$this->user->idAccount}")
             ->orderBy('Visittype.created');
 
         $paginator = new Phalcon\Paginator\Adapter\QueryBuilder(array(

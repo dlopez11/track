@@ -1,5 +1,6 @@
 <?php
 
+
 $conexion = mysql_connect("localhost", "sigmatrack_user", "S1gm4134ck100");
 mysql_select_db("sigmamovil_track", $conexion);
 
@@ -27,14 +28,14 @@ $name = trim($name);
 // si no hay nombre de cliente registramos solamente la visita
 if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 	if(isset($_POST['idUser']) && isset($_POST['idVisitType']) && isset($_POST['idClient']) && isset($_POST['date']) && isset($_POST['latitude']) && isset($_POST['longitude']) && isset($_POST['battery'])  && isset($_POST['location'])){ 
-		$lastVisit = "SELECT date FROM visit WHERE idUser = {$idUser} ORDER BY date DESC LIMIT 0,1 ";
+		$lastVisit = "SELECT start FROM visit WHERE idUser = {$idUser} ORDER BY start DESC LIMIT 0,1 ";
 		
 		$result = mysql_query($lastVisit, $conexion) or die(mysql_error());
 
 		$lastTime = "No Disponible";
 		if (mysql_num_rows($result) > 0) {
 		   while ($rr = mysql_fetch_array($result)) {
-			  $x = $rr["date"];
+			  $x = $rr["start"];
 		   }
 		   
 		   $date1 = date('Y-m-d h:i', $x);
@@ -44,12 +45,12 @@ if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 		   $time2 = date_create($date2);
 		   
 		   $interval = date_diff($time1, $time2);
-		   $lastTime = $interval->format("%a día(s) %H:%I%");
+		   $lastTime = $interval->format("%a día(s) %h:%i%");
 		}
 		
 		
 	
-	  $queTareas = "INSERT INTO visit (idUser,idVisittype,idClient,date,latitude,longitude,battery,location,lastVisit) VALUES (".$idUser.",".$idVisitType.",".$idClient.",".$date.",".$latitude.",".$longitude.",".$battery.",'".$location."', '{$lastTime}')";
+	  $queTareas = "INSERT INTO visit (idUser,idVisittype,idClient,start,end,latitude,longitude,battery,location,lastVisit) VALUES (".$idUser.",".$idVisitType.",".$idClient.",".$date."," . 978310861 ."," .$latitude.",".$longitude.",".$battery.",'".$location."', '{$lastTime}')";
 	  mysql_query($queTareas, $conexion) or die(mysql_error());
 	  
 	  echo '[{"0": "1","id": "1","1": "ok","respuesta": "ok"}]';
@@ -97,7 +98,7 @@ else if ($name != "" && isset($_POST['nombreOtroCliente'])) {
 		mysql_query($queryCliente, $conexion) or die(mysql_error());
 	
 	
-	   $queryVisita = "INSERT INTO visit (idUser,idVisittype,idClient,date,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",". mysql_insert_id() .",".$date.",".$latitude.",".$longitude.",".$battery.",'".$location."')";
+	   $queryVisita = "INSERT INTO visit (idUser,idVisittype,idClient,start,end,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",". mysql_insert_id() .",".$date."," . 978310861 . "," .$latitude.",".$longitude.",".$battery.",'".$location."')";
 	   mysql_query($queryVisita, $conexion) or die(mysql_error());
 	   echo '[{"0": "1","id": "1","1": "ok","respuesta": "ok"}]';
 	}

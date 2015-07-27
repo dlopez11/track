@@ -10,7 +10,7 @@ class Visitcategory extends \Phalcon\Mvc\Model
     public function initialize()
     {
         $this->belongsTo("idAccount", "Account", "idAccount");
-        $this->hasMany("idVisitcategory", "Visitcategory", "idVisitcategory");
+        $this->hasMany("idVisitcategory", "Visittype", "idVisitcategory");
     }
     
     public function validation()

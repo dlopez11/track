@@ -86,7 +86,7 @@ class VisitFinder
         $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.start AS start, v.end AS end, v.battery AS battery, o.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
-                    . " JOIN observation AS o ON (o.idVisit = v.idVisit) "
+                    . " LEFT JOIN observation AS o ON (o.idVisit = v.idVisit) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
@@ -110,23 +110,30 @@ class VisitFinder
         $this->paginator->setRowsInCurrentPage($crows);
         if ($crows > 0) {
             foreach ($rows as $row) {
-                $array = array();
-                $array['idVisit'] = $row['idVisit'];
-                $array['idUser'] = $row['idUser'];
-                $array['name'] = "{$row['name']} {$row['lastname']}";
-                $array['visit'] = $row['visit'];
-                $array['client'] = $row['client'];
-                $array['start'] = date('d/M/Y h:i:s A', $row['start']);
-                $array['end'] = date('d/M/Y h:i:s A', $row['end']);
-                $array['battery'] = $row['battery'];
-                $array['observation'] = $row['observation'];
-                $array['latitude'] = $row['latitude'];
-                $array['longitude'] = $row['longitude'];
-                $array['location'] = $row['location'];
-                $array['lastVisit'] = $row['lastVisit'];
-                
-                $this->rows[] = $array;
+                if (isset($this->rows[$row['idVisit']])) {
+                   $this->rows[$row['idVisit']]['observation'] .= "<br> {$row['observation']}"; 
+                }
+                else {
+                    $array = array();
+                    $array['idVisit'] = $row['idVisit'];
+                    $array['idUser'] = $row['idUser'];
+                    $array['name'] = "{$row['name']} {$row['lastname']}";
+                    $array['visit'] = $row['visit'];
+                    $array['client'] = $row['client'];
+                    $array['start'] = date('d/M/Y h:i:s A', $row['start']);
+                    $array['end'] = date('d/M/Y h:i:s A', $row['end']);
+                    $array['battery'] = $row['battery'];
+                    $array['observation'] = $row['observation'];
+                    $array['latitude'] = $row['latitude'];
+                    $array['longitude'] = $row['longitude'];
+                    $array['location'] = $row['location'];
+                    $array['lastVisit'] = $row['lastVisit'];
+
+                    $this->rows[$row['idVisit']] = $array;
+                }
             }
+            
+            $this->rows = array_values($this->rows);
         }
     }
     

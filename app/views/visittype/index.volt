@@ -53,6 +53,11 @@
                             <tr>
                                 <td>
                                     <strong>{{item.name}}</strong> <br />
+                                    {% if item.visitcategory.name is not defined%}
+                                        Sin categoría
+                                    {% else %}
+                                        {{item.visitcategory.name}}
+                                    {% endif %}<br>
                                     <span class="xs-text">Creado el {{date('d/M/Y', item.created)}}</span> <br />
                                     <span class="xs-text">Actualizado el {{date('d/M/Y', item.updated)}}</span>
                                 </td>

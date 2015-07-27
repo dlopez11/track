@@ -15,11 +15,10 @@ preg_replace('/\&(.)[^;]*;/', '\\1', $_GET['clave']);
 
 if(isset($_GET['idEmpresa']) && isset($_GET['usuario']) && isset($_GET['clave'])){
 	
-
 	$conexion = mysql_connect("localhost", "sigmatrack_user", "S1gm4134ck100");
 	mysql_select_db("sigmamovil_track", $conexion);
 	 
-	$queTareas = "SELECT COUNT(*) As Total,idUser, idAccount, userName, password
+	$queTareas = "SELECT COUNT(*) As total,idUser, idAccount, userName, password
 					FROM user
 					JOIN account USING (idAccount) 
 					WHERE userName ='" . $usuario . "' 

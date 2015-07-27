@@ -81,14 +81,17 @@ class ReportCreator
     public function processFull()
     {
         try {
-            $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, v.date AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
+            $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, v.start AS start, v.end AS end, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, o.observation AS observation, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
+                    . " LEFT JOIN observation AS o ON (o.idVisit = v.idVisit) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
                     . " WHERE u.idAccount = {$this->account->idAccount} "
-                    . " ORDER BY v.date DESC ";
+                    . " ORDER BY v.end DESC ";
 
+            $this->logger->log($sql_rows);
+                    
             $db = \Phalcon\DI::getDefault()->get('db'); 
             $result  = $db->query($sql_rows);
             $this->modelRows($result->fetchAll());
@@ -112,20 +115,27 @@ class ReportCreator
         $crows = count($rows); 
         if ($crows > 0) {
             foreach ($rows as $row) {
-                $array = array();
-                $array['idVisit'] = $row['idVisit'];
-                $array['idUser'] = $row['idUser'];
-                $array['date'] = date('d/M/Y h:i:s A', $row['date']);
-                $array['name'] = "{$row['name']} {$row['lastname']}";
-                $array['visit'] = $row['visit'];
-                $array['client'] = $row['client'];
-                $array['battery'] = $row['battery'];
-                $array['latitude'] = $row['latitude'];
-                $array['longitude'] = $row['longitude'];
-                $array['location'] = $row['location'];
-                $array['lastVisit'] = $row['lastVisit'];
-                
-                $this->rows[] = $array;
+                if (isset($this->rows[$row['idVisit']])) {
+                   $this->rows[$row['idVisit']]['observation'] .= "\r\n {$row['observation']}"; 
+                }
+                else {
+                    $array = array();
+                    $array['idVisit'] = $row['idVisit'];
+                    $array['idUser'] = $row['idUser'];
+                    $array['name'] = "{$row['name']} {$row['lastname']}";
+                    $array['visit'] = $row['visit'];
+                    $array['client'] = $row['client'];
+                    $array['start'] = date('d/M/Y h:i:s A', $row['start']);
+                    $array['end'] = date('d/M/Y h:i:s A', $row['end']);
+                    $array['battery'] = $row['battery'];
+                    $array['observation'] = $row['observation'];
+                    $array['latitude'] = $row['latitude'];
+                    $array['longitude'] = $row['longitude'];
+                    $array['location'] = $row['location'];
+                    $array['lastVisit'] = $row['lastVisit'];
+
+                    $this->rows[$row['idVisit']] = $array;
+                }
             }
         }
     }
