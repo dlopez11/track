@@ -164,14 +164,14 @@ class StatisticWrapper
         $names = array();
         
         foreach ($this->visits as $v) {
-            if (!isset($data[$v->visittype->idVisittype])) {
-                $data[$v->visittype->idVisittype] = 1;
+            if (!isset($data[$v['idVisittype']])) {
+                $data[$v['idVisittype']] = 1;
             }
             else {
-                $data[$v->visittype->idVisittype] += 1;
+                $data[$v['idVisittype']] += 1;
             }
             
-            $names[$v->visittype->idVisittype] = $v->visittype->name;
+            $names[$v['idVisittype']] = $v['name'];
         }
         
         foreach ($data as $key => $value) {
