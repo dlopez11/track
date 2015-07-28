@@ -107,14 +107,14 @@ class VisitController extends ControllerBase
         }
         
         try {
-            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS start, 'v.end' AS end, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS start, 'v.end' AS ends, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
                     . "FROM Visit AS v "
                     . " JOIN User AS u ON (u.idUser = v.idUser) "
                     . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN Client AS c ON (c.idClient = v.idClient) "
                     . " WHERE v.idVisit = {$idVisit}";
                     
-            $this->logger->log($sql_rows);
+//            $this->logger->log($sql_rows);
 
             $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
             $rows = $modelsManager->executeQuery($sql_rows);

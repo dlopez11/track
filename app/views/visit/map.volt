@@ -55,7 +55,7 @@
                         </td>                            
                         <td>
                             <strong>desde</strong> {{date('d/M/Y H:i:s', visit.start)}} <br>
-                            <strong>hasta</strong> {{date('d/M/Y H:i:s', visit.end)}} 
+                            <strong>hasta</strong> {{date('d/M/Y H:i:s', visit.ends)}} 
                         </td>
                     </tr>
                     <tr>
