@@ -42,7 +42,7 @@ DomManager.prototype.refreshTable = function() {
     if (this.rows.length > 0) {
         for (var i = 0; i < this.rows.length; i++) {
             var visit = (this.rows[i].lastVisit == null || this.rows[i].lastVisit === 'null' ? 'No Disponible' : this.rows[i].lastVisit);
-            var observation = (this.rows[i].observation === null || this.rows[i].observation === 'null' ? 'No Disponible' : this.rows[i].observation);
+            var observation = (this.rows[i].observation === null || this.rows[i].observation === 'null' ? 'Sin observaciones' : this.rows[i].observation);
             var finalLocation = (this.rows[i].finalLocation === null || this.rows[i].finalLocation === 'null' ? 'No Disponible' : this.rows[i].finalLocation);
             var row = $('<tr>\n\
                             <td><strong>' + this.rows[i].name + '</strong></td>\n\
