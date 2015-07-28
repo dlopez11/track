@@ -182,38 +182,67 @@ class VisitController extends ControllerBase
     public function getmapAction($idUser)
     {
         try {
-            $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype,Visit.start, Visit.end FROM Visit WHERE Visit.idUser = ?0';
+            $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE Visit.idUser = ?0';
             $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
             $objects = array();
             foreach ($visits as $visit) {
-                $phqlclients = 'SELECT Client.name,Client.address,Visit.idClient FROM Client INNER JOIN Visit ON Visit.idClient = Client.idClient WHERE Client.idClient = ?0';
-                $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => "{$visit['idClient']}"));
-                foreach ($clients as $client) {
-                    $phqlvisittype = 'SELECT Visittype.name FROM Visittype INNER JOIN Visit ON Visit.idVisittype = Visittype.idVisittype WHERE Visit.idVisittype = ?0';
-                    $visitstype = $this->modelsManager->executeQuery($phqlvisittype, array(0 => "{$visit['idVisittype']}"));
-                    foreach ($visitstype as $visittype){
-                        $visitData = "<strong>Tipo</strong>: ".$visittype['name'];
-                    }
-                    $clientData = "<div style='width: 250px;'>";
-                    $clientData .= "<strong><span style='font-size: 17px;'>".$client['name']."</span></strong>";
-                    $clientData .= "<br />";
-                    $clientData .= "<strong>Dirección</strong>: ".$client['address'];
-                    $clientData .= "<br />";
-                    $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit['start']) . " <strong>a</strong> " . date('d/M/Y H:i',$visit['end']);
-                    $clientData .= "<br />";
-                }
+                $clientData = "<div style='width: 250px;'>";
+                $clientData .= "<strong><span style='font-size: 17px;'>" . $visit->client->name . "</span></strong>";
+                $clientData .= "<br />";
+                $clientData .= "<strong>Dirección</strong>: " . $visit->client->address;
+                $clientData .= "<br />";
+                $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit->start) . " <strong>a</strong> " . date('d/M/Y H:i',$visit->end);
+                $clientData .= "<br />";
+                $clientData .= "<strong>Tipo</strong>: ".$visit->visittype->name;
                 $objects[] = array(
                     'latitude' => $visit->latitude,
                     'longitude' => $visit->longitude,
                     'location' => $visit->location,
-                    'client' => $clientData.$visitData,
+                    'client' => $clientData,
                 );
+        
             }
+            
             return $this->set_json_response($objects);
         } 
         catch (Exception $ex) {
             $this->logger->log("Exception while getting map data: {$ex->getMessage()}");
             return $this->set_json_response(array("Ocurrió un error, por favor contacte al administrador"), 500);
         }
+        
+//        try {
+//            $phqlvisits = 'SELECT Visit.* FROM Visit WHERE Visit.idUser = ?0';
+//            $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
+//            $objects = array();
+//            foreach ($visits as $visit) {
+//                $phqlclients = 'SELECT Client.name,Client.address,Visit.idClient FROM Client INNER JOIN Visit ON Visit.idClient = Client.idClient WHERE Client.idClient = ?0';
+//                $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => $visit->idClient));
+//                foreach ($clients as $client) {
+//                    $phqlvisittype = 'SELECT Visittype.name FROM Visittype INNER JOIN Visit ON Visit.idVisittype = Visittype.idVisittype WHERE Visit.idVisittype = ?0';
+//                    $visitstype = $this->modelsManager->executeQuery($phqlvisittype, array(0 => $visit->idVisittype));
+//                    foreach ($visitstype as $visittype){
+//                        $visitData = "<strong>Tipo</strong>: ".$visittype['name'];
+//                    }
+//                    $clientData = "<div style='width: 250px;'>";
+//                    $clientData .= "<strong><span style='font-size: 17px;'>".$client['name']."</span></strong>";
+//                    $clientData .= "<br />";
+//                    $clientData .= "<strong>Dirección</strong>: ".$client['address'];
+//                    $clientData .= "<br />";
+//                    $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit->start) . " <strong>a</strong> " . date('d/M/Y H:i',$visit->end);
+//                    $clientData .= "<br />";
+//                }
+//                $objects[] = array(
+//                    'latitude' => $visit->latitude,
+//                    'longitude' => $visit->longitude,
+//                    'location' => $visit->location,
+//                    'client' => $clientData.$visitData,
+//                );
+//            }
+//            return $this->set_json_response($objects);
+//        } 
+//        catch (Exception $ex) {
+//            $this->logger->log("Exception while getting map data: {$ex->getMessage()}");
+//            return $this->set_json_response(array("Ocurrió un error, por favor contacte al administrador"), 500);
+//        }
     }
 }

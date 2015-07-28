@@ -63,8 +63,8 @@ class StatisticWrapper
 
         $first_day = strtotime("-29 days", time());
         $tomorrow = strtotime("Tomorrow");
-        $query = "SELECT v.idVisit, v.idVisittype, v.idUser, v.start, v.end, u.name, u.lastName, vt.name AS vname FROM Visit AS v JOIN Visittype AS vt ON vt.idVisittype = v.idVisittype JOIN User AS u ON u.idUser = v.idUser WHERE vt.idAccount = {$this->account->idAccount} AND v.start >= {$first_day} AND v.end < {$tomorrow} AND v.end <> 0 ORDER BY v.end ";
-//        $this->logger->log($query);
+        $query = "SELECT Visit.*, User.name, User.lastName, Visittype.name FROM Visit JOIN Visittype JOIN User WHERE Visittype.idAccount = {$this->account->idAccount} AND Visit.start >= {$first_day} AND Visit.end < {$tomorrow} AND Visit.end <> 0 ORDER BY Visit.end ";
+        $this->logger->log($query);
         $query_visits = \Phalcon\DI::getDefault()->get('modelsManager')->createQuery($query);
         $this->visits = $query_visits->execute();
     }
@@ -161,14 +161,14 @@ class StatisticWrapper
         $names = array();
         
         foreach ($this->visits as $v) {
-            if (!isset($data[$v->idVisittype])) {
-                $data[$v->idVisittype] = 1;
+            if (!isset($data[$v->visittype->idVisittype])) {
+                $data[$v->visittype->idVisittype] = 1;
             }
             else {
-                $data[$v->idVisittype] += 1;
+                $data[$v->visittype->idVisittype] += 1;
             }
             
-            $names[$v->idVisittype] = $v->vname;
+            $names[$v->visittype->idVisittype] = $v->visittype->name;
         }
         
         foreach ($data as $key => $value) {
