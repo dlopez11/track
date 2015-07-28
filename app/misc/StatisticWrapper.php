@@ -171,7 +171,7 @@ class StatisticWrapper
                 $data[$v['idVisittype']] += 1;
             }
             
-            $names[$v['idVisittype']] = $v['name'];
+            $names[$v['idVisittype']] = $v['vname'];
         }
         
         foreach ($data as $key => $value) {
@@ -211,9 +211,9 @@ class StatisticWrapper
         
         foreach ($this->visits as $visit){
             foreach ($vists as $vt) {
-                if ($visit->idVisittype == $vt->idVisittype) {
+                if ($visit['idVisittype'] == $vt->idVisittype) {
                     foreach($time AS $key => $v) {
-                        if ($visit->start >= $v AND $visit->end < $time[$key+1]) {
+                        if ($visit['start'] >= $v AND $visit['end'] < $time[$key+1]) {
                             $vt->data[$key] += 1;
                         }
                     }
@@ -265,9 +265,9 @@ class StatisticWrapper
         
         foreach ($this->visits as $visit){
             foreach ($users as $user) {
-                if ($visit->idUser == $user->idUser) {
+                if ($visit['idUser'] == $user->idUser) {
                     foreach($time AS $key => $v) {
-                        if ($visit->end >= $v AND $visit->end < $time[$key+1]) {
+                        if ($visit['end'] >= $v AND $visit['end'] < $time[$key+1]) {
                             $user->data[$key] += 1;
                         }
                     }
@@ -298,17 +298,17 @@ class StatisticWrapper
                 foreach ($tt->times as $key => $time) {
                     $next = ($key+1 > $total-1 ? strtotime("+1 day", $time->date) : $tt->times[$key+1]->date);
                     
-                    if ($visit->start >= $time->date && $visit->end < $next) {
+                    if ($visit['start'] >= $time->date && $visit['end'] < $next) {
                             $time->visits += 1;
-                            $time->times[] = $visit->start;
-                            $time->times[] = $visit->end;
+                            $time->times[] = $visit['start'];
+                            $time->times[] = $visit['end'];
                     }
                 }
                 break;
             }
         }
         
-        $this->logger->log("Array " . print_r($totall, true));
+//        $this->logger->log("Array " . print_r($totall, true));
         
         foreach ($totall as $t) {
             foreach ($t->times as $key => $ts) {
@@ -346,14 +346,14 @@ class StatisticWrapper
         
         foreach ($this->visits as $visit){
             foreach ($users as $key1 => $user) {
-                if ($visit->idUser == $user->idUser) {
+                if ($visit['idUser'] == $user->idUser) {
                     $total = count($user->times);
                     foreach ($user->times as $key => $time) {
                         $next = ($key+1 >= $total-1 ? strtotime("+1 day", $time->date) : $user->times[$key+1]->date);
-                        if ($visit->start >= $time->date && $visit->end < $next) {
+                        if ($visit['start'] >= $time->date && $visit['end'] < $next) {
                             $time->visits += 1;
-                            $users[$key1]->times[$key]->times[] = $visit->start;
-                            $users[$key1]->times[$key]->times[] = $visit->end;
+                            $users[$key1]->times[$key]->times[] = $visit['start'];
+                            $users[$key1]->times[$key]->times[] = $visit['end'];
                         }
                     }                    
                     break;
