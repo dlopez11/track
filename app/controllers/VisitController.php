@@ -123,8 +123,10 @@ class VisitController extends ControllerBase
             $this->view->setVar('user', $user);
         }
         catch (Exception $e) {
-            $this->flashSession->error($e->getMessage());
-            $this->trace("fail",$e->getMessage());
+            $this->flashSession->error("Ocurrio un error mientras se seleccionaban los datos de la visita, por favor contacte al administrador");
+            $this->logger->log("Exception while selecting data for visit map: {$e->getMessage()} ");
+            $this->logger->log($e);
+            $this->trace("fail", "Error while selecting data for visit map");
             return $this->response->redirect('visit/index');            
         }     
     }
