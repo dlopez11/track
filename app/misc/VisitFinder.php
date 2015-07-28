@@ -57,7 +57,7 @@ class VisitFinder
         
         if (($this->filter->start != 0 && !empty($this->filter->start)) && ($this->filter->end != 0 && !empty($this->filter->end))) {
             $this->filter->end = strtotime('+1 day', $this->filter->end);
-            $this->date_filter = " AND v.date >= {$this->filter->start} AND v.date < {$this->filter->end}";
+            $this->date_filter = " AND v.start >= {$this->filter->start} AND v.start < {$this->filter->end}";
         }
     }
     
@@ -83,17 +83,17 @@ class VisitFinder
     
     private function selectRows()
     {
-        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.start AS start, v.end AS end, v.battery AS battery, o.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.lastVisit AS lastVisit "
+        $sql_rows = "SELECT v.idVisit AS idVisit, u.idUser AS idUser, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.start AS start, v.end AS end, v.battery AS battery, o.observation AS observation, v.latitude AS latitude, v.longitude AS longitude, v.location AS location, v.finalLocation AS finalLocation, v.lastVisit AS lastVisit "
                     . "FROM visit AS v "
                     . " JOIN user AS u ON (u.idUser = v.idUser) "
                     . " LEFT JOIN observation AS o ON (o.idVisit = v.idVisit) "
                     . " JOIN visittype AS vt ON (vt.idVisittype = v.idVisittype) "
                     . " JOIN client AS c ON (c.idClient = v.idClient) "
-                    . " WHERE u.idAccount = {$this->account->idAccount} "
+                    . " WHERE v.start > 0 AND v.end > 0 AND u.idAccount = {$this->account->idAccount} "
                     . " {$this->user_filter} {$this->client_filter} {$this->visit_filter} {$this->date_filter} ORDER BY v.end DESC"
                     . " LIMIT {$this->paginator->getRowsPerPage()} OFFSET {$this->paginator->getStartIndex()} ";
                     
-        $this->logger->log($sql_rows);
+//        $this->logger->log($sql_rows);
                     
 //        $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
 //        $rows = $modelsManager->executeQuery($sql_rows);
@@ -120,13 +120,18 @@ class VisitFinder
                     $array['name'] = "{$row['name']} {$row['lastname']}";
                     $array['visit'] = $row['visit'];
                     $array['client'] = $row['client'];
-                    $array['start'] = date('d/M/Y h:i:s A', $row['start']);
-                    $array['end'] = date('d/M/Y h:i:s A', $row['end']);
+                    $array['start'] = \date('d/M/Y H:i:s', $row['start']);
+                    $array['end'] = \date('d/M/Y H:i:s', $row['end']);
+                    $time1 = date_create(\date('Y-m-d H:i:s', $row['end']));
+                    $time2 = date_create(\date('Y-m-d H:i:s', $row['start']));
+                    $interval = date_diff($time1, $time2);
+                    $array['elapsed'] = $interval->format("%a día(s) %h:%i:%s%");
                     $array['battery'] = $row['battery'];
                     $array['observation'] = $row['observation'];
                     $array['latitude'] = $row['latitude'];
                     $array['longitude'] = $row['longitude'];
                     $array['location'] = $row['location'];
+                    $array['finalLocation'] = $row['finalLocation'];
                     $array['lastVisit'] = $row['lastVisit'];
 
                     $this->rows[$row['idVisit']] = $array;

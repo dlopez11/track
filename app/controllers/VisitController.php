@@ -107,7 +107,7 @@ class VisitController extends ControllerBase
         }
         
         try {
-            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS date, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS start, v.end AS end, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
                     . "FROM Visit AS v "
                     . " JOIN User AS u ON (u.idUser = v.idUser) "
                     . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
@@ -128,10 +128,58 @@ class VisitController extends ControllerBase
             return $this->response->redirect('visit/index');            
         }     
     }
+    
+    public function mapfinallocationAction($idVisit)
+    {
+        $visit = Visit::findFirst(array(
+            "conditions" => "idVisit = ?1",
+            "bind" => array(1 => $idVisit)
+        ));
+        
+        if (!$visit) {
+            $this->flashSession->error("Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.");
+            return $this->response->redirect('index');
+        }
+        
+        $user = User::findFirst(array(
+            "conditions" => "idUser = ?1 AND idAccount = ?2",
+            "bind" => array(1 => $visit->idUser,
+                            2 => $this->user->idAccount)
+        ));
+        
+        if (!$user) {
+            $this->flashSession->error("Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.");
+            return $this->response->redirect('visit/index');
+        }
+        
+        try {
+            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS start, v.end AS end, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.finalLatitude AS latitude, v.finalLongitude AS longitude, v.finalLocation AS location "
+                    . "FROM Visit AS v "
+                    . " JOIN User AS u ON (u.idUser = v.idUser) "
+                    . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
+                    . " JOIN Client AS c ON (c.idClient = v.idClient) "
+                    . " WHERE v.idVisit = {$idVisit}";
+                    
+//            $this->logger->log($sql_rows);
+
+            $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
+            $rows = $modelsManager->executeQuery($sql_rows);
+
+            $this->view->setVar('visit', $rows->getFirst());
+            $this->view->setVar('user', $user);
+        }
+        catch (Exception $e) {
+            $this->flashSession->error($e->getMessage());
+            $this->trace("fail",$e->getMessage());
+            return $this->response->redirect('visit/index');            
+        }     
+    }
+
+
     public function getmapAction($idUser)
     {
         
-        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype,Visit.start FROM Visit WHERE Visit.idUser = ?0';
+        $phqlvisits = 'SELECT Visit.latitude,Visit.longitude,Visit.location,Visit.idClient,Visit.idVisittype,Visit.start, Visit.end FROM Visit WHERE Visit.idUser = ?0';
         $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
         $objects = array();
         foreach ($visits as $visit) {
@@ -148,7 +196,7 @@ class VisitController extends ControllerBase
                 $clientData .= "<br />";
                 $clientData .= "<strong>Dirección</strong>: ".$client['address'];
                 $clientData .= "<br />";
-                $clientData .= "<strong>Fecha de visita</strong>: ". date('d-m-Y H:i',$visit['start']);
+                $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit['start']) . " <strong>a</strong> " . date('d/M/Y H:i',$visit['end']);
                 $clientData .= "<br />";
             }
             $objects[] = array(

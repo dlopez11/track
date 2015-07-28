@@ -40,8 +40,8 @@ if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 			  $x = $rr["start"];
 		   }
 		   
-		   $date1 = date('Y-m-d h:i', $x);
-		   $date2 = date('Y-m-d h:i', time());
+		   $date1 = date('Y-m-d H:i:s', $x);
+		   $date2 = date('Y-m-d H:i:s', time());
 		   
 		   $time1 = date_create($date1);
 		   $time2 = date_create($date2);

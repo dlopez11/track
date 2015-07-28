@@ -36,8 +36,8 @@
                 infoWindowContent.push(array2);
             };
             
-            console.log(markers);
-            console.log(infoWindowContent);
+            //console.log(markers);
+            //console.log(infoWindowContent);
 
             var infoWindow = new google.maps.InfoWindow(), marker, i;
  
