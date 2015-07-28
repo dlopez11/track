@@ -43,6 +43,7 @@ DomManager.prototype.refreshTable = function() {
         for (var i = 0; i < this.rows.length; i++) {
             var visit = (this.rows[i].lastVisit == null || this.rows[i].lastVisit === 'null' ? 'No Disponible' : this.rows[i].lastVisit);
             var observation = (this.rows[i].observation === null || this.rows[i].observation === 'null' ? 'No Disponible' : this.rows[i].observation);
+            var finalLocation = (this.rows[i].finalLocation === null || this.rows[i].finalLocation === 'null' ? 'No Disponible' : this.rows[i].finalLocation);
             var row = $('<tr>\n\
                             <td><strong>' + this.rows[i].name + '</strong></td>\n\
                             <td><span style="font-size: 1.4em; font-weight: 800;">' + this.rows[i].client + '</span><br>' + this.rows[i].visit + '<br><a data-toggle="collapse" href="#details-' + this.rows[i].idVisit + '" aria-expanded="false" aria-controls="details-' + this.rows[i].idVisit + '">Ver detalles</a></td>\n\
@@ -63,16 +64,16 @@ DomManager.prototype.refreshTable = function() {
                                         </tr>\n\
                                         <tr>\n\
                                             <td><strong>Tiempo transcurrido desde la última visita</strong></td>\n\
-                                            <td>' + this.rows[i].lastVisit + '</td>\n\
+                                            <td>' + visit + '</td>\n\
                                         </tr>\n\
                                         <tr>\n\
                                             <td><strong>Observaciones</strong></td>\n\
-                                            <td>' + this.rows[i].observation + '</td>\n\
+                                            <td>' + observation + '</td>\n\
                                         </tr>\n\
                                         <tr>\n\
                                             <td><strong>Ubicación final</strong></td>\n\
                                             <td>\n\
-                                                <strong><a href="' + url + '/mapfinallocation/' + this.rows[i].idVisit + '" target="_blank">' + this.rows[i].finalLocation + '</a></strong><br />\n\
+                                                <strong><a href="' + url + '/mapfinallocation/' + this.rows[i].idVisit + '" target="_blank">' + finalLocation + '</a></strong><br />\n\
                                             </td>\n\
                                         </tr>\n\
                                     </tbody>\n\
