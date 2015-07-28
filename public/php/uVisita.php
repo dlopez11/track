@@ -1,8 +1,12 @@
 <?php
 if(isset($_POST['idVisit'])) {
 	$idVisit = $_POST['idVisit'];
+	$latitude = $_POST['latitude'];
+	$longitude = $_POST['longitude'];
+	$location = $_POST['location'];
+	
 	$date = Time();
-
+	
 	$conexion = mysqli_connect("localhost", "sigmatrack_user", "S1gm4134ck100", "sigmamovil_track");
 	
 	if (!$conexion) {
@@ -10,7 +14,7 @@ if(isset($_POST['idVisit'])) {
 		exit();
 	}
 	
-	mysqli_query($conexion,  "UPDATE visit set end = " . $date . " WHERE idVisit = " .  $idVisit);
+	mysqli_query($conexion,  "UPDATE visit set end = " . $date . ", finalLatitude = '" . $latitude . "', finalLongitude = '"  . $longitude . "' ,finalLocation = '" . $location .  "' WHERE idVisit = " .  $idVisit);
     $resultado = mysqli_affected_rows($conexion);
 		 
 	echo '[{"0": "1","id": "1","1": "' . $resultado .'","respuesta": "' . $resultado . '"}]';

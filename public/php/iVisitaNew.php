@@ -4,6 +4,8 @@
 $conexion = mysql_connect("localhost", "sigmatrack_user", "S1gm4134ck100");
 mysql_select_db("sigmamovil_track", $conexion);
 
+
+	
 	
 $idUser = $_POST['idUser'];
 $idVisitType = $_POST['idVisitType'];
@@ -50,7 +52,7 @@ if ($name == "" && isset($_POST['nombreOtroCliente'])) {
 		
 		
 	
-	  $queTareas = "INSERT INTO visit (idUser,idVisittype,idClient,start,end,latitude,longitude,battery,location,lastVisit) VALUES (".$idUser.",".$idVisitType.",".$idClient.",".$date."," . 978310861 ."," .$latitude.",".$longitude.",".$battery.",'".$location."', '{$lastTime}')";
+	  $queTareas = "INSERT INTO visit (idUser,idVisittype,idClient,start,latitude,longitude,battery,location,lastVisit) VALUES (".$idUser.",".$idVisitType.",".$idClient.",". $date. "," . $latitude.",".$longitude.",".$battery.",'".$location."', '{$lastTime}')";
 	  mysql_query($queTareas, $conexion) or die(mysql_error());
 	  
 	  echo '[{"0": "1","id": "1","1": "ok","respuesta": "ok"}]';
@@ -98,7 +100,7 @@ else if ($name != "" && isset($_POST['nombreOtroCliente'])) {
 		mysql_query($queryCliente, $conexion) or die(mysql_error());
 	
 	
-	   $queryVisita = "INSERT INTO visit (idUser,idVisittype,idClient,start,end,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",". mysql_insert_id() .",".$date."," . 978310861 . "," .$latitude.",".$longitude.",".$battery.",'".$location."')";
+	   $queryVisita = "INSERT INTO visit (idUser,idVisittype,idClient,start,latitude,longitude,battery,location) VALUES (".$idUser.",".$idVisitType.",". mysql_insert_id() .",".$date . "," .$latitude.",".$longitude.",".$battery.",'".$location."')";
 	   mysql_query($queryVisita, $conexion) or die(mysql_error());
 	   echo '[{"0": "1","id": "1","1": "ok","respuesta": "ok"}]';
 	}
