@@ -107,7 +107,7 @@ class VisitController extends ControllerBase
         }
         
         try {
-            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS start, v.end AS end, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+            $sql_rows = "SELECT v.idVisit AS idUser, v.start AS start, 'v.end' AS end, u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
                     . "FROM Visit AS v "
                     . " JOIN User AS u ON (u.idUser = v.idUser) "
                     . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
@@ -125,7 +125,6 @@ class VisitController extends ControllerBase
         catch (Exception $e) {
             $this->flashSession->error("Ocurrio un error mientras se seleccionaban los datos de la visita, por favor contacte al administrador");
             $this->logger->log("Exception while selecting data for visit map: {$e->getMessage()} ");
-            $this->logger->log($e);
             $this->trace("fail", "Error while selecting data for visit map");
             return $this->response->redirect('visit/index');            
         }     
