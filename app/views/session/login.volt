@@ -17,4 +17,11 @@
         <br>
         <a href="{{url('session/recoverpass')}}" style="text-decoration: underline;">Recuperar Contraseña</a>        
     </form>
+    
+    <br><br>
+    
+    <div class="form-signin text-center">
+        <h5>Un producto de </h5>
+        <a href="http://www.sigmamovil.com" target="_blank" ><img src="{{url('')}}images/sigmamovil-logo.png" height="70" /></a>
+    </div>    
 {% endblock %}
