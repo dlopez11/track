@@ -11,7 +11,7 @@
         function initialize() {
             var marker;
             var map;
-            var myLatlng = new google.maps.LatLng({{visit.latitude}},{{visit.longitude}});
+            var myLatlng = new google.maps.LatLng({{visit.v.latitude}},{{visit.v.longitude}});
             var mapProp = {
               center:myLatlng,
               zoom:14,
@@ -23,7 +23,7 @@
             marker = new google.maps.Marker({
                 position: myLatlng,
                 map: map,
-                title: '{{visit.location}}',
+                title: '{{visit.v.location}}',
                 icon: image
             });
           }
@@ -54,8 +54,8 @@
                             <strong>Fecha:</strong>
                         </td>                            
                         <td>
-                            <strong>desde</strong> {{date('d/M/Y H:i:s', visit.start)}} <br>
-                            <strong>hasta</strong> {{date('d/M/Y H:i:s', visit.ends)}} 
+                            <strong>desde</strong> {{date('d/M/Y H:i:s', visit.v.start)}} <br>
+                            <strong>hasta</strong> {{date('d/M/Y H:i:s', visit.v.end)}} 
                         </td>
                     </tr>
                     <tr>
@@ -79,7 +79,7 @@
                             <strong>Ubicación:</strong>
                         </td>
                         <td>
-                            {{visit.location}}
+                            {{visit.v.location}}
                         </td>
                     </tr>
                 </tbody>                
