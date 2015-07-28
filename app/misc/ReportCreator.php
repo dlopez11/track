@@ -125,13 +125,18 @@ class ReportCreator
                     $array['name'] = "{$row['name']} {$row['lastname']}";
                     $array['visit'] = $row['visit'];
                     $array['client'] = $row['client'];
-                    $array['start'] = date('d/M/Y h:i:s A', $row['start']);
-                    $array['end'] = date('d/M/Y h:i:s A', $row['end']);
+                    $array['start'] = \date('d/M/Y H:i:s', $row['start']);
+                    $array['end'] = \date('d/M/Y H:i:s', $row['end']);
+                    $time1 = date_create(\date('Y-m-d H:i:s', $row['end']));
+                    $time2 = date_create(\date('Y-m-d H:i:s', $row['start']));
+                    $interval = date_diff($time1, $time2);
+                    $array['elapsed'] = $interval->format("%a día(s) %h:%i:%s%");
                     $array['battery'] = $row['battery'];
                     $array['observation'] = $row['observation'];
                     $array['latitude'] = $row['latitude'];
                     $array['longitude'] = $row['longitude'];
                     $array['location'] = $row['location'];
+                    $array['finalLocation'] = $row['finalLocation'];
                     $array['lastVisit'] = $row['lastVisit'];
 
                     $this->rows[$row['idVisit']] = $array;

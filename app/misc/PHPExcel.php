@@ -76,15 +76,18 @@ class PHPExcel
         }
         
         $header = array(
-            array('key' => 'A6', 'name' => "FECHA"),
-            array('key' => 'B6', 'name' => "NOMBRE DE USUARIO"),
-            array('key' => 'C6', 'name' => "TIPO DE VISITA"),
-            array('key' => 'D6', 'name' => "CLIENTE"),
-            array('key' => 'E6', 'name' => "ESTADO DE BATERÍA"),
-            array('key' => 'F6', 'name' => "ÚLTIMA VISITA"),
-            array('key' => 'G6', 'name' => "UBICACIÓN"),
-            array('key' => 'H6', 'name' => "MAPA"),
-            array('key' => 'I6', 'name' => "OBSERVACIONES")
+            array('key' => 'A6', 'name' => "FECHA DE INICIO"),
+            array('key' => 'B6', 'name' => "FECHA DE FIN"),
+            array('key' => 'C6', 'name' => "TIEMPO DE VISITA"),
+            array('key' => 'D6', 'name' => "NOMBRE DE USUARIO"),
+            array('key' => 'E6', 'name' => "TIPO DE VISITA"),
+            array('key' => 'F6', 'name' => "CLIENTE"),
+            array('key' => 'G6', 'name' => "ESTADO DE BATERÍA"),
+            array('key' => 'H6', 'name' => "ÚLTIMA VISITA"),
+            array('key' => 'I6', 'name' => "UBICACIÓN INICIAL"),
+            array('key' => 'J6', 'name' => "UBICACIÓN FINAL"),
+            array('key' => 'K6', 'name' => "MAPA"),
+            array('key' => 'L6', 'name' => "OBSERVACIONES")
         );
 
         $this->createExcelHeader($header);
@@ -92,13 +95,16 @@ class PHPExcel
         $row = 7;
         foreach ($this->data as $data) {
             $array = array(
-                $data['start'] . " - " . $data['end'],
-                $data['name'],
-                $data['visit'],
-                $data['client'],
+                $data['start'],
+                $data['end'],
+                $data['elapsed'],
+                "{$data['name']}",
+                "{$data['visit']}",
+                "{$data['client']}",
                 "{$data['battery']}%",
                 $data['lastVisit'],
                 $data['location'],
+                $data['finalLocation'],
                 "http://maps.google.com/maps?q={$data['latitude']},{$data['longitude']}&ll={$data['latitude']},-{$data['longitude']}&z=17",
                 $data['observation'],
             );
@@ -108,25 +114,30 @@ class PHPExcel
             $row++;
         }
 
-        $this->styleExcelHeader('A6:I6');
+        $this->styleExcelHeader('A6:L6');
 
         $array = array(
-            array('key' => 'A', 'size' => 50),
+            array('key' => 'A', 'size' => 30),
             array('key' => 'B', 'size' => 30),
-            array('key' => 'C', 'size' => 40),
+            array('key' => 'C', 'size' => 30),
             array('key' => 'D', 'size' => 40),
-            array('key' => 'E', 'size' => 20),
-            array('key' => 'F', 'size' => 30),
-            array('key' => 'G', 'size' => 50),
-            array('key' => 'H', 'size' => 90),
+            array('key' => 'E', 'size' => 40),
+            array('key' => 'F', 'size' => 40),
+            array('key' => 'G', 'size' => 20),
+            array('key' => 'H', 'size' => 40),
             array('key' => 'I', 'size' => 90),
+            array('key' => 'J', 'size' => 90),
+            array('key' => 'K', 'size' => 90),
+            array('key' => 'L', 'size' => 90),
         );
 
         $this->setColumnDimesion($array);
-        $this->createExcelFilter("B7:B{$row}");
-        $this->createExcelFilter("C7:C{$row}");
         $this->createExcelFilter("D6:D{$row}");
-
+        $this->createExcelFilter("E6:E{$row}");
+        $this->createExcelFilter("F6:F{$row}");
+        $this->createExcelFilter("L6:L{$row}");
+        $this->formatPercentageNumbers("G7:G{$row}");
+        
         $this->createExcelFile();
     }
     
@@ -178,6 +189,14 @@ class PHPExcel
     private function formatUSDNumbers($fields) {
         $this->phpExcelObj->getActiveSheet()->getStyle($fields)->getNumberFormat()->setFormatCode(\PHPExcel_Style_NumberFormat::FORMAT_CURRENCY_USD_SIMPLE);
 //        $this->phpExcelObj->getActiveSheet()->getStyle($fields)->getNumberFormat()->setFormatCode('@');
+    }
+    
+    private function formatPercentageNumbers($fields) {
+        $this->phpExcelObj->getActiveSheet()->getStyle($fields)->getNumberFormat()->applyFromArray( 
+            array( 
+                'code' => \PHPExcel_Style_NumberFormat::FORMAT_PERCENTAGE_00
+            )
+        );
     }
 
     private function createExcelFilter($fields) {
