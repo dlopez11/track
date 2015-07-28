@@ -3,6 +3,7 @@ app/compiled-templates/c%%%%users%%luis.rodriguez%%documents%%netbeansprojects%%
 /app/logs/
 /app/cache/
 /app/config/configuration.ini
+app/config/configuration.ini
 nbproject/private/private.xml
 /library/exporting-server/java/highcharts-export/highcharts-export-web/target/
 /library/exporting-server/java/highcharts-export/highcharts-export-convert/target/
