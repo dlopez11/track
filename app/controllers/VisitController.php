@@ -107,7 +107,7 @@ class VisitController extends ControllerBase
         }
         
         try {
-            $sql_rows = "SELECT v.*, u.idUser AS idUser u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client, v.battery AS battery, v.latitude AS latitude, v.longitude AS longitude, v.location AS location "
+            $sql_rows = "SELECT v.*, u.idUser AS idUser,  u.name AS name, u.lastName AS lastname, vt.name AS visit, c.name AS client "
                     . "FROM Visit AS v "
                     . " JOIN User AS u ON (u.idUser = v.idUser) "
                     . " JOIN Visittype AS vt ON (vt.idVisittype = v.idVisittype) "
