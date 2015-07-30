@@ -30,14 +30,14 @@ class ClientController extends ControllerBase
             try {
                 $form->bind($this->request->getPost(), $client);
                 
-                $c = Client::find(array(
-                    "conditions" => "name = ?1 AND idAccount = ?2",
-                    "bind" => array(1 => $client->name,
-                                    2 => $this->user->idAccount)
+                $c = Client::findFirst(array(
+                    "conditions" => "idAccount = ?1 AND name = ?2",
+                    "bind" => array(1 => $this->user->idAccount,
+                                    2 => $client->name)
                 ));
                 
                 if($c){
-                    $this->flashSession->error("Ya existe un Cliente con este nombre, por favor verificar.");
+                    $this->flashSession->error("Ya existe un cliente con este nombre, por favor verificar.");
                     return;
                 }
                 
