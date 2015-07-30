@@ -202,7 +202,7 @@ class AccountController extends ControllerBase
                 $this->flashSession->error("El nombre de usuario ya existe, por favor valide la información");                
             }            
             else if($pass !== $pass2){
-                $this->flashSession->error("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
+                $this->flashSession->error("Las contraseñas ingresadas no coinciden, por favor intentelo nuevamente.");
             }
             else if(strlen($pass) < 8) {
                 $this->flashSession->error("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
@@ -321,8 +321,8 @@ class AccountController extends ControllerBase
             
             
             $this->flashSession->warning("Se ha eliminado el usuario <strong>{$user->userName}</strong> exitosamente");
-            $this->trace('success', "Se elimino el usuario: {$id}");            
-            return $this->response->redirect("user/index");
+            $this->trace('success', "Se elimino el usuario: {$id}");
+            return $this->response->redirect("account/userlist/{$user->idAccount}");
         } 
         catch (InvalidArgumentException $ex) {
             $this->flashSession->error($ex->getMessage());

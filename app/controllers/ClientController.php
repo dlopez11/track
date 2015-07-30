@@ -29,6 +29,18 @@ class ClientController extends ControllerBase
         if ($this->request->isPost()) {
             try {
                 $form->bind($this->request->getPost(), $client);
+                
+                $c = Client::find(array(
+                    "conditions" => "name = ?1 AND idAccount = ?2",
+                    "bind" => array(1 => $client->name,
+                                    2 => $this->user->idAccount)
+                ));
+                
+                if($c){
+                    $this->flashSession->error("Ya existe un Cliente con este nombre, por favor verificar.");
+                    return;
+                }
+                
                 $client->created = time();
                 $client->updated = time();
                 $client->idAccount = $this->user->idAccount;
@@ -39,7 +51,7 @@ class ClientController extends ControllerBase
                     }
                 }
                 
-                $this->flashSession->success('Se ha creado el cliente exitosmante');
+                $this->flashSession->success('Se ha creado el cliente exitosamente');
                 return $this->response->redirect('client');
             } 
             catch (Exception $ex) {
@@ -75,7 +87,7 @@ class ClientController extends ControllerBase
                     }
                 }
                 
-                $this->flashSession->notice("Se ha editado el cliente: <strong>{$client->name}</strong>,  exitosmante");
+                $this->flashSession->notice("Se ha editado el cliente: <strong>{$client->name}</strong>,  exitosamente");
                 return $this->response->redirect('client');
             } 
             catch (Exception $ex) {

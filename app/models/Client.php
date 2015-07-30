@@ -1,6 +1,5 @@
 <?php
 
-use Phalcon\Mvc\Model\Validator\Uniqueness;
 use Phalcon\Mvc\Model\Validator\PresenceOf;
 
 class Client extends \Phalcon\Mvc\Model

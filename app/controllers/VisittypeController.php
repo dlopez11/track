@@ -23,7 +23,7 @@ class VisittypeController extends ControllerBase
     
     public function addAction()
     {
-        $vcat = Visitcategory::find();
+        $vcat = Visitcategory::findByIdAccount($this->user->idAccount);
         $this->view->setVar("vcat", $vcat);
         
         $vtype = new Visittype();

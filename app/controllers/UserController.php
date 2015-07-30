@@ -57,10 +57,10 @@ class UserController extends ControllerBase
                 throw new Exception("El nombre de usuario ya existe, por favor valide la información");                
             }
             if($pass !== $pass2){
-                throw new Exception("Las contraseñas ingresas no coinciden, por favor intentelo nuevamente.");
+                throw new Exception("Las contraseñas ingresadas no coinciden, por favor intentelo nuevamente.");
             }
             if(strlen($pass) < 8) {
-                throw new Exception("La contraseña es muy corta, debe tener minimo 8 caracteres.</div>");
+                throw new Exception("La contraseña es muy corta, debe tener minimo 8 caracteres.");
             }
             if(strlen($username) < 4){
                 throw new Exception("El nombre de usuario es muy corto, debe tener minimo 4 caracteres.");
