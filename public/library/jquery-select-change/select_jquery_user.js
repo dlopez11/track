@@ -74,6 +74,13 @@ var CUNDINAMARCA = [
     {display: "FACATATIVA", value: "FACATATIVA" },
     {display: "FUSAGASUGA", value: "FUSAGASUGA" },
     {display: "GIRARDOT", value: "GIRARDOT" },
+    {display: "CHIA", value: "CHIA" },
+    {display: "TABIO", value: "TABIO" },
+    {display: "GUADUAS", value: "GUADUAS" },
+    {display: "MADRID", value: "MADRID" },
+    {display: "CAJICÁ", value: "CAJICÁ" },
+    {display: "COTA", value: "COTA" },
+    {display: "VILLETA", value: "VILLETA" },
     {display: "SOACHA", value: "SOACHA" }
 ];
 
