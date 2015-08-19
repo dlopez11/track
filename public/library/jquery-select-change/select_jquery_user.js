@@ -81,6 +81,9 @@ var CUNDINAMARCA = [
     {display: "CAJICÁ", value: "CAJICÁ" },
     {display: "COTA", value: "COTA" },
     {display: "VILLETA", value: "VILLETA" },
+    {display: "TENJO", value: "TENJO" },
+    {display: "ZIPAQUIRÁ", value: "ZIPAQUIRÁ" },
+    {display: "CHAGUANI", value: "CHAGUANI" },
     {display: "SOACHA", value: "SOACHA" }
 ];
 
