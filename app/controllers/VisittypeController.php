@@ -34,10 +34,23 @@ class VisittypeController extends ControllerBase
             try {
                 $form->bind($this->request->getPost(), $vtype);
                 $name = trim($this->request->getPost("name"));
+                
                 if($name == ""){
                     $msg = "El nombre no puede estar vacio, por favor valide la información";
                     throw new Exception($msg);
                 }
+                
+                $v = Visittype::findFirst(array(
+                    "conditions" => "idAccount = ?1 AND name = ?2",
+                    "bind" => array(1 => $this->user->idAccount,
+                                    2 => $vtype->name)
+                ));
+                
+                if($v){
+                    $this->flashSession->error("Ya existe un tipo de visita con este nombre, por favor verificar.");
+                    return;
+                }
+                
                 $vtype->idVisitcategory = $this->request->getPost("category");
                 $vtype->created = time();
                 $vtype->updated = time();

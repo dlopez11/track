@@ -15,10 +15,10 @@ class Visittype extends \Phalcon\Mvc\Model
     
     public function validation()
     {
-        $this->validate(new Uniqueness(array(
-            'field' => 'name',
-            'message' => 'Ya existe un tipo de visita con este nombre, por favor valide la información'
-        )));
+//        $this->validate(new Uniqueness(array(
+//            'field' => 'name',
+//            'message' => 'Ya existe un tipo de visita con este nombre, por favor valide la información'
+//        )));
         
         if ($this->validationHasFailed() == true) {
             return false;
