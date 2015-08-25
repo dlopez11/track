@@ -63,8 +63,9 @@ class ClientController extends ControllerBase
     public function editAction($idClient)
     {
         $client = Client::findFirst(array(
-            'conditions' => 'idClient = ?1',
-            'bind' => array(1 => $idClient),
+            'conditions' => 'idClient = ?1 AND idAccount = ?2',
+            'bind' => array(1 => $idClient,
+                            2 => $this->user->idAccount),
         ));
         
         if (!$client) {
@@ -78,20 +79,20 @@ class ClientController extends ControllerBase
         
         if ($this->request->isPost()) {
             try {
-                $form->bind($this->request->getPost(), $client);
+                $form->bind($this->request->getPost(), $client);                
+                $name = $form->getValue('name');
+                $client->updated = time();
                 
-                $c = Client::findFirst(array(
-                    "conditions" => "idAccount = ?1 AND name = ?2",
-                    "bind" => array(1 => $this->user->idAccount,
-                                    2 => $client->name)
+                $client2 = Client::findFirst(array(
+                    'conditions' => 'idAccount = ?1 AND name = ?2',
+                    'bind' => array(1 => $this->user->idAccount,
+                                    2 => $name),
                 ));
                 
-                if($c){
+                if($client2 && $client->idClient != $client2->idClient){
                     $this->flashSession->error("Ya existe un cliente con este nombre, por favor verificar.");
                     return;
-                }
-                
-                $client->updated = time();
+                }  
                 
                 if (!$client->save()) {
                     foreach ($client->getMessages() as $msg) {
