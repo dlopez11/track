@@ -14,7 +14,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 		}
 
 
-		$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY Visit.end DESC LIMIT 20");
+		$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT 20");
 		$res  = $query->execute(array(
 		   'idUser' => $idUser
 		));
