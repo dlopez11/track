@@ -38,7 +38,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 			}
 		}
 
-		return $this->set_json_response($data, 200);	
+		return $this->set_json_response(array("history" => $data), 200);	
 	}
 
 	 /**
