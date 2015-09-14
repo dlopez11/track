@@ -26,6 +26,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$obj = new stdClass();
 				$obj->idVisit = $value->visit->idVisit;
 				$obj->type = $value->visittype->name;
+				$obj->client = $value->client->name;
 				$obj->start = date('d/M/Y H:s', $value->visit->start);
 				$obj->end = date('d/M/Y H:s', $value->visit->end);
 				$obj->iLatitude = $value->visit->latitude;
