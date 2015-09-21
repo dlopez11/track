@@ -32,7 +32,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$time1 = date_create(\date('Y-m-d H:i:s', $row['end']));
                 $time2 = date_create(\date('Y-m-d H:i:s', $row['start']));
                 $interval = date_diff($time1, $time2);
-                $obj->elapsed = $interval->format("%a día(s) %h:%i:%s%");
+                $obj->elapsed = $interval->format("%a día(s) %H:%I:%S%");
 				$obj->iLatitude = $value->visit->latitude;
 				$obj->iLongitude = $value->visit->longitude;
 				$obj->fLongitude = $value->visit->finalLongitude;
