@@ -4,15 +4,10 @@ class ApiController extends \Phalcon\Mvc\Controller
 {    
 	public function gethistoryAction($idUser)
 	{
-		$user = User::findFirst(array(
-			'conditions' => 'idUser = ?0',
-			'bind' => array($idUser)
-		));
-
+		$user = $this->validateUser($idUser);
 		if (!$user) {
 			return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
 		}
-
 
 		$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT 20");
 		$res  = $query->execute(array(
@@ -36,6 +31,7 @@ class ApiController extends \Phalcon\Mvc\Controller
                 $int = $interval->format("%a:%H:%I:%S");
                 $el = explode(":", $int);
 
+
                 $obj->elapsed = ($el[0] == "00" ? "" : $el[0] . "Día(s) ") . $el[1] . ":" . $el[2] . ":" . $el[3];
 
 				$obj->iLatitude = $value->visit->latitude;
@@ -49,6 +45,90 @@ class ApiController extends \Phalcon\Mvc\Controller
 
 		return $this->set_json_response(array("history" => $data), 200);	
 	}
+
+
+	public function validateloginAction()
+	{
+		if ($this->request->isPost()) {
+                $username = $this->request->getPost("username");
+                $password = $this->request->getPost("password");
+                $company = $this->request->getPost("company");
+
+                $user = User::findFirst(array(
+                    "userName = ?0 AND idAccount = ?1",
+                    "bind" => array(
+                                0 => $username,
+                                1 => $company
+                            )
+                ));
+
+                if ($user && $this->hash->checkHash($password, $user->password)) {
+                    $status = 1;
+                }
+                else {
+                    $status = -1;
+                }
+
+                return $this->set_json_response(array("response" => array($status)), 200);
+        }
+
+        return $this->set_json_response(array("response" => array(0)), 200);
+	}
+
+	public function getclientsAction($idUser) 
+	{
+		$user = $this->validateUser($idUser);
+		if (!$user) {
+			return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
+		}
+
+		$clients = Client::find(array(
+			'conditions' => 'idAccount = ?0',
+			'bind' => array($user->idAccount)
+		));
+
+		$data = array();
+
+		if (count($clients) > 0) {
+			foreach ($clients as $client) {
+				$obj = new stdClass();
+				$obj->idClient = $client->idClient;
+				$obj->name = $client->name;
+
+				$data[] = $obj;
+			}
+		}	
+
+		return $this->set_json_response(array("clients" => $data), 200);	
+	}
+
+	public function getvisittypesAction($idUser) 
+	{
+		$user = $this->validateUser($idUser);
+		if (!$user) {
+			return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
+		}
+
+		$visittypes = Visittype::find(array(
+			'conditions' => 'idAccount = ?0',
+			'bind' => array($user->idAccount)
+		));
+
+		$data = array();
+
+		if (count($visittypes) > 0) {
+			foreach ($visittypes as $visittype) {
+				$obj = new stdClass();
+				$obj->idVisittype = $visittype->idVisittype;
+				$obj->name = $visittype->name;
+
+				$data[] = $obj;
+			}
+		}	
+
+		return $this->set_json_response(array("visittypes" => $data), 200);	
+	}
+
 
 	 /**
      * Llamar este metodo para enviar respuestas en modo JSON
@@ -72,5 +152,14 @@ class ApiController extends \Phalcon\Mvc\Controller
         }
         $this->response->setContent($content);
         return $this->response;
+    }
+
+    private function validateUser($idUser) {
+    	$user = User::findFirst(array(
+			'conditions' => 'idUser = ?0',
+			'bind' => array($idUser)
+		));
+
+		return $user;
     }
 }	
