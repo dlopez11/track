@@ -136,6 +136,9 @@ class Security extends Plugin
                 'session::setnewpass' => array(),
                 /* Api */
                 'api::gethistory' => array(),
+                'api::getvisittypes' => array(),
+                'api::getclients' => array(),
+
                 
             /* Private resources */
                 /* Dashboard */
