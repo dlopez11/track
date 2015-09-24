@@ -138,6 +138,7 @@ class Security extends Plugin
                 'api::gethistory' => array(),
                 'api::getvisittypes' => array(),
                 'api::getclients' => array(),
+                'api::validatelogin' => array(),
 
                 
             /* Private resources */
