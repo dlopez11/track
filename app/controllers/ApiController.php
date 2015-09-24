@@ -49,11 +49,14 @@ class ApiController extends \Phalcon\Mvc\Controller
 
 	public function validateloginAction()
 	{
+		$this->logger->log("1");
 		if ($this->request->isPost()) {
+			$this->logger->log("2");
                 $username = $this->request->getPost("username");
                 $password = $this->request->getPost("password");
                 $company = $this->request->getPost("company");
 
+                $this->logger->log("3");
                 $user = User::findFirst(array(
                     "userName = ?0 AND idAccount = ?1",
                     "bind" => array(
@@ -63,9 +66,11 @@ class ApiController extends \Phalcon\Mvc\Controller
                 ));
 
                 if ($user && $this->hash->checkHash($password, $user->password)) {
+                	$this->logger->log("4");
                     $status = 1;
                 }
                 else {
+                	$this->logger->log("5");
                     $status = -1;
                 }
 
