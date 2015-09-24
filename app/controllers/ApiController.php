@@ -52,7 +52,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 		if ($this->request->isPost()) {
                 $username = $this->request->getPost("username");
                 $password = $this->request->getPost("password");
-                $company = $this->request->getPost("company");
+                $company = $this->request->getPost("idAccount");
 
                 $this->logger->log("company: {$company}");
                 $this->logger->log("username: {$username}");
