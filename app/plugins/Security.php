@@ -250,7 +250,10 @@ class Security extends Plugin
             'session::recoverpass',
             'session::resetpassword',
             'session::setnewpass',
-            'api::gethistory'
+            'api::gethistory',
+            'api::validatelogin',
+            'api::getvisittypes',
+            'api::getclients',
         );
 
         if ($role == 'GUEST') {
