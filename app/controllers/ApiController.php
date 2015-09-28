@@ -164,6 +164,14 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$battery = trim($battery);
 				$location = trim($location);
 
+				$this->logger->log("idUser: {$idUser}");
+				$this->logger->log("idVisittype: {$idVisittype}");
+				$this->logger->log("idClient: {$idClient}");
+				$this->logger->log("latitude: {$latitude}");
+				$this->logger->log("longitude: {$longitude}");
+				$this->logger->log("battery: {$battery}");
+				$this->logger->log("location: {$location}");
+
 				$this->validateVisit($idUser, $idVisittype, $idClient, $latitude, $longitude, $battery, $location);
 
 				$visit = new Visit();
