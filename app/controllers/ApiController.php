@@ -245,7 +245,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				}
 
 				return $this->set_json_response(array("status" => array(1)), 200);
-				
+                        }	
 			catch(Exception $ex) {
 				$this->logger->log("Exception while creating new visit: {$ex->getMessage()}");
 				return $this->set_json_response(array("status" => array(-1)), 500);
