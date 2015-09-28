@@ -2,7 +2,7 @@
 
 class ApiController extends \Phalcon\Mvc\Controller
 {    
-	public function gethistoryAction($idUser, $limit)
+	public function gethistoryAction($idUser, $limit = null)
 	{
 		try {
 			$user = $this->validateUser($idUser);
@@ -10,10 +10,12 @@ class ApiController extends \Phalcon\Mvc\Controller
 				return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
 			}
 
+			$l = (empty($limit) ? 20 : $limit);
+
 			$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT :l:");
 			$res  = $query->execute(array(
 			   'idUser' => $idUser,
-			   'l' => $limit
+			   'l' => $l
 			));
 
 			$data = array();
