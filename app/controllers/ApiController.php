@@ -230,7 +230,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$this->logger->log("fLongitude: {$fLongitude}");
 				$this->logger->log("fLocation: {$fLocation}");
 
-				$visit = $this->validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $location); 
+				$visit = $this->validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $fLocation); 
 
 				$visit->fLatitude = $fLatitude;
 				$visit->fLongitude = $fLongitude;
@@ -247,14 +247,14 @@ class ApiController extends \Phalcon\Mvc\Controller
 				return $this->set_json_response(array("status" => array(1)), 200);
                         }	
 			catch(Exception $ex) {
-				$this->logger->log("Exception while creating new visit: {$ex->getMessage()}");
+				$this->logger->log("Exception while closing visit: {$ex->getMessage()}");
 				return $this->set_json_response(array("status" => array(-1)), 500);
 			}
 		}		
 	}
 
 
-	private function validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $location) 
+	private function validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $fLocation) 
 	{
 		$visit = Visit::findFirst(array(
 			'conditions' => 'idVisit = ?0',
@@ -286,7 +286,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 			throw new Exception("flongitude is null", 1);
 		}
 
-		if (empty($location)) {
+		if (empty($fLocation)) {
 			throw new Exception("flocation is null", 1);
 		}
 
