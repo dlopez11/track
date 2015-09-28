@@ -2,62 +2,65 @@
 
 class ApiController extends \Phalcon\Mvc\Controller
 {    
-	public function gethistoryAction($idUser)
+	public function gethistoryAction($idUser, $limit)
 	{
-		$user = $this->validateUser($idUser);
-		if (!$user) {
-			return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
-		}
-
-		$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT 20");
-		$res  = $query->execute(array(
-		   'idUser' => $idUser
-		));
-
-		$data = array();
-
-		if (count($res) > 0) {
-			foreach ($res as $value) {
-				$obj = new stdClass();
-				$obj->idVisit = $value->visit->idVisit;
-				$obj->type = $value->visittype->name;
-				$obj->client = $value->client->name;
-				$obj->start = date('d/M/Y H:s', $value->visit->start);
-				$obj->end = date('d/M/Y H:s', $value->visit->end);
-				
-				$time1 = date_create(\date('Y-m-d H:i:s', $value->visit->start));
-                $time2 = date_create(\date('Y-m-d H:i:s', $value->visit->end));
-                $interval = date_diff($time1, $time2);
-                $int = $interval->format("%a:%H:%I:%S");
-                $el = explode(":", $int);
-
-
-                $obj->elapsed = ($el[0] == "00" ? "" : $el[0] . "Día(s) ") . $el[1] . ":" . $el[2] . ":" . $el[3];
-
-				$obj->iLatitude = $value->visit->latitude;
-				$obj->iLongitude = $value->visit->longitude;
-				$obj->fLongitude = $value->visit->finalLongitude;
-				$obj->fLatitude = $value->visit->finalLatitude;
-
-				$data[] = $obj;
+		try {
+			$user = $this->validateUser($idUser);
+			if (!$user) {
+				return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
 			}
-		}
 
-		return $this->set_json_response(array("history" => $data), 200);	
+			$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT :l:");
+			$res  = $query->execute(array(
+			   'idUser' => $idUser,
+			   'l' => $limit
+			));
+
+			$data = array();
+
+			if (count($res) > 0) {
+				foreach ($res as $value) {
+					$obj = new stdClass();
+					$obj->idVisit = $value->visit->idVisit;
+					$obj->type = $value->visittype->name;
+					$obj->client = $value->client->name;
+					$obj->start = date('d/M/Y H:s', $value->visit->start);
+					$obj->end = date('d/M/Y H:s', $value->visit->end);
+					
+					$time1 = date_create(\date('Y-m-d H:i:s', $value->visit->start));
+	                $time2 = date_create(\date('Y-m-d H:i:s', $value->visit->end));
+	                $interval = date_diff($time1, $time2);
+	                $int = $interval->format("%a:%H:%I:%S");
+	                $el = explode(":", $int);
+
+
+	                $obj->elapsed = ($el[0] == "00" ? "" : $el[0] . "Día(s) ") . $el[1] . ":" . $el[2] . ":" . $el[3];
+
+					$obj->iLatitude = $value->visit->latitude;
+					$obj->iLongitude = $value->visit->longitude;
+					$obj->fLongitude = $value->visit->finalLongitude;
+					$obj->fLatitude = $value->visit->finalLatitude;
+
+					$data[] = $obj;
+				}
+			}
+
+			return $this->set_json_response(array("history" => $data), 200);	
+		}
+		catch(Exception $ex) {
+			$this->logger->log("Exception while getting visit history {$ex->getMessage()}");
+			return $this->set_json_response(array("history" => array(-1)), 500);	
+		}
 	}
 
 
 	public function validateloginAction()
 	{
 		if ($this->request->isPost()) {
-                $username = $this->request->getPost("username");
+			try {
+				$username = $this->request->getPost("username");
                 $password = $this->request->getPost("password");
                 $company = $this->request->getPost("idAccount");
-
-                $this->logger->log("company: {$company}");
-                $this->logger->log("username: {$username}");
-                $this->logger->log("password: {$password}");
-
 
                 $user = User::findFirst(array(
                     "userName = ?0 AND idAccount = ?1",
@@ -67,19 +70,168 @@ class ApiController extends \Phalcon\Mvc\Controller
                             )
                 ));
 
+                $object = new stdClass();
+                $status = 0;
+
                 if ($user && $this->hash->checkHash($password, $user->password)) {
-                	$this->logger->log("1");
-                    $status = 1;
-                }
-                else {
-                	$this->logger->log("-1");
-                    $status = -1;
+                	$object->idUser = $user->idUser;
+                	$object->name = $user->name;	
+                	$object->lastName = $user->lastName;
+                	$status = 1;
                 }
 
-                return $this->set_json_response(array("response" => array($status)), 200);
+                return $this->set_json_response(array("status" => array($status), "user" => array($object)), 200);
+			}
+			catch(Exception $ex) {
+				$this->logger->log("Exception while login {$ex->getMessage()}");
+				return $this->set_json_response(array("status" => array(-1)), 500);	
+			}
         }
 
-        return $this->set_json_response(array("response" => array(0)), 200);
+        return $this->set_json_response(array("status" => array(0)), 200);
+	}
+
+
+	public function getclientsandvisittypesAction($idUser) 
+	{
+
+		try {
+			$user = $this->validateUser($idUser);
+
+			if (!$user) {
+				return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
+			}
+
+			$clients = Client::find(array(
+				'conditions' => 'idAccount = ?0',
+				'bind' => array($user->idAccount)
+			));
+
+			$data = array();
+
+			if (count($clients) > 0) {
+				foreach ($clients as $client) {
+					$obj = new stdClass();
+					$obj->idClient = $client->idClient;
+					$obj->name = $client->name;
+
+					$data[] = $obj;
+				}
+			}	
+
+			$visittypes = Visittype::find(array(
+				'conditions' => 'idAccount = ?0',
+				'bind' => array($user->idAccount)
+			));
+
+			$data = array();
+
+			if (count($visittypes) > 0) {
+				foreach ($visittypes as $visittype) {
+					$obj = new stdClass();
+					$obj->idVisittype = $visittype->idVisittype;
+					$obj->name = $visittype->name;
+
+					$data[] = $obj;
+				}
+			}	
+
+			return $this->set_json_response(array("clients" => $data, "visittypes" => $data), 200);
+
+		}
+		catch(Exception $ex) {
+			$this->logger->log("Exception while getting clients and visittypes {$ex->getMessage()}");
+			return $this->set_json_response(array("status" => array(-1)), 500);	
+		}		
+	}
+
+
+	public function newvisitAction() 
+	{
+		if ($this->request->isPost()) {
+			try {
+				$idUser = $_POST['idUser'];
+				$idVisittype = $_POST['idVisitType'];
+				$idClient = $_POST['idClient'];
+				$latitude = $_POST['latitude'];
+				$longitude = $_POST['longitude'];
+				$battery = $_POST['battery'];
+				$location = $_POST['location'];
+
+				$latitude = trim($latitude);
+				$longitude = trim($longitude);
+				$battery = trim($battery);
+				$location = trim($location);
+
+				$this->validateVisit($idUser, $idVisittype, $idClient, $latitude, $longitude, $battery, $location);
+
+				$visit = new Visit();
+				$visit->idUser = $idUser;
+				$visit->idVisittype = $idVisittype;
+				$visit->idClient = $idClient;
+				$visit->latitude = $latitude;
+				$visit->longitude = $longitude;
+				$visit->battery = $battery;
+				$visit->location = $location;
+				$visit->start = time();
+
+				if (!$visit->save()) {
+					$message = "";
+					foreach ($visit->getMessages() as $msg) {
+						$message .= ", {$msg}";
+					}
+					throw new Exception($message, 1);
+				}
+
+				return $this->set_json_response(array("status" => array(1)), 200);
+			}
+			catch (Exception $ex) {
+				$this->logger->log("Exception while creating new visit: {$ex->getMessage()}");
+				return $this->set_json_response(array("status" => array(-1)), 500);
+			}
+		}		
+
+		return $this->set_json_response(array("status" => array(0)), 200);
+	}
+
+
+	private function validateVisit($idUser, $idVisittype, $idClient, $latitude, $longitude, $battery, $location) 
+	{
+		$user = User::findFirst(array(
+			'conditions' => 'idUser = ?0',
+			'bind' => array($idUser)
+		));
+
+		$visitType = Visittype::findFirst(array(
+			'conditions' => 'idVisittype = ?0',
+			'bind' => array($idVisittype)
+		));
+
+		$client = Client::findFirst(array(
+			'conditions' => 'idClient = ?0',
+			'bind' => array($idClient)
+		));
+
+		if (!$user || !$visittype || !$client) {
+			throw new Exception("User, Visittype or Client do not exists", 1);
+		}
+
+		if (empty($latitude)) {
+			throw new Exception("latitude is null", 1);
+		}
+
+		if (empty($longitude)) {
+			throw new Exception("longitude is null", 1);
+		}
+
+		if (empty($battery)) {
+			throw new Exception("battery is null", 1);
+		}
+
+		if (empty($location)) {
+			throw new Exception("location is null", 1);
+		}
+
 	}
 
 	public function getclientsAction($idUser) 

@@ -252,7 +252,9 @@ class Security extends Plugin
             'session::setnewpass',
             'api::gethistory',
             'api::validatelogin',
+            'api::getclientsandvisittypes',
             'api::getvisittypes',
+            'api::newvisit',
             'api::getclients',
         );
 
