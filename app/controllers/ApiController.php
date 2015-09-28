@@ -233,9 +233,9 @@ class ApiController extends \Phalcon\Mvc\Controller
 
 				$visit = $this->validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $fLocation); 
 
-				$visit->fLatitude = $fLatitude;
-				$visit->fLongitude = $fLongitude;
-				$visit->fLocation = $fLocation;
+				$visit->finalLatitude = $fLatitude;
+				$visit->finalLongitude = $fLongitude;
+				$visit->finalLocation = $fLocation;
 				$visit->end = time();
 				$visit->finished = 1;
 
