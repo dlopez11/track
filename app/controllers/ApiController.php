@@ -152,7 +152,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 		if ($this->request->isPost()) {
 			try {
 				$idUser = $_POST['idUser'];
-				$idVisittype = $_POST['idVisitType'];
+				$idVisittype = $_POST['idVisittype'];
 				$idClient = $_POST['idClient'];
 				$latitude = $_POST['latitude'];
 				$longitude = $_POST['longitude'];
