@@ -187,6 +187,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$visit->battery = $battery;
 				$visit->location = $location;
 				$visit->start = time();
+				$visit->finished = 0;
 
 				if (!$visit->save()) {
 					$message = "";
@@ -235,6 +236,10 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$visit->fLatitude = $fLatitude;
 				$visit->fLongitude = $fLongitude;
 				$visit->fLocation = $fLocation;
+				$visit->end = time();
+				$visit->finished = 1;
+
+				$this->logger->log("SAVING");
 
 				if (!$visit->save()) {
 					$message = "";
