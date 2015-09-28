@@ -208,6 +208,91 @@ class ApiController extends \Phalcon\Mvc\Controller
 	}
 
 
+	public function closevisitAction() 
+	{
+		if ($this->request->isPost()) {
+			try {
+				$idVisit = $_POST['idVisit'];
+				$idUser = $_POST['idUser'];
+				$fLatitude = $_POST['fLatitude'];
+				$fLongitude = $_POST['fLongitude'];
+				$fLocation = $_POST['fLocation'];
+
+				$idVisit = trim($idVisit);
+				$idUser = trim($idUser);
+				$fLatitude = trim($fLatitude);
+				$fLongitude = trim($fLongitude);
+				$fLocation = trim($fLocation);
+
+				$this->logger->log("idVisit: {$idVisit}");
+				$this->logger->log("idUser: {$idUser}");
+				$this->logger->log("fLatitude: {$fLatitude}");
+				$this->logger->log("fLongitude: {$fLongitude}");
+				$this->logger->log("fLocation: {$fLocation}");
+
+				$visit = $this->validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $location); 
+
+				$visit->fLatitude = $fLatitude;
+				$visit->fLongitude = $fLongitude;
+				$visit->fLocation = $fLocation;
+
+				if (!$visit->save()) {
+					$message = "";
+					foreach ($visit->getMessages() as $msg) {
+						$message .= ", {$msg}";
+					}
+					throw new Exception($message, 1);
+				}
+
+				return $this->set_json_response(array("status" => array(1)), 200);
+				
+			catch(Exception $ex) {
+				$this->logger->log("Exception while creating new visit: {$ex->getMessage()}");
+				return $this->set_json_response(array("status" => array(-1)), 500);
+			}
+		}		
+	}
+
+
+	private function validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $location) 
+	{
+		$visit = Visit::findFirst(array(
+			'conditions' => 'idVisit = ?0',
+			'bind' => array($idVisit)
+		));
+
+		if (!$visit) {
+			throw new Exception("Visit do not exists", 1);
+		}
+
+		if ($visit->idUser != $idUser) {
+			throw new Exception("Visit do not exists", 1);
+		}
+
+		$user = User::findFirst(array(
+			'conditions' => 'idUser = ?0',
+			'bind' => array($idUser)
+		));
+
+		if (!$user) {
+			throw new Exception("User do not exists", 1);
+		}
+
+		if (empty($fLongitude)) {
+			throw new Exception("flatitude is null", 1);
+		}
+
+		if (empty($fLatitude)) {
+			throw new Exception("flongitude is null", 1);
+		}
+
+		if (empty($location)) {
+			throw new Exception("flocation is null", 1);
+		}
+
+		return $visit;
+	}
+
 	private function validateVisit($idUser, $idVisittype, $idClient, $latitude, $longitude, $battery, $location) 
 	{
 		$user = User::findFirst(array(
