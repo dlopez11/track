@@ -10,12 +10,11 @@ class ApiController extends \Phalcon\Mvc\Controller
 				return $this->set_json_response(array('No se ha encontrado el usuario'), 404);
 			}
 
-			$l = (empty($limit) ? 20 : $limit);
+			$l = (!is_numeric($limit) ? 20 : $limit); 
 
-			$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT :l:");
+			$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' DESC LIMIT {$l}");
 			$res  = $query->execute(array(
-			   'idUser' => $idUser,
-			   'l' => $l
+			   'idUser' => $idUser
 			));
 
 			$data = array();
@@ -109,7 +108,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				'bind' => array($user->idAccount)
 			));
 
-			$data = array();
+			$c = array();
 
 			if (count($clients) > 0) {
 				foreach ($clients as $client) {
@@ -117,7 +116,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 					$obj->idClient = $client->idClient;
 					$obj->name = $client->name;
 
-					$data[] = $obj;
+					$c[] = $obj;
 				}
 			}	
 
@@ -126,7 +125,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				'bind' => array($user->idAccount)
 			));
 
-			$data = array();
+			$v= array();
 
 			if (count($visittypes) > 0) {
 				foreach ($visittypes as $visittype) {
@@ -134,11 +133,11 @@ class ApiController extends \Phalcon\Mvc\Controller
 					$obj->idVisittype = $visittype->idVisittype;
 					$obj->name = $visittype->name;
 
-					$data[] = $obj;
+					$v[] = $obj;
 				}
 			}	
 
-			return $this->set_json_response(array("clients" => $data, "visittypes" => $data), 200);
+			return $this->set_json_response(array("clients" => $c, "visittypes" => $v), 200);
 
 		}
 		catch(Exception $ex) {
