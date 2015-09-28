@@ -255,6 +255,7 @@ class Security extends Plugin
             'api::getclientsandvisittypes',
             'api::getvisittypes',
             'api::newvisit',
+            'api::closevisit',
             'api::getclients',
         );
 
