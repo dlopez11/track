@@ -26,7 +26,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 					$obj->type = $value->visittype->name;
 					$obj->client = $value->client->name;
 					$obj->start = date('d/M/Y H:s', $value->visit->start);
-					$obj->end = date('d/M/Y H:s', $value->visit->end);
+					$obj->end = (empty($value->visit->end) ? null : date('d/M/Y H:s', $value->visit->end));
 					
 					$time1 = date_create(\date('Y-m-d H:i:s', $value->visit->start));
 	                $time2 = date_create(\date('Y-m-d H:i:s', $value->visit->end));
