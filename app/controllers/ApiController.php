@@ -28,6 +28,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 					$obj->start = date('d/M/Y H:s', $value->visit->start);
 					$obj->end = (empty($value->visit->end) ? null : date('d/M/Y H:s', $value->visit->end));
 					$obj->elapsed = null;
+					$obj->finished = 0;
 
 					if (!empty($value->visit->end)) {
 						$time1 = date_create(\date('Y-m-d H:i:s', $value->visit->start));
@@ -36,8 +37,8 @@ class ApiController extends \Phalcon\Mvc\Controller
 		                $int = $interval->format("%a:%H:%I:%S");
 		                $el = explode(":", $int);
 
-
 		                $obj->elapsed = ($el[0] == "00" ? "" : $el[0] . "Día(s) ") . $el[1] . ":" . $el[2] . ":" . $el[3];
+		                $obj->finished = 1;
 					}
 
 					$obj->iLatitude = $value->visit->latitude;
