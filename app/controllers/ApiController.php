@@ -221,7 +221,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 			'bind' => array($idClient)
 		));
 
-		if (!$user || !$visittype || !$client) {
+		if (!$user || !$visitType || !$client) {
 			throw new Exception("User, Visittype or Client do not exists", 1);
 		}
 
