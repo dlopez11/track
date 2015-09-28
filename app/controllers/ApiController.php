@@ -12,7 +12,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 
 			$l = (!is_numeric($limit) ? 20 : $limit); 
 
-			$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.end' ASC LIMIT {$l}");
+			$query = $this->modelsManager->createQuery("SELECT Visit.*, Visittype.*, Client.* FROM Visit JOIN Visittype JOIN Client WHERE Visit.idUser = :idUser: ORDER BY 'Visit.start' ASC LIMIT {$l}");
 			$res  = $query->execute(array(
 			   'idUser' => $idUser
 			));
