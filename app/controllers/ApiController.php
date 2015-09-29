@@ -262,7 +262,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 		if ($this->request->isPost()) {
 			try {
 				$idVisit = $_POST['idVisit'];
-				$idUser = $_POST['observation'];
+				$observation = $_POST['observation'];
 
 				$idVisit = trim($idVisit);
 				$observation = trim($observation);
