@@ -5,6 +5,7 @@ class Visit extends \Phalcon\Mvc\Model
     public $idUser;
     public $idVisittype;
     public $idClient;
+    public $idObservation;
 
     public function initialize()
     {
@@ -19,5 +20,7 @@ class Visit extends \Phalcon\Mvc\Model
         $this->belongsTo("idClient", "Client", "idClient", array(
             "foreignKey" => true,
         ));
+
+        $this->hasMany("idObservation", "Observation", "idObservation");
     }
 }
