@@ -262,13 +262,13 @@ class ApiController extends \Phalcon\Mvc\Controller
 		if ($this->request->isPost()) {
 			try {
 				$idVisit = $_POST['idVisit'];
-				$observation = $_POST['observation'];
+				$obs = $_POST['observation'];
 
 				$idVisit = trim($idVisit);
-				$observation = trim($observation);
+				$obs = trim($obs);
 
 				$this->logger->log("idVisit: {$idVisit}");
-				$this->logger->log("observation: {$observation}");
+				$this->logger->log("observation: {$obs}");
 
 				$visit = Visit::findFirst(array(
 					"conditions" => "idVisit = ?0",
@@ -285,7 +285,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 
 				$observation = new Observation();
 				$observation->idVisit = $idVisit;
-				$observation->observation = $observation;
+				$observation->observation = $obs;
 				$observation->created = time();
 
 				$this->logger->log("3");

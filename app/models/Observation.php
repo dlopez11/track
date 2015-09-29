@@ -1,7 +1,6 @@
 <?php
 
 class Observation extends \Phalcon\Mvc\Model
-
 {    
     public $idVisit; 
     
