@@ -239,8 +239,6 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$visit->end = time();
 				$visit->finished = 1;
 
-				$this->logger->log("SAVING");
-
 				if (!$visit->save()) {
 					$message = "";
 					foreach ($visit->getMessages() as $msg) {
@@ -258,6 +256,50 @@ class ApiController extends \Phalcon\Mvc\Controller
 		}		
 	}
 
+
+	public function addobservationAction()
+	{
+		if ($this->request->isPost()) {
+			try {
+				$idVisit = $_POST['idVisit'];
+				$idUser = $_POST['observation'];
+
+				$idVisit = trim($idVisit);
+				$observation = trim($observation);
+
+				$this->logger->log("idVisit: {$idVisit}");
+				$this->logger->log("observation: {$observation}");
+
+				$visit = Visit::findFirst(array(
+					"conditions" => "idVisit = ?0",
+					"bind" => array($idVisit)
+				));
+
+				if (!$visit) {
+					throw new Exception("Visit do no exists", 1);
+				}
+
+				$observation = new Observation();
+				$observation->idVisit = $idVisit;
+				$observation->observation = $observation;
+				$observation->created = time();
+
+				if (!$observation->save()) {
+					$message = "";
+					foreach ($observation->getMessages() as $msg) {
+						$message .= ", {$msg}";
+					}
+					throw new Exception($message, 1);
+				}
+
+				return $this->set_json_response(array("status" => array(1)), 200);
+                        }	
+			catch(Exception $ex) {
+				$this->logger->log("Exception while add observation to visit: {$ex->getMessage()}");
+				return $this->set_json_response(array("status" => array(-1)), 500);
+			}
+		}		
+	}
 
 	private function validateCloseVisit($idVisit, $idUser, $fLongitude, $fLatitude, $fLocation) 
 	{
