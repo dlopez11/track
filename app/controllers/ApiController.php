@@ -275,14 +275,20 @@ class ApiController extends \Phalcon\Mvc\Controller
 					"bind" => array($idVisit)
 				));
 
+				$this->logger->log("1");
+
 				if (!$visit) {
 					throw new Exception("Visit do no exists", 1);
 				}
+
+				$this->logger->log("2");
 
 				$observation = new Observation();
 				$observation->idVisit = $idVisit;
 				$observation->observation = $observation;
 				$observation->created = time();
+
+				$this->logger->log("3");
 
 				if (!$observation->save()) {
 					$message = "";
@@ -292,9 +298,13 @@ class ApiController extends \Phalcon\Mvc\Controller
 					throw new Exception($message, 1);
 				}
 
+
+				$this->logger->log("4");
+
 				return $this->set_json_response(array("status" => array(1)), 200);
-                        }	
+            }	
 			catch(Exception $ex) {
+				$this->logger->log("5");
 				$this->logger->log("Exception while add observation to visit: {$ex->getMessage()}");
 				return $this->set_json_response(array("status" => array(-1)), 500);
 			}
