@@ -258,6 +258,7 @@ class Security extends Plugin
             'api::closevisit',
             'api::addobservation',
             'api::getclients',
+            'api::createnewclient',
         );
 
         if ($role == 'GUEST') {

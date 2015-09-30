@@ -267,28 +267,19 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$idVisit = trim($idVisit);
 				$obs = trim($obs);
 
-				$this->logger->log("idVisit: {$idVisit}");
-				$this->logger->log("observation: {$obs}");
-
 				$visit = Visit::findFirst(array(
 					"conditions" => "idVisit = ?0",
 					"bind" => array($idVisit)
 				));
 
-				$this->logger->log("1");
-
 				if (!$visit) {
 					throw new Exception("Visit do no exists", 1);
 				}
-
-				$this->logger->log("2");
 
 				$observation = new Observation();
 				$observation->idVisit = $idVisit;
 				$observation->observation = $obs;
 				$observation->created = time();
-
-				$this->logger->log("3");
 
 				if (!$observation->save()) {
 					$message = "";
@@ -298,13 +289,9 @@ class ApiController extends \Phalcon\Mvc\Controller
 					throw new Exception($message, 1);
 				}
 
-
-				$this->logger->log("4");
-
 				return $this->set_json_response(array("status" => array(1)), 200);
-            }	
+                        }	
 			catch(Exception $ex) {
-				$this->logger->log("5");
 				$this->logger->log("Exception while add observation to visit: {$ex->getMessage()}");
 				return $this->set_json_response(array("status" => array(-1)), 500);
 			}
@@ -350,6 +337,51 @@ class ApiController extends \Phalcon\Mvc\Controller
 		return $visit;
 	}
 
+        public function createnewclientAction()
+        {
+            if ($this->request->isPost()) {
+			try {
+                                $idUser = $_POST['idUser'];
+				$name = $_POST['client'];
+                                
+                                $user = User::findFirst(array(
+                                    'conditions' => 'idUser => ?0',
+                                    'bind' => array($idUser)
+                                ));
+                                
+                                if (!$user) {
+                                    throw new Exception("User do not exist");
+                                }
+                                
+                                $client = new Client();
+                                $client->idAccount = $user->idAccount;
+                                $client->created = time();
+                                $client->updated = time();
+                                $client->name = $name;
+                                $client->description = "No disponible";
+                                $client->nit = "No disponible";
+                                $client->address = "No disponible";
+                                $client->phone = "No disponible";
+                                $client->city = "No disponible";
+                                $client->state = "No disponible";
+                                
+                                
+                                if (!$client->save()) {
+					$message = "";
+					foreach ($client->getMessages() as $msg) {
+						$message .= ", {$msg}";
+					}
+					throw new Exception($message, 1);
+				}
+                            
+                                return $this->set_json_response(array("status" => array(1)), 200);
+                        } catch (Exception $ex) {
+                                $this->logger->log("Exception while creating new client: {$ex->getMessage()}");
+				return $this->set_json_response(array("status" => array(-1)), 500);
+                        }
+            }
+        }
+        
 	private function validateVisit($idUser, $idVisittype, $idClient, $latitude, $longitude, $battery, $location) 
 	{
 		$user = User::findFirst(array(
