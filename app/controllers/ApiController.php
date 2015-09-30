@@ -345,7 +345,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 				$name = $_POST['client'];
                                 
                                 $user = User::findFirst(array(
-                                    'conditions' => 'idUser => ?0',
+                                    'conditions' => 'idUser = ?0',
                                     'bind' => array($idUser)
                                 ));
                                 
@@ -374,7 +374,7 @@ class ApiController extends \Phalcon\Mvc\Controller
 					throw new Exception($message, 1);
 				}
                             
-                                return $this->set_json_response(array("status" => array(1)), 200);
+                                return $this->set_json_response(array("client" => array($client)), 200);
                         } catch (Exception $ex) {
                                 $this->logger->log("Exception while creating new client: {$ex->getMessage()}");
 				return $this->set_json_response(array("status" => array(-1)), 500);
