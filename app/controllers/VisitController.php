@@ -63,8 +63,11 @@ class VisitController extends ControllerBase
     
     public function maphistoryAction($idUser)
     {
+        $day = strtotime(date("Y-m-d"));                
+        $thirty_days_ago = strtotime("-29 days", $day);
+        
         $visits = Visit::findFirst(array(
-            "conditions" => "idUser = ?1",
+            "conditions" => "idUser = ?1 AND start >= $thirty_days_ago",
             "bind" => array(1 => $idUser)
         ));
         
