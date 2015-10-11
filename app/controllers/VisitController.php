@@ -62,29 +62,29 @@ class VisitController extends ControllerBase
     }
     
     public function maphistoryAction($idUser)
-    {
+    {              
         $day = strtotime(date("Y-m-d"));                
         $thirty_days_ago = strtotime("-29 days", $day);
-        
+
         $visits = Visit::findFirst(array(
-            "conditions" => "idUser = ?1 AND start >= $thirty_days_ago",
-            "bind" => array(1 => $idUser)
+            "conditions" => "idUser = ?1 AND start >= ?2",
+            "bind" => array(1 => $idUser,
+                            2 => $thirty_days_ago)
         ));
-        
-        
+
         $user = User::findFirst(array(
             "conditions" => "idUser = ?1",
             "bind" => array(1 => $idUser)
         ));
-        
+
         if(!$visits){
             $this->flashSession->error('Ocurrio un error procesando su solicitud, por favor intentelo nuevamente.');
             return $this->response->redirect('visit/index');
         }
-        
+
         $this->view->setVar('visits', $visits);
         $this->view->setVar('user', $user);
-    }
+    }        
     
     public function mapAction($idVisit)
     {
@@ -166,7 +166,6 @@ class VisitController extends ControllerBase
                     . " JOIN Client AS c ON (c.idClient = v.idClient) "
                     . " WHERE v.idVisit = {$idVisit}";
                     
-//            $this->logger->log($sql_rows);
 
             $modelsManager = \Phalcon\DI::getDefault()->get('modelsManager');      
             $rows = $modelsManager->executeQuery($sql_rows);
@@ -181,71 +180,70 @@ class VisitController extends ControllerBase
         }     
     }
 
-
     public function getmapAction($idUser)
-    {
+    {                
         try {
+            $this->logger->log("Malditasea entre aca");
             $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE Visit.idUser = ?0';
             $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
-            $objects = array();
-            foreach ($visits as $visit) {
-                $clientData = "<div style='width: 250px;'>";
-                $clientData .= "<strong><span style='font-size: 17px;'>" . $visit->client->name . "</span></strong>";
-                $clientData .= "<br />";
-                $clientData .= "<strong>Dirección</strong>: " . $visit->client->address;
-                $clientData .= "<br />";
-                $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit->start) . " <strong>a</strong> " . date('d/M/Y H:i',$visit->end);
-                $clientData .= "<br />";
-                $clientData .= "<strong>Tipo</strong>: ".$visit->visittype->name;
-                $objects[] = array(
-                    'latitude' => $visit->latitude,
-                    'longitude' => $visit->longitude,
-                    'location' => $visit->location,
-                    'client' => $clientData,
-                );
-        
-            }
-            
-            return $this->set_json_response($objects);
+            return $this->recorrerResultados($visits);
         } 
         catch (Exception $ex) {
             $this->logger->log("Exception while getting map data: {$ex->getMessage()}");
             return $this->set_json_response(array("Ocurrió un error, por favor contacte al administrador"), 500);
         }
-        
-//        try {
-//            $phqlvisits = 'SELECT Visit.* FROM Visit WHERE Visit.idUser = ?0';
-//            $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
-//            $objects = array();
-//            foreach ($visits as $visit) {
-//                $phqlclients = 'SELECT Client.name,Client.address,Visit.idClient FROM Client INNER JOIN Visit ON Visit.idClient = Client.idClient WHERE Client.idClient = ?0';
-//                $clients = $this->modelsManager->executeQuery($phqlclients, array(0 => $visit->idClient));
-//                foreach ($clients as $client) {
-//                    $phqlvisittype = 'SELECT Visittype.name FROM Visittype INNER JOIN Visit ON Visit.idVisittype = Visittype.idVisittype WHERE Visit.idVisittype = ?0';
-//                    $visitstype = $this->modelsManager->executeQuery($phqlvisittype, array(0 => $visit->idVisittype));
-//                    foreach ($visitstype as $visittype){
-//                        $visitData = "<strong>Tipo</strong>: ".$visittype['name'];
-//                    }
-//                    $clientData = "<div style='width: 250px;'>";
-//                    $clientData .= "<strong><span style='font-size: 17px;'>".$client['name']."</span></strong>";
-//                    $clientData .= "<br />";
-//                    $clientData .= "<strong>Dirección</strong>: ".$client['address'];
-//                    $clientData .= "<br />";
-//                    $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit->start) . " <strong>a</strong> " . date('d/M/Y H:i',$visit->end);
-//                    $clientData .= "<br />";
-//                }
-//                $objects[] = array(
-//                    'latitude' => $visit->latitude,
-//                    'longitude' => $visit->longitude,
-//                    'location' => $visit->location,
-//                    'client' => $clientData.$visitData,
-//                );
-//            }
-//            return $this->set_json_response($objects);
-//        } 
-//        catch (Exception $ex) {
-//            $this->logger->log("Exception while getting map data: {$ex->getMessage()}");
-//            return $this->set_json_response(array("Ocurrió un error, por favor contacte al administrador"), 500);
-//        }
+    }
+    
+    public function getmapbyrangedateAction($idUser){
+        try {
+            
+            $firstdate = $this->request->getPost("start");
+            $lastdate = $this->request->getPost("end");
+                        $this->logger->log($firstdate);
+                        $this->logger->log($lastdate);
+                        
+           $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE User.idUser = Visit.idUser and Visit.idClient = Client.idClient and '
+                            . 'Visit.idVisittype =Visittype.idVisittype and Visit.idUser = ?0 AND FROM_UNIXTIME(Visit.start) BETWEEN FROM_UNIXTIME(?1) AND FROM_UNIXTIME(?2)';
+           
+                   $this->logger->log($phqlvisits);
+           $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}", 1 => "{$firstdate}", 2 => "{$lastdate}"));
+           
+           
+           return $this->recorrerResultados($visits);
+        } 
+        catch (Exception $ex) {
+            $this->logger->log("Exception while getting map data: {$ex->getMessage()}");
+            return $this->set_json_response(array("Ocurrió un error, por favor contacte al administrador"), 500);
+        }
+    }
+    
+    /**
+     * @author Dorian Lopez - Sigma Movil
+     * Metodo encargado de organizar la informacion de la vista de los clientes 
+     * @param $visits
+     * @return Json
+     */
+    public function recorrerResultados($visits){
+        $objects = array();
+        foreach ($visits as $visit) {
+            $clientData = "<div style='width: 250px;'>";
+            $clientData .= "<strong><span style='font-size: 17px;'>" . $visit->client->name . "</span></strong>";
+            $clientData .= "<br />";
+            $clientData .= "<strong>Dirección</strong>: " . $visit->client->address;
+            $clientData .= "<br />";
+            $clientData .= "<strong>Fecha de visita</strong>: ". date('d/M/Y H:i',$visit->start) . " <strong>a</strong> " . date('d/M/Y H:i',$visit->end);
+            $clientData .= "<br />";
+            $clientData .= "<strong>Tipo</strong>: ".$visit->visittype->name;
+            $objects[] = array(
+                'latitude' => $visit->latitude,
+                'longitude' => $visit->longitude,
+                'location' => $visit->location,
+                'client' => $clientData,
+            );
+            
+
+        }
+
+        return $this->set_json_response($objects);
     }
 }

@@ -188,6 +188,8 @@ class Security extends Plugin
                 'visit::mapfinallocation' => array('visit' => array('read')),
                 'visit::getrows' => array('visit' => array('read')),
                 'visit::maphistory' => array('visit' => array('read')),
+                'visit::getmapbyrangedate' => array('visit' => array('read')),
+                /* SuperUser */
                 'session::superuser' => array('user' => array('sudo')),
                 'session::logoutsuperuser' => array('user' => array('sudo')),
                 /* Estadisticas */
