@@ -54,7 +54,6 @@
                     infoWindowContent.push(array2);
                 };
 
-
                 //console.log(markers);
                 //console.log(infoWindowContent);
 
@@ -87,7 +86,8 @@
                     google.maps.event.removeListener(boundsListener);
                 });
         }
-        $(function() {                        
+        
+        $(function() {
             $('#date1').datetimepicker({
                 format: "DD/MM/YYYY",
                 showTodayButton: true,
@@ -110,6 +110,7 @@
         
         function refreshMap(){
             document.getElementById("map_canvas").innerHTML = "";
+            
             var s = $('#start').val();
             var start = s.split("/");            
             var dayone = moment(start[2] + '-' + start[1] + '-' + start[0] + ' 00:00:00').unix();
@@ -129,8 +130,6 @@
                    pintarMapa(results);
                 }
             });
-            
-            
         }
     </script>
     
@@ -176,7 +175,7 @@
                 </div>    
                 
                 <div class="form-group">
-                    <button class="btn btn-sm btn-primary" onClick="refreshMap();" id="refresh" data-toggle="tooltip" data-placement="top" title="Refrescar tabla">
+                    <button class="btn btn-sm btn-primary" onClick="refreshMap();" id="refresh" data-toggle="tooltip" data-placement="top" title="Refrescar mapa">
                         <span class="glyphicon glyphicon-refresh"></span>
                     </button>
                 </div>

@@ -62,14 +62,10 @@ class VisitController extends ControllerBase
     }
     
     public function maphistoryAction($idUser)
-    {              
-        $day = strtotime(date("Y-m-d"));                
-        $thirty_days_ago = strtotime("-29 days", $day);
-
+    {  
         $visits = Visit::findFirst(array(
-            "conditions" => "idUser = ?1 AND start >= ?2",
-            "bind" => array(1 => $idUser,
-                            2 => $thirty_days_ago)
+            "conditions" => "idUser = ?1",
+            "bind" => array(1 => $idUser)
         ));
 
         $user = User::findFirst(array(
@@ -183,9 +179,14 @@ class VisitController extends ControllerBase
     public function getmapAction($idUser)
     {                
         try {
-            $this->logger->log("Malditasea entre aca");
-            $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE Visit.idUser = ?0';
-            $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}"));
+            $day = strtotime(date("Y-m-d"));                
+            $thirty_days_ago = strtotime("-29 days", $day);
+            
+            $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE User.idUser = Visit.idUser AND Visit.idClient = Client.idClient AND '
+                            . 'Visit.idVisittype = Visittype.idVisittype AND Visit.idUser = ?0 AND Visit.start >= ?1';
+            $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}",
+                                                                            1 => "{$thirty_days_ago}"));
+            
             return $this->recorrerResultados($visits);
         } 
         catch (Exception $ex) {
@@ -195,21 +196,16 @@ class VisitController extends ControllerBase
     }
     
     public function getmapbyrangedateAction($idUser){
-        try {
-            
+        try {            
             $firstdate = $this->request->getPost("start");
             $lastdate = $this->request->getPost("end");
-                        $this->logger->log($firstdate);
-                        $this->logger->log($lastdate);
                         
-           $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE User.idUser = Visit.idUser and Visit.idClient = Client.idClient and '
-                            . 'Visit.idVisittype =Visittype.idVisittype and Visit.idUser = ?0 AND FROM_UNIXTIME(Visit.start) BETWEEN FROM_UNIXTIME(?1) AND FROM_UNIXTIME(?2)';
-           
-                   $this->logger->log($phqlvisits);
-           $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}", 1 => "{$firstdate}", 2 => "{$lastdate}"));
-           
-           
-           return $this->recorrerResultados($visits);
+            $phqlvisits = 'SELECT Visit.* FROM Visit JOIN User JOIN Visittype JOIN Client WHERE User.idUser = Visit.idUser AND Visit.idClient = Client.idClient AND '
+                            . 'Visit.idVisittype = Visittype.idVisittype AND Visit.idUser = ?0 AND FROM_UNIXTIME(Visit.start) BETWEEN FROM_UNIXTIME(?1) AND FROM_UNIXTIME(?2)';
+                              
+            $visits = $this->modelsManager->executeQuery($phqlvisits, array(0 => "{$idUser}", 1 => "{$firstdate}", 2 => "{$lastdate}"));
+            
+            return $this->recorrerResultados($visits);
         } 
         catch (Exception $ex) {
             $this->logger->log("Exception while getting map data: {$ex->getMessage()}");
@@ -240,8 +236,6 @@ class VisitController extends ControllerBase
                 'location' => $visit->location,
                 'client' => $clientData,
             );
-            
-
         }
 
         return $this->set_json_response($objects);
