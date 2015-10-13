@@ -215,7 +215,7 @@ class VisitController extends ControllerBase
     
     /**
      * @author Dorian Lopez - Sigma Movil
-     * Metodo encargado de organizar la informacion de la vista de los clientes 
+     * Metodo encargado de organizar la informacion de las visitas y retornarlos a la API de Google Maps
      * @param $visits
      * @return Json
      */

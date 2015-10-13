@@ -21,16 +21,17 @@
 
         function initialize() {
           $.getJSON("{{url('visit/getmap/')}}{{user.idUser}}", function (result){
-                pintarMapa(result)
+                printMap(result);
             });
         }
+        
         /**
-         * Metodo encargado de pitnar con la API de Google, Recibe un Objecto Tipo Json el cual 
+         * Metodo encargado de pintar con la API de Google, Recibe un Objecto Tipo Json el cual 
          * tiene la Localizacion, latitud y longitud
-         * @author Dorian Lopez - Sigma Movil 11/10/2015
+         * @author Dorian Lopez - Sigma Móvil 11/10/2015
          * @returns var result
          */
-        function pintarMapa(result){
+        function printMap(result){
             var map;
                 var bounds = new google.maps.LatLngBounds();
                 markers = new Array();
@@ -120,14 +121,14 @@
             var daytwo = moment(end[2] + '-' + end[1] + '-' + end[0] + ' 00:00:00').unix();
                         
             $.ajax({
-                url: '{{url('visit/getmapByRangeDate/')}}{{user.idUser}}',
+                url: '{{url('visit/getmapbyrangedate/')}}{{user.idUser}}',
                 type: 'POST',
                 data:({
                     start: dayone,
                     end: daytwo
                 }),
-                success:function(results) {
-                   pintarMapa(results);
+                success: function(results) {
+                   printMap(results);
                 }
             });
         }
