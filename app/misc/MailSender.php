@@ -72,7 +72,7 @@ class MailSender
             $recipients = $swift->send($message, $failures);
 
             if ($recipients){
-                Phalcon\DI::getDefault()->get('logger')->log('Recover Password Message successfully sent!');
+                \Phalcon\DI::getDefault()->get('logger')->log('Recover Password Message successfully sent!');
             }
             else {
                 throw new Exception('Error while sending message: ' . $failures);
