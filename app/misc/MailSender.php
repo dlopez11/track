@@ -53,9 +53,10 @@ class MailSender
     
     public function sendMessage()
     {
-        $transport = Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
-        $swift = Swift_Mailer::newInstance($transport);
+        $transport = \Swift_SmtpTransport::newInstance($this->mta->address, $this->mta->port);
+        $swift = \Swift_Mailer::newInstance($transport);
 
+        $message = new \Swift_Message();
         
         $headers = $message->getHeaders();
         $headers->addTextHeader('X-GreenArrow-MailClass', 'SIGMA_NEWEMKTG_DEVEL');
